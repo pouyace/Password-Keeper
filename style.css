@@ -1,0 +1,29 @@
+LoginDialog{
+    background-image:url(":/backgrounds/backgrounds/PassPic5.jpg");
+}
+LoginDialog QWidget.mainWidget{
+    background-color:rgba(40,40,40,0.8);
+    border:1px solid rgba(240,240,100,0.8);
+    border-radius:3px;
+}
+LoginDialog QWidget.middleWidget{
+    background-color:rgba(64,64,64,0.8);
+}
+LoginDialog QLineEdit{
+    border:1px solid #3daee9;
+    padding:5px;
+    background-color:#212121;
+    font-size:12px;
+    border-radius:3px;
+    color:rgb(240,240,240);
+}
+LoginDialog QLabel{
+    color:rgba(240,240,240);
+}
+LoginDialog QPushButton{
+    background-color:rgb(40,40,40);
+    border:1px solid #d0d082;
+    border-radius:4px;
+    color:rgb(240,240,240);
+
+}

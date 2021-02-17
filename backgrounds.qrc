@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/backgrounds">
+        <file>backgrounds/PassPic1.png</file>
+        <file>backgrounds/PassPic2.jfif</file>
+        <file>backgrounds/PassPic3.jpg</file>
+        <file>backgrounds/PassPic4.jpg</file>
+        <file>backgrounds/PassPic5.jpg</file>
+        <file>backgrounds/PassPic6.png</file>
+    </qresource>
+</RCC>
