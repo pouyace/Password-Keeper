@@ -17,6 +17,17 @@ public:
 
 private:
     Ui::LoginDialog *ui;
+    //Methods
+    void setupConnection();
+
+private slots:
+    void loginPressed();
+public slots:
+    void setDatabase1State(bool state);
+    void setDatabase2State(bool state);
+signals:
+    void loginRequested(QString,QString);
+    void closeAppRequested();
 };
 
 #endif // LOGINDIALOG_H

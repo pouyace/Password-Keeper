@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +22,8 @@ SOURCES += \
     mainwindow.cpp \
     passwordhandler.cpp \
     postgresqlverifier.cpp \
-    primaryuserverifier.cpp
+    primaryuserverifier.cpp \
+    user.cpp
 
 HEADERS += \
     loadingdialog.h \
@@ -30,7 +31,8 @@ HEADERS += \
     mainwindow.h \
     passwordhandler.h \
     postgresqlverifier.h \
-    primaryuserverifier.h
+    primaryuserverifier.h \
+    user.h
 
 FORMS += \
     loadingdialog.ui \
@@ -44,4 +46,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     backgrounds.qrc \
+    icons.qrc \
     style.qrc

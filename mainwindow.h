@@ -10,6 +10,7 @@ QT_END_NAMESPACE
 class PasswordHandler;
 class LoadingDialog;
 class LoginDialog;
+class PostgreSqlVerifier;
 
 class MainWindow : public QMainWindow
 {
@@ -18,14 +19,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void setupConnections();
-    void setupLoadingDialog();
-    void setupLoginDialog();
 private:
     Ui::MainWindow *ui;
     PasswordHandler *passwordGenerator = nullptr;
     LoadingDialog   *loadingDialog     = nullptr;
     LoginDialog     *loginDialog       = nullptr;
+    PostgreSqlVerifier *databaseVerifier = nullptr;
+    //Methods
+    void setupConnections();
+    void setupLoadingDialog();
+    void setupLoginDialog();
+    void setupSqlVerifier();
+    void setupPasswordGenerator();
 
 };
 #endif // MAINWINDOW_H
