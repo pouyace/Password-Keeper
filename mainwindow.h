@@ -11,7 +11,9 @@ class PasswordHandler;
 class LoadingDialog;
 class LoginDialog;
 class PostgreSqlVerifier;
-
+class User;
+class QButtonGroup;
+class QTimer;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,12 +27,18 @@ private:
     LoadingDialog   *loadingDialog     = nullptr;
     LoginDialog     *loginDialog       = nullptr;
     PostgreSqlVerifier *databaseVerifier = nullptr;
+    User               *user            = nullptr;
+    QButtonGroup        *buttonGroup    = nullptr;
+    QTimer              *timer          = nullptr;
     //Methods
     void setupConnections();
-    void setupLoadingDialog();
     void setupLoginDialog();
-    void setupSqlVerifier();
-    void setupPasswordGenerator();
+    void setupButtonGroup();
+    void setupTime();
 
+private slots:
+    void updateDateAndTime();
+public slots:
+    void setupMainWondow(User* user);
 };
 #endif // MAINWINDOW_H

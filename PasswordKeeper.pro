@@ -20,18 +20,18 @@ SOURCES += \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    password.cpp \
     passwordhandler.cpp \
     postgresqlverifier.cpp \
-    primaryuserverifier.cpp \
     user.cpp
 
 HEADERS += \
     loadingdialog.h \
     logindialog.h \
     mainwindow.h \
+    password.h \
     passwordhandler.h \
     postgresqlverifier.h \
-    primaryuserverifier.h \
     user.h
 
 FORMS += \

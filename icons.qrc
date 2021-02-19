@@ -2,5 +2,20 @@
     <qresource prefix="/">
         <file>icons/check.png</file>
         <file>icons/multiply.png</file>
+        <file>icons/cyber-security.png</file>
+        <file>icons/protection (1).png</file>
+        <file>icons/protection.png</file>
+        <file>icons/secured.png</file>
+        <file>icons/shield.png</file>
+        <file>icons/electric-generator.png</file>
+        <file>icons/export.png</file>
+        <file>icons/iconfinder_30.User_290120.png</file>
+        <file>icons/profile.png</file>
+        <file>icons/logout.png</file>
+        <file>icons/585e4ae1cb11b227491c3393.png</file>
+        <file>icons/add-file.png</file>
+        <file>icons/plus.png</file>
+        <file>icons/plus0.png</file>
+        <file>icons/plus1.png</file>
     </qresource>
 </RCC>

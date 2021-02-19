@@ -8,6 +8,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlag(Qt::FramelessWindowHint);
     setupConnection();
+    ui->errorLabel->setVisible(false);
+    ui->hintLabel->setVisible(false);
 }
 
 LoginDialog::~LoginDialog()
@@ -33,7 +35,7 @@ void LoginDialog::loginPressed()
         emit loginRequested(username,password);
 }
 
-void LoginDialog::setDatabase1State(bool state)
+void LoginDialog::setDatabase1State(const bool& state)
 {
     if(state)
         ui->database1CheckBox->setChecked(true);
@@ -41,10 +43,22 @@ void LoginDialog::setDatabase1State(bool state)
         ui->database1CheckBox->setChecked(false);
 }
 
-void LoginDialog::setDatabase2State(bool state)
+void LoginDialog::setDatabase2State(const bool& state)
 {
     if(state)
         ui->database2CheckBox->setChecked(true);
     else
         ui->database2CheckBox->setChecked(false);
+}
+
+void LoginDialog::setError(const QString &error, const QString &hint)
+{
+    ui->errorLabel->setText(error);
+    ui->errorLabel->setVisible(true);
+    if(hint.length()){
+        ui->hintLabel->setVisible(true);
+        ui->hintLabel->setText("Password Hint:' "+hint+" '");
+    }
+    else
+        ui->hintLabel->setVisible(false);
 }

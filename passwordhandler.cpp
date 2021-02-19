@@ -10,6 +10,12 @@ PasswordHandler::PasswordHandler(QObject *parent):
 
 }
 
+QString PasswordHandler::getHashedPassword(QString pass)
+{
+   _Hash.addData(pass.toStdString().c_str(),pass.size());
+   return QString(_Hash.result().toHex());
+}
+
 void PasswordHandler::setPasswordType(PasswordHandler::PasswordType type)
 {
     if(_PasswordType != type){
@@ -56,6 +62,7 @@ void PasswordHandler::clearPassword()
 {
     _Password = "";
     _ByteArrayPassword = 0;
+    _Hash.reset();
 }
 
 void PasswordHandler::viewPassword()

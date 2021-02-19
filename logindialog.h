@@ -23,8 +23,9 @@ private:
 private slots:
     void loginPressed();
 public slots:
-    void setDatabase1State(bool state);
-    void setDatabase2State(bool state);
+    void setDatabase1State(const bool& state);
+    void setDatabase2State(const bool& state);
+    void setError(const QString& error, const QString& hint);
 signals:
     void loginRequested(QString,QString);
     void closeAppRequested();

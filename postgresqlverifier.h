@@ -7,20 +7,28 @@
 class User;
 class QHostAddress;
 class QFile;
+class PasswordHandler;
 class PostgreSqlVerifier:public QObject
 {
     Q_OBJECT
 public:
-    PostgreSqlVerifier();
+    PostgreSqlVerifier(QObject* parent);
     bool setupConfig(const QHostAddress& ip, const qint16 &port, const QString& username, const QString& password, const QString& databaseName);
-    User* verifyUser(const QString& username,const QString& password);
-
+    void verifyUser(const QString& username,const QString& password);
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;
     QFile*        _ErrorFile = nullptr;
+    PasswordHandler *passwordHandler = nullptr;
+    //Methods
+    int execute(const QString &query);
+    QVariant getValue(const int& position)const;
+    QVariant getValue(const QString& position)const;
+    void retrieveUserPasswords(User *user);
 signals:
-    void databaseConnected(bool);
+    void databaseConnected(const bool&);
+    void errorOccured(const QString&,const QString&);
+    void userSignedIn(User*);
 };
 
 #endif // POSTGRESQLVERIFIER_H

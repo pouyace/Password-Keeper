@@ -5,19 +5,24 @@
 #include "logindialog.h"
 #include "postgresqlverifier.h"
 #include <QHostAddress>
+#include <QTimer>
+#include <QDateTime>
+#include "user.h"
+#include <QButtonGroup>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setupLoginDialog();
-    setupSqlVerifier();
+
+    loginDialog = new LoginDialog(this);
+    databaseVerifier = new PostgreSqlVerifier(this);
+    setupTime();
+    setupButtonGroup();
     setupConnections();
     databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,"postgres","newpouya","PasswordKeeper");
-
-//    connect(ui->pushButton,&QPushButton::clicked,this
-//            ,[=]{passwordGenerator->GeneratePassword(10,PasswordHandler::AllChars);});
+    setupLoginDialog();
 }
 
 MainWindow::~MainWindow()
@@ -27,31 +32,57 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupConnections()
 {
-    connect(loginDialog,&LoginDialog::closeAppRequested,this,&QMainWindow::close);
+    connect(loginDialog,&LoginDialog::loginRequested,databaseVerifier,&PostgreSqlVerifier::verifyUser);
     connect(databaseVerifier,&PostgreSqlVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabase1State,Qt::UniqueConnection);
     connect(databaseVerifier,&PostgreSqlVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabase2State,Qt::UniqueConnection);
-}
-
-void MainWindow::setupLoadingDialog()
-{
-    loadingDialog = new LoadingDialog(this);
-    loadingDialog->show();
-
+    connect(databaseVerifier,&PostgreSqlVerifier::errorOccured,loginDialog,&LoginDialog::setError);
+    connect(databaseVerifier,&PostgreSqlVerifier::userSignedIn,this,&MainWindow::setupMainWondow);
+    connect(loginDialog,&LoginDialog::closeAppRequested,this,&QMainWindow::close);
+    connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
+    connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
+    connect(ui->exitToolButton,&QToolButton::clicked,this,&QMainWindow::close);
 }
 
 void MainWindow::setupLoginDialog()
 {
-    loginDialog = new LoginDialog(this);
     loginDialog->show();
+    this->hide();
 }
 
-void MainWindow::setupSqlVerifier()
+void MainWindow::setupMainWondow(User *user)
 {
-    databaseVerifier = new PostgreSqlVerifier();
+    this->user = user;
+    loginDialog->hide();
+    this->showFullScreen();
+    ui->passwordsCountLabel->setText(QString::number(user->passwordsCount()) + " Passwords");
+    ui->usernameLabel->setText(user->username());
 }
 
-void MainWindow::setupPasswordGenerator()
+void MainWindow::setupButtonGroup()
 {
-    passwordGenerator = new PasswordHandler(this);
+    buttonGroup = new QButtonGroup(this);
+    buttonGroup->setExclusive(true);
+    buttonGroup->addButton(ui->myPasswordsToolButton,0);
+    buttonGroup->addButton(ui->passwordGeneratorToolButton,1);
+    buttonGroup->addButton(ui->ExportToolButton,2);
+    buttonGroup->addButton(ui->profileToolButton,3);
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->myPasswordsToolButton->setChecked(true);
+    ui->newPasswords->setCursor(Qt::PointingHandCursor);
+    ui->searchToolButton->setCursor(Qt::IBeamCursor);
+}
+
+void MainWindow::setupTime()
+{
+    timer = new QTimer(this);
+    timer->start(1000);
+    timer->setTimerType(Qt::VeryCoarseTimer);
+}
+
+
+void MainWindow::updateDateAndTime()
+{
+    ui->timeLabel->setText(QTime::currentTime().toString("h:mm:ss"));
+    ui->dateLabel->setText(QDate::currentDate().toString());
 }
 

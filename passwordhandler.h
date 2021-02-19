@@ -9,6 +9,7 @@ public:
     enum PasswordType{lowerCaseOnly=0X0001,UpperCaseOnly=0X0010,LettersOnly=0X0011,NumbersOnly=0X0100
                       ,SpecialCharsOnly=0X1000,NumbersAndLetters=0X0111,AllChars=0X1111};
     PasswordHandler(QObject *parent);
+    QString getHashedPassword(QString pass);
 private:
     QCryptographicHash _Hash;
     QList <char> _Pallet;

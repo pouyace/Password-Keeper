@@ -10,6 +10,6 @@ int main(int argc, char *argv[])
     cssfile.open(QIODevice::ReadOnly);
     a.setStyleSheet(cssfile.readAll());
     cssfile.close();
-    w.show();
+//    w.show();
     return a.exec();
 }
