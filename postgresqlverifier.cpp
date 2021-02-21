@@ -93,7 +93,6 @@ QVariant PostgreSqlVerifier::getValue(const QString &position) const
 void PostgreSqlVerifier::retrieveUserPasswords(User* user)
 {
     QString query = "SELECT pass_id,username,password,site FROM passwords WHERE app_user = '" + user->username()+"';";
-    qDebug()<<query;
     int state = this->execute(query);
     do{
         int Qpass_id = getValue("pass_id").toInt();

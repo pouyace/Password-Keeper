@@ -131,9 +131,8 @@ QLabel.userInfoLabel{
 }
 QLabel.FixedLabels{
     color:rgb(160,160,250);
-    font:12pt "Lucida Bright";
+    font:14pt "Lucida Bright";
     font-weight:bold;
-
 }
 QLineEdit.searchLineEdit{
     border:none;
@@ -157,9 +156,65 @@ QToolButton.NewPassword{
     padding:5px;
 }
 
+QTableView{
+    background-color:rgb(17,17,17);
+    border:none;
+}
 
 
 
+
+  QTableView{
+    border:7px solid rgb(85,85,85);
+    border-radius:7px;
+    padding:5px;
+}
+  QTableView::item{
+    max-width:20px;
+    border:none;
+    color:white;
+    margin:1px;
+    padding:0px;
+}
+  QTableView::item:selected{
+    background-color:silver;
+    border:none;
+    color:#505050;
+}
+/*  QTableView::item:selected:!active{
+    background-color:red;
+    border:none;
+    color:#505050;
+}*/
+  QTableView::item:hover {
+    background-color:#505050;
+    color:rgba(100,100,100,1);
+    border-radius:3px;
+    color:#A0A0A0;
+}
+  QHeaderView{
+background-color:transparent;
+border:2px solid rgba(85,85,85,0.8);
+border-radius:3px;
+}
+  QHeaderView::section{
+background-color:#555555;
+border:1px solid darkgray;
+border-radius:2px;
+color:darkgray;
+}
+
+  QHeaderView[orientation = Horizontal]::section{
+background-color:transparent;
+border:none;
+margin-bottom:5px;
+}
+  QHeaderView[orientation = Vertical]::section{
+background-color:transparent;
+margin-bottom:5px;
+margin:6px;
+padding:5px;
+}
 
 
 

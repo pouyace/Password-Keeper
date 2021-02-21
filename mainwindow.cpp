@@ -9,15 +9,14 @@
 #include <QDateTime>
 #include "user.h"
 #include <QButtonGroup>
+#include "passwordtableview.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    loginDialog = new LoginDialog(this);
-    databaseVerifier = new PostgreSqlVerifier(this);
+    initializeObjects();
     setupTime();
     setupButtonGroup();
     setupConnections();
@@ -41,6 +40,12 @@ void MainWindow::setupConnections()
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton,&QToolButton::clicked,this,&QMainWindow::close);
+    connect(this,&MainWindow::windowSizeChanged,passwordTable,&PasswordTableView::resizeWidget);
+}
+
+void MainWindow::loadPasswordsToTable()
+{
+    passwordTable->loadTable(user);
 }
 
 void MainWindow::setupLoginDialog()
@@ -49,13 +54,26 @@ void MainWindow::setupLoginDialog()
     this->hide();
 }
 
+void MainWindow::initializeObjects()
+{
+    loginDialog = new LoginDialog(this);
+    databaseVerifier = new PostgreSqlVerifier(this);
+    timer = new QTimer(this);
+    passwordTable = new PasswordTableView(this);
+    ui->verticalLayout_6->addWidget(passwordTable);
+
+}
+
 void MainWindow::setupMainWondow(User *user)
 {
     this->user = user;
     loginDialog->hide();
     this->showFullScreen();
-    ui->passwordsCountLabel->setText(QString::number(user->passwordsCount()) + " Passwords");
+    ui->passwordsCountLabel->setText(QString::number(user->userPasswordsCount()) + " Passwords");
     ui->usernameLabel->setText(user->username());
+    ui->totalPasswordsLabel->setNum(user->userPasswordsCount());
+    ui->totalSitesLabel->setNum(user->userSitesCount());
+    loadPasswordsToTable();
 }
 
 void MainWindow::setupButtonGroup()
@@ -74,9 +92,13 @@ void MainWindow::setupButtonGroup()
 
 void MainWindow::setupTime()
 {
-    timer = new QTimer(this);
     timer->start(1000);
     timer->setTimerType(Qt::VeryCoarseTimer);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    emit windowSizeChanged();
 }
 
 

@@ -14,6 +14,7 @@ class PostgreSqlVerifier;
 class User;
 class QButtonGroup;
 class QTimer;
+class PasswordTableView;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -30,15 +31,22 @@ private:
     User               *user            = nullptr;
     QButtonGroup        *buttonGroup    = nullptr;
     QTimer              *timer          = nullptr;
+    PasswordTableView   *passwordTable   = nullptr;
     //Methods
     void setupConnections();
+    void loadPasswordsToTable();
     void setupLoginDialog();
+    void initializeObjects();
     void setupButtonGroup();
     void setupTime();
+protected:
+    void resizeEvent(QResizeEvent* event) override;
 
 private slots:
     void updateDateAndTime();
 public slots:
     void setupMainWondow(User* user);
+signals:
+    void windowSizeChanged();
 };
 #endif // MAINWINDOW_H

@@ -511,7 +511,7 @@
          <widget class="QWidget" name="passwordsTableWidget">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QWidget" name="widget" native="true">
+            <widget class="QWidget" name="firstWidget" native="true">
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <widget class="QWidget" name="totalInfoWidget" native="true">
@@ -647,6 +647,9 @@
                       <property name="text">
                        <string/>
                       </property>
+                      <property name="class" stdset="0">
+                       <string>FixedLabels</string>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -698,6 +701,9 @@
                       </property>
                       <property name="text">
                        <string/>
+                      </property>
+                      <property name="class" stdset="0">
+                       <string>FixedLabels</string>
                       </property>
                      </widget>
                     </item>
@@ -832,9 +838,6 @@
                  </item>
                 </layout>
                </widget>
-              </item>
-              <item>
-               <widget class="QTableView" name="tableView"/>
               </item>
              </layout>
             </widget>

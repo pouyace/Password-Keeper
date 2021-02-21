@@ -13,16 +13,16 @@ public:
     void setName(const QString& firstname,const QString& lastname);
     QString username()const;
     void insertPassword(Password* password);
+    int userPasswordsCount()const;
+    int userSitesCount()const;
+    QString fullName()const;
+    QList<Password*> passwords()const;
 private:
     QString             _firstName = "";
     QString             _lastName = "";
     QString             _username;
     QList<Password*>    _passwords;
     PostgreSqlVerifier* _verifier;
-public:
-    QString fullName()const;
-    int passwordsCount()const;
-
 signals:
 
 };

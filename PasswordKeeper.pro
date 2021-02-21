@@ -22,7 +22,11 @@ SOURCES += \
     mainwindow.cpp \
     password.cpp \
     passwordhandler.cpp \
+    passwordtablemodel.cpp \
+    passwordtableview.cpp \
     postgresqlverifier.cpp \
+    specialwidgetdelegate.cpp \
+    tableitemoptionswidget.cpp \
     user.cpp
 
 HEADERS += \
@@ -31,13 +35,18 @@ HEADERS += \
     mainwindow.h \
     password.h \
     passwordhandler.h \
+    passwordtablemodel.h \
+    passwordtableview.h \
     postgresqlverifier.h \
+    specialwidgetdelegate.h \
+    tableitemoptionswidget.h \
     user.h
 
 FORMS += \
     loadingdialog.ui \
     logindialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    tableitemoptionswidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

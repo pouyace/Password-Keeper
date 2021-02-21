@@ -17,5 +17,7 @@
         <file>icons/plus.png</file>
         <file>icons/plus0.png</file>
         <file>icons/plus1.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/trash.png</file>
     </qresource>
 </RCC>
