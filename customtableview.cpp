@@ -62,7 +62,6 @@ void TableView::setupProperties()
     this->horizontalHeader()->setStretchLastSection(false);
     this->verticalHeader()->setVisible(false);
     this->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-//    this->setEditTriggers(QAbstractItemView::AllEditTriggers);
     this->setMouseTracking(true);
 
     tableModel = new QStandardItemModel(0,4,this);

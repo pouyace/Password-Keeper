@@ -18,35 +18,29 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     customtablemodel.cpp \
     customtableview.cpp \
-    loadingdialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     password.cpp \
     passwordhandler.cpp \
     postgresqlverifier.cpp \
-    singleitemoptionwidget.cpp \
     styleditemdelegate.cpp \
     user.cpp
 
 HEADERS += \
     customtablemodel.h \
     customtableview.h \
-    loadingdialog.h \
     logindialog.h \
     mainwindow.h \
     password.h \
     passwordhandler.h \
     postgresqlverifier.h \
-    singleitemoptionwidget.h \
     styleditemdelegate.h \
     user.h
 
 FORMS += \
-    loadingdialog.ui \
     logindialog.ui \
-    mainwindow.ui \
-    singleitemoptionwidget.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
