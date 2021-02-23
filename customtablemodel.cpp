@@ -1,17 +1,17 @@
-#include "passwordtablemodel.h"
+#include "customtablemodel.h"
 #include <QtDebug>
-PasswordTableModel::PasswordTableModel(QObject *parent):
+TableModel::TableModel(QObject *parent):
     QAbstractTableModel(parent)
 {
 
 }
 
-PasswordTableModel::~PasswordTableModel()
+TableModel::~TableModel()
 {
 
 }
 
-void PasswordTableModel::appendItem(const TableItem &item)
+void TableModel::appendItem(const TableItem &item)
 {
     TableItem *temp = new TableItem(item);
     beginInsertRows(QModelIndex(),tableItemCount(),tableItemCount());
@@ -20,7 +20,7 @@ void PasswordTableModel::appendItem(const TableItem &item)
 
 }
 
-QVariant PasswordTableModel::data(const QModelIndex &index, int role) const
+QVariant TableModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return QVariant();
@@ -36,20 +36,23 @@ QVariant PasswordTableModel::data(const QModelIndex &index, int role) const
      else if(role == Qt::TextAlignmentRole){
         return Qt::AlignCenter;
         }
+    else if(role == Qt::EditRole){
+        return "wwwwww";
+    }
     return QVariant();
 }
 
-int PasswordTableModel::rowCount(const QModelIndex &parent) const
+int TableModel::rowCount(const QModelIndex &parent) const
 {
     return tableItemCount();
 }
 
-int PasswordTableModel::columnCount(const QModelIndex &parent) const
+int TableModel::columnCount(const QModelIndex &parent) const
 {
     return _columnCount;
 }
 
-QVariant PasswordTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role == Qt::DisplayRole){
         if(orientation == Qt::Horizontal){
@@ -68,32 +71,33 @@ QVariant PasswordTableModel::headerData(int section, Qt::Orientation orientation
     return QVariant();
 }
 
-bool PasswordTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     qDebug()<<"In setData()";
     if(!index.isValid())
         return false;
     if(role == Qt::DisplayRole){
+        qDebug()<<"wow";
         switch (index.column()) {
-        case 0: itemsList[index.row()] ->_passId = value.toInt(); return true;
-        case 1: itemsList[index.row()]->_username = value.toString();return true;
-        case 2: itemsList[index.row()]->_password =value.toString();return true;
-        case 3: itemsList[index.row()]->_site =value.toString();return true;
-        case 4: qDebug()<<"heelo";return true;
+        case 0: itemsList[index.row()]->setPassId(value.toString()); return true;
+        case 1: itemsList[index.row()]->setUsername(value.toString()); return true;
+        case 2: itemsList[index.row()]->setPassword(value.toString()); return true;
+        case 3: itemsList[index.row()]->setSite(value.toString());return true;
         }
     }
     if(role == Qt::EditRole){
+        qDebug()<<"wow";
         switch (index.column()) {
-        case 0: itemsList[index.row()] ->_passId = value.toInt(); return true;
-        case 1: itemsList[index.row()]->_username = value.toString();return true;
-        case 2: itemsList[index.row()]->_password =value.toString();return true;
-        case 3: itemsList[index.row()]->_site =value.toString();return true;
-        case 4: qDebug()<<"heelo";return true;
+        case 0: itemsList[index.row()]->setPassId(value.toString()); return true;
+        case 1: itemsList[index.row()]->setUsername(value.toString()); return true;
+        case 2: itemsList[index.row()]->setPassword(value.toString()); return true;
+        case 3: itemsList[index.row()]->setSite(value.toString());return true;
         }
     }
+    return false;
 }
 
-int PasswordTableModel::tableItemCount() const
+int TableModel::tableItemCount() const
 {
     return itemsList.count();
 }

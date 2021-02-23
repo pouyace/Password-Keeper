@@ -63,11 +63,22 @@ void PostgreSqlVerifier::verifyUser(const QString &username, const QString &pass
         return;
     }
     User *user = new User(username,this);
+    this->frontUser = user;
     QString querryFirstname = getValue("firstname").toString().toStdString().data();
     QString querryLastname = getValue("lastname").toString().toStdString().data();
     user->setName(querryFirstname,querryLastname);
-    retrieveUserPasswords(user);
-    emit userSignedIn(user);
+    retrieveUserPasswords(this->frontUser);
+    emit userSignedIn(this->frontUser);
+}
+
+PostgreSqlVerifier::~PostgreSqlVerifier()
+{
+
+}
+
+void PostgreSqlVerifier::unregisterUser(User *user)
+{
+
 }
 
 int PostgreSqlVerifier::execute(const QString &query)
@@ -95,7 +106,7 @@ void PostgreSqlVerifier::retrieveUserPasswords(User* user)
     QString query = "SELECT pass_id,username,password,site FROM passwords WHERE app_user = '" + user->username()+"';";
     int state = this->execute(query);
     do{
-        int Qpass_id = getValue("pass_id").toInt();
+        QString Qpass_id = getValue("pass_id").toString();
         QString Qusername = getValue("username").toString().toStdString().data();
         QString Qpassword = getValue("password").toString().toStdString().data();
         QString Qsite     = getValue("site").toString().toStdString().data();

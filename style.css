@@ -1,6 +1,5 @@
 LoginDialog{
     background-image:url(":/backgrounds/backgrounds/PassPic5.jpg");
-/*    background-color:yellow;*/
 }
 LoginDialog QWidget.mainWidget{
     background-color:rgba(40,40,40,0.8);
@@ -157,17 +156,9 @@ QToolButton.NewPassword{
 }
 
 QTableView{
-    background-color:rgb(17,17,17);
+/*    background-color:rgb(17,17,17);*/
     border:none;
-}
-
-
-
-
-  QTableView{
-    border:7px solid rgb(85,85,85);
-    border-radius:7px;
-    padding:5px;
+    background-color:white;
 }
   QTableView::item{
     max-width:20px;
@@ -192,16 +183,18 @@ QTableView{
     border-radius:3px;
     color:#A0A0A0;
 }
-  QHeaderView{
-background-color:transparent;
-border:2px solid rgba(85,85,85,0.8);
-border-radius:3px;
+QHeaderView{
+    background-color:transparent;
+    min-height:40px;
+    font-weight:bold;
+    font:14pt "Lucida Bright";
+    border:none;
+    border-radius:3px;
 }
-  QHeaderView::section{
-background-color:#555555;
-border:1px solid darkgray;
-border-radius:2px;
-color:darkgray;
+QHeaderView::section{
+    background-color:rgb(150,150,255);
+    border:none;
+    color:rgb(240,240,240);
 }
 
   QHeaderView[orientation = Horizontal]::section{

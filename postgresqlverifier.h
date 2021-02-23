@@ -15,11 +15,14 @@ public:
     PostgreSqlVerifier(QObject* parent);
     bool setupConfig(const QHostAddress& ip, const qint16 &port, const QString& username, const QString& password, const QString& databaseName);
     void verifyUser(const QString& username,const QString& password);
+    ~PostgreSqlVerifier();
+    void unregisterUser(User *user);
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;
     QFile*        _ErrorFile = nullptr;
     PasswordHandler *passwordHandler = nullptr;
+    User *frontUser = nullptr;
     //Methods
     int execute(const QString &query);
     QVariant getValue(const int& position)const;

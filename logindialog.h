@@ -21,14 +21,13 @@ private:
     void setupConnection();
 
 private slots:
-    void loginPressed();
+    void onLoginButtonClicked();
 public slots:
-    void setDatabase1State(const bool& state);
-    void setDatabase2State(const bool& state);
+    void setDatabaseState(const bool& state);
     void setError(const QString& error, const QString& hint);
+    void userSignedin(bool state);
 signals:
     void loginRequested(QString,QString);
-    void closeAppRequested();
 };
 
 #endif // LOGINDIALOG_H

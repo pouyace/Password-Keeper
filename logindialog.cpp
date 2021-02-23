@@ -19,11 +19,11 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::setupConnection()
 {
-    connect(ui->loginPushButton,&QPushButton::clicked,this,&LoginDialog::loginPressed);
-    connect(ui->closePushButton,&QPushButton::clicked,this,&LoginDialog::closeAppRequested);
+    connect(ui->loginPushButton,&QPushButton::clicked,this,&LoginDialog::onLoginButtonClicked);
+    connect(ui->closePushButton,&QPushButton::clicked,this,&QDialog::close);
 }
 
-void LoginDialog::loginPressed()
+void LoginDialog::onLoginButtonClicked()
 {
     QString username = ui->usernameLineEdit->text();
     QString password = ui->passwordLineEdit->text();
@@ -35,20 +35,12 @@ void LoginDialog::loginPressed()
         emit loginRequested(username,password);
 }
 
-void LoginDialog::setDatabase1State(const bool& state)
+void LoginDialog::setDatabaseState(const bool& state)
 {
     if(state)
         ui->database1CheckBox->setChecked(true);
     else
         ui->database1CheckBox->setChecked(false);
-}
-
-void LoginDialog::setDatabase2State(const bool& state)
-{
-    if(state)
-        ui->database2CheckBox->setChecked(true);
-    else
-        ui->database2CheckBox->setChecked(false);
 }
 
 void LoginDialog::setError(const QString &error, const QString &hint)
@@ -61,4 +53,10 @@ void LoginDialog::setError(const QString &error, const QString &hint)
     }
     else
         ui->hintLabel->setVisible(false);
+}
+
+void LoginDialog::userSignedin(bool state)
+{
+    if(state == true)
+        done(1);
 }

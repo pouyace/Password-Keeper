@@ -7,18 +7,17 @@ class Password:public QObject
 {
     Q_OBJECT
 public:
-    Password(int passId,QString username,QString password,QString site,User* owner);
+    Password(QString passId, QString username, QString password, QString site, QObject *parent);
+    ~Password();
     QString getSite()const;
-    QString getPassWord()const;
+    QString getPassword()const;
     QString getUsername()const;
-    int     getPassId()const;
-    User*   getOwner()const;
+    QString     getPassId()const;
 private:
-    int passId;
+    QString passId;
     QString username;
     QString password;
     QString site;
-    User*   owner;
 };
 
 #endif // PASSWORD_H

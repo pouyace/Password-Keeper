@@ -16,37 +16,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    customoptiondelegate.cpp \
+    customtablemodel.cpp \
+    customtableview.cpp \
     loadingdialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     password.cpp \
     passwordhandler.cpp \
-    passwordtablemodel.cpp \
-    passwordtableview.cpp \
     postgresqlverifier.cpp \
-    specialwidgetdelegate.cpp \
-    tableitemoptionswidget.cpp \
+    singleitemoptionwidget.cpp \
     user.cpp
 
 HEADERS += \
+    customoptiondelegate.h \
+    customtablemodel.h \
+    customtableview.h \
     loadingdialog.h \
     logindialog.h \
     mainwindow.h \
     password.h \
     passwordhandler.h \
-    passwordtablemodel.h \
-    passwordtableview.h \
     postgresqlverifier.h \
-    specialwidgetdelegate.h \
-    tableitemoptionswidget.h \
+    singleitemoptionwidget.h \
     user.h
 
 FORMS += \
     loadingdialog.ui \
     logindialog.ui \
     mainwindow.ui \
-    tableitemoptionswidget.ui
+    singleitemoptionwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

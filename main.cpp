@@ -5,11 +5,12 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
     QFile cssfile(":/style.css");
     cssfile.open(QIODevice::ReadOnly);
+    MainWindow w;
     a.setStyleSheet(cssfile.readAll());
     cssfile.close();
 //    w.show();
+    w.raiseLoginPage();
     return a.exec();
 }

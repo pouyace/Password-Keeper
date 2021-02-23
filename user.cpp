@@ -10,6 +10,11 @@ User::User(const QString& username,PostgreSqlVerifier *parent) :
 
 }
 
+User::~User()
+{
+
+}
+
 void User::setName(const QString &firstname, const QString &lastname)
 {
     _firstName = firstname;
@@ -41,7 +46,7 @@ int User::userSitesCount() const
     return sites.count();
 }
 
-QString User::fullName() const
+QString User::prettyName() const
 {
     if(!(_firstName.length() + _lastName.length())){
         return _username;

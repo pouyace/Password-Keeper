@@ -8,13 +8,12 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class PasswordHandler;
-class LoadingDialog;
 class LoginDialog;
 class PostgreSqlVerifier;
 class User;
 class QButtonGroup;
 class QTimer;
-class PasswordTableView;
+class TableView;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -22,31 +21,24 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void raiseLoginPage();
 private:
     Ui::MainWindow *ui;
-    PasswordHandler *passwordGenerator = nullptr;
-    LoadingDialog   *loadingDialog     = nullptr;
-    LoginDialog     *loginDialog       = nullptr;
-    PostgreSqlVerifier *databaseVerifier = nullptr;
-    User               *user            = nullptr;
-    QButtonGroup        *buttonGroup    = nullptr;
-    QTimer              *timer          = nullptr;
-    PasswordTableView   *passwordTable   = nullptr;
+    PasswordHandler *passwordHandler     =  nullptr;
+    LoginDialog     *loginDialog         =  nullptr;
+    PostgreSqlVerifier *databaseVerifier =  nullptr;
+    User               *user             =  nullptr;
+    QButtonGroup        *buttonGroup     =  nullptr;
+    QTimer              *timer           =  nullptr;
+    TableView     *tableView       =  nullptr;
+
     //Methods
     void setupConnections();
-    void loadPasswordsToTable();
-    void setupLoginDialog();
     void initializeObjects();
-    void setupButtonGroup();
-    void setupTime();
-protected:
-    void resizeEvent(QResizeEvent* event) override;
-
+    void setupMainWindow();
 private slots:
     void updateDateAndTime();
 public slots:
-    void setupMainWondow(User* user);
-signals:
-    void windowSizeChanged();
+    void onSetSignedUser(User* user);
 };
 #endif // MAINWINDOW_H
