@@ -60,6 +60,7 @@ void MainWindow::initializeObjects()
     timer->start(1000);
     timer->setTimerType(Qt::VeryCoarseTimer);
     ui->verticalLayout_6->addWidget(tableView);
+    ui->searchLineEdit->setPlaceholderText("Search Passwords");
 
 }
 
