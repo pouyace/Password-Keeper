@@ -192,6 +192,44 @@ QHeaderView::section{
     color:rgb(220,220,220);
 /*    border:1px solid blue;*/
 }
+/******************************* Database Dialog *******************************/
+DataBasePassewordSetter{
+    background-color:rgba(40,40,40,0.8);
+    border:1px solid rgba(240,240,100,0.8);
+    border-radius:3px;
+}
+DataBasePassewordSetter QLineEdit{
+    border:1px solid #3daee9;
+    padding:5px;
+    background-color:#212121;
+    font-size:13px;
+    border-radius:3px;
+    color:rgb(240,240,240);
+}
+DataBasePassewordSetter QLabel.errorLabel{
+    color:red;
+}
+DataBasePassewordSetter QLabel{
+    color:rgb(240,240,240);
+
+}
+DataBasePassewordSetter QPushButton{
+    background-color:#313131;
+    border:1px solid rgb(65,87,140);
+    border-radius:5px;
+    font-weight:bold;
+    color:rgb(200,200,200);
+    padding:5px;
+    font-size:16px;
+}
+DataBasePassewordSetter QPushButton::hover{
+    background-color:rgb(65,87,140);
+    color:rgb(230,230,230);
+}
+DataBasePassewordSetter QPushButton::pressed{
+    background-color:orange;
+    border:none;
+}
 
 
 

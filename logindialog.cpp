@@ -31,16 +31,21 @@ void LoginDialog::onLoginButtonClicked()
         ui->errorLabel->setText("Empty input");
         return;
     }
-    else
-        emit loginRequested(username,password);
+    else{
+        if(databaseState)
+            emit loginRequested(username,password);
+        else
+            emit databaseIsNotConnected();
+    }
 }
 
 void LoginDialog::setDatabaseState(const bool& state)
 {
-    if(state)
-        ui->database1CheckBox->setChecked(true);
-    else
-        ui->database1CheckBox->setChecked(false);
+    databaseState = state;
+    ui->database1CheckBox->setChecked(state);
+    ui->loginPushButton->setEnabled(state);
+    ui->usernameLineEdit->setEnabled(state);
+    ui->passwordLineEdit->setEnabled(state);
 }
 
 void LoginDialog::setError(const QString &error, const QString &hint)
@@ -55,8 +60,10 @@ void LoginDialog::setError(const QString &error, const QString &hint)
         ui->hintLabel->setVisible(false);
 }
 
-void LoginDialog::userSignedin(bool state)
+void LoginDialog::onDatabaseDialogClosed()
 {
-    if(state == true)
-        done(1);
+    ui->loginPushButton->setEnabled(true);
+    ui->usernameLineEdit->setEnabled(true);
+    ui->passwordLineEdit->setEnabled(true);
 }
+

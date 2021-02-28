@@ -14,16 +14,17 @@ class DataBasePassewordSetter : public QDialog
 public:
     explicit DataBasePassewordSetter(QString defaultUsername, QString defaultPassword, QWidget *parent = nullptr);
     ~DataBasePassewordSetter();
-
+protected:
+    void closeEvent(QCloseEvent *) override;
 private:
     Ui::DataBasePassewordSetter *ui;
-private slots:
+public slots:
     void onApplyButton();
-    void databaseConfirmed(bool state);
+    void onDatabaseConnected(bool state);
 signals:
     void databaseNewConfigSet(QString,QString);
     void bikhialState();
-
+    void dialodClosed();
 };
 
 #endif // DATABASEPASSEWORDSETTER_H

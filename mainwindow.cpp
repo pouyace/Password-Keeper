@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QHostAddress>
 #include <QTimer>
@@ -18,15 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    initializeObjects();
-//    setupConnections();
-//    connectToDatabase();
-//    databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
-
-    passwordHandler = new PasswordHandler(this);
-    for(int i=0;i<10;i++){
-        qDebug()<<passwordHandler->GeneratePassword(20,PasswordHandler::AllChars);
-    }
+    initializeObjects();
+    setupConnections();
 }
 
 MainWindow::~MainWindow()
@@ -44,6 +37,10 @@ void MainWindow::setupConnections()
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton,&QToolButton::clicked,this,&QMainWindow::close);
     connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
+    connect(this,&MainWindow::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&MainWindow::updateDatabaseUserAndPass);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialodClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
+    connect(loginDialog,&LoginDialog::databaseIsNotConnected,this,&MainWindow::connectToDatabase);
 }
 
 void MainWindow::initializeObjects()
@@ -53,7 +50,7 @@ void MainWindow::initializeObjects()
     timer = new QTimer(this);
     tableView = new TableView(this);
     buttonGroup = new QButtonGroup(this);
-//    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,this);
+    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,loginDialog);
 
     buttonGroup->setExclusive(true);
     buttonGroup->addButton(ui->myPasswordsToolButton,0);
@@ -73,20 +70,20 @@ void MainWindow::initializeObjects()
 
 void MainWindow::connectToDatabase()
 {
-//    QString username =
-//    bool connected = false;
-//    while(!connected){
-//        connected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
-//        if(!connected)
-//            databasePasswordSetterDialog->show();
-//    }
-//    databasePasswordSetterDialog->close();
+    isDatabaseConnected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
+    emit databaseConnected(isDatabaseConnected);
 }
 
 void MainWindow::raiseLoginPage()
 {
     this->hide();
     loginDialog->show();
+    connectToDatabase();
+}
+
+bool MainWindow::isDataBaseConnected() const
+{
+    return isDatabaseConnected;
 }
 void MainWindow::setupMainWindow()
 {
@@ -109,5 +106,10 @@ void MainWindow::onSetSignedUser(User *user)
 {
     this->user = user;
     this->setupMainWindow();
+}
 
+void MainWindow::updateDatabaseUserAndPass(QString user, QString pass)
+{
+    isDatabaseConnected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,user,pass,"PasswordKeeper");
+    emit databaseConnected(isDatabaseConnected);
 }

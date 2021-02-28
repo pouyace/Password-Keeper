@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::LoginDialog *ui;
+    bool databaseState = false;
     //Methods
     void setupConnection();
 
@@ -25,9 +26,10 @@ private slots:
 public slots:
     void setDatabaseState(const bool& state);
     void setError(const QString& error, const QString& hint);
-    void userSignedin(bool state);
+    void onDatabaseDialogClosed();
 signals:
     void loginRequested(QString,QString);
+    void databaseIsNotConnected();
 };
 
 #endif // LOGINDIALOG_H
