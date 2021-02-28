@@ -2,7 +2,7 @@
 #define PASSWORDTABLEVIEW_H
 #include <QTableView>
 class QStandardItemModel;
-class User;
+class Password;
 struct TableItem;
 class QStandardItem;
 class StyledItemDelegate;
@@ -12,13 +12,13 @@ class TableView : public QTableView
 public:
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
-    void loadTable(User* user);
+    void loadTable(QList<Password *> passwords);
     void syncSize();
 private:
     int mHoverRow, mHoverColumn;
     QStandardItemModel  *tableModel = nullptr;
     StyledItemDelegate *specialDelegate = nullptr;
-    void append(TableItem tableItem);
+    void append(QList<QStandardItem *> items);
     void setupProperties();
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

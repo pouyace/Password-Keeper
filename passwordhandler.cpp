@@ -83,6 +83,7 @@ void PasswordHandler::makePassword()
         int index = rand()%palletSize();
         _Password.append(_Pallet.value(index));
     }
+    qDebug()<<_Password;
     _Hash.addData(_Password.toStdString().c_str(),_PasswordLength);
     _ByteArrayPassword = _Hash.result().toHex();
 }

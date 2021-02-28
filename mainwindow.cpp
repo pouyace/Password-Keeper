@@ -10,16 +10,23 @@
 #include "user.h"
 #include "singleitemoptionwidget.h"
 #include "customtableview.h"
+#include "databasepassewordsetter.h"
+#include "passwordhandler.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    initializeObjects();
-    setupConnections();
-    databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,"postgres","newpouya","PasswordKeeper");
+//    initializeObjects();
+//    setupConnections();
+//    connectToDatabase();
+//    databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
 
+    passwordHandler = new PasswordHandler(this);
+    for(int i=0;i<10;i++){
+        qDebug()<<passwordHandler->GeneratePassword(20,PasswordHandler::AllChars);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -37,7 +44,6 @@ void MainWindow::setupConnections()
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton,&QToolButton::clicked,this,&QMainWindow::close);
     connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
-
 }
 
 void MainWindow::initializeObjects()
@@ -47,6 +53,7 @@ void MainWindow::initializeObjects()
     timer = new QTimer(this);
     tableView = new TableView(this);
     buttonGroup = new QButtonGroup(this);
+//    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,this);
 
     buttonGroup->setExclusive(true);
     buttonGroup->addButton(ui->myPasswordsToolButton,0);
@@ -64,6 +71,18 @@ void MainWindow::initializeObjects()
 
 }
 
+void MainWindow::connectToDatabase()
+{
+//    QString username =
+//    bool connected = false;
+//    while(!connected){
+//        connected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
+//        if(!connected)
+//            databasePasswordSetterDialog->show();
+//    }
+//    databasePasswordSetterDialog->close();
+}
+
 void MainWindow::raiseLoginPage()
 {
     this->hide();
@@ -73,7 +92,7 @@ void MainWindow::setupMainWindow()
 {
     loginDialog->hide();
     this->showFullScreen();
-    tableView->loadTable(user);
+    tableView->loadTable(user->passwords());
     tableView->syncSize();
     ui->passwordsCountLabel->setText(QString::number(user->userPasswordsCount()) + " Passwords");
     ui->usernameLabel->setText(user->prettyName());

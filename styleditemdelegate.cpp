@@ -2,6 +2,7 @@
 #include "customtableview.h"
 #include <QDebug>
 #include <QLineEdit>
+#include <QLabel>
 StyledItemDelegate::StyledItemDelegate()
     : QStyledItemDelegate ()
 {
@@ -28,6 +29,12 @@ void StyledItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 }
 QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    if(index.column() == 0){
+     QLabel *label = new QLabel(parent);
+     label->setAlignment(Qt::AlignCenter);
+     label->setProperty("class","EditMode");
+     return label;
+    }
     QLineEdit* temp = new QLineEdit(parent);
     temp->setAlignment(Qt::AlignCenter);
     temp->setContextMenuPolicy(Qt::NoContextMenu);
@@ -37,12 +44,23 @@ QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 
 void StyledItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
+    if(index.column() == 0){
+    QLabel *label = static_cast<QLabel*>(editor);
+    model->setData(index, label->text(), Qt::DisplayRole);
+    return;
+    }
     QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
     model->setData(index, lineEdit->text(), Qt::DisplayRole);
 }
 
 void StyledItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
+    if(index.column() == 0){
+    QLabel *lineEdit = static_cast<QLabel*>(editor);
+    QString value = index.model()->data(index, Qt::DisplayRole).toString();
+    lineEdit->setText(value);
+    return;
+    }
     QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
     QString value = index.model()->data(index, Qt::DisplayRole).toString();
     lineEdit->setText(value);

@@ -168,8 +168,9 @@ QTableView::item:hover{
     background-color:rgb(120,120,160);
 }
 QTableView::item:selected{
-    background-color:rgb(17,17,17);
+    background-color:rgb(40,40,40);
     color:white;
+/*    border:1px solid blue;*/
 }
 /******************************* QHeaderView *******************************/
 QHeaderView{
@@ -186,10 +187,10 @@ QHeaderView::section{
     color:rgb(240,240,240);
 }
 
-QLineEdit.EditMode{
+.EditMode{
     background-color:rgb(30,30,30);
     color:rgb(220,220,220);
-    border:1px solid blue;
+/*    border:1px solid blue;*/
 }
 
 

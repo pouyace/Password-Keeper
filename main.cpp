@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
     a.setStyleSheet(cssfile.readAll());
     cssfile.close();
 //    w.show();
-    w.raiseLoginPage();
+//    w.raiseLoginPage();
     return a.exec();
 }

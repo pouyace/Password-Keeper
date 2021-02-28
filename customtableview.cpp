@@ -15,9 +15,9 @@ TableView::TableView(QWidget *parent):
     setupProperties();
 }
 
-void TableView::loadTable(User *user)
+void TableView::loadTable(QList<Password*> passwords)
 {
-    QListIterator<Password*> mItr(user->passwords());
+    QListIterator<Password*> mItr(passwords);
     QList<QStandardItem*> items;
     while(mItr.hasNext()){
         Password *temp = mItr.next();
@@ -26,12 +26,7 @@ void TableView::loadTable(User *user)
         items.append(new QStandardItem(temp->getUsername()));
         items.append(new QStandardItem(temp->getPassword()));
         items.append(new QStandardItem(temp->getSite()));
-        int row = tableModel->rowCount();
-        tableModel->appendRow(items);
-        for(int i=0;i<4;i++){
-            QModelIndex index = tableModel->index(row,i,QModelIndex());
-            tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
-        }
+        this->append(items);
     }
 }
 
@@ -44,9 +39,14 @@ void TableView::syncSize()
     this->setColumnWidth(3,w*2);
 }
 
-void TableView::append(TableItem tableItem)
+void TableView::append(QList<QStandardItem*> items)
 {
-
+    int row = tableModel->rowCount();
+    tableModel->appendRow(items);
+    for(int i=0;i<4;i++){
+        QModelIndex index = tableModel->index(row,i,QModelIndex());
+        tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
+    }
 }
 
 void TableView::setupProperties()
@@ -68,6 +68,10 @@ void TableView::setupProperties()
     specialDelegate = new StyledItemDelegate();
     this->setModel(tableModel);
     this->setItemDelegate(specialDelegate);
+    /*
+    this->setItemDelegateForColumn(1,specialDelegate);
+    this->setItemDelegateForColumn(2,specialDelegate);
+    this->setItemDelegateForColumn(3,specialDelegate);*/
 
     tableModel->setHeaderData(0,Qt::Horizontal,tr("Pass Id"));
     tableModel->setHeaderData(1,Qt::Horizontal,tr("Username"));

@@ -18,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     customtablemodel.cpp \
     customtableview.cpp \
+    databasepassewordsetter.cpp \
+    iteminsertiondialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -30,6 +32,8 @@ SOURCES += \
 HEADERS += \
     customtablemodel.h \
     customtableview.h \
+    databasepassewordsetter.h \
+    iteminsertiondialog.h \
     logindialog.h \
     mainwindow.h \
     password.h \
@@ -39,6 +43,8 @@ HEADERS += \
     user.h
 
 FORMS += \
+    databasepassewordsetter.ui \
+    iteminsertiondialog.ui \
     logindialog.ui \
     mainwindow.ui
 
