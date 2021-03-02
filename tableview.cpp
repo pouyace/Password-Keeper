@@ -1,4 +1,4 @@
-#include "customtableview.h"
+#include "tableview.h"
 #include "customtablemodel.h"
 #include "user.h"
 #include "password.h"
@@ -52,10 +52,10 @@ void TableView::append(QList<QStandardItem*> items)
 void TableView::setupProperties()
 {
     this->setContextMenuPolicy(Qt::NoContextMenu);
-    this->setDragEnabled(true);
-    this->setAcceptDrops(true);
-    this->setDragDropMode(QAbstractItemView::DragDrop);
-    this->setDropIndicatorShown(true);
+//    this->setDragEnabled(true);
+//    this->setAcceptDrops(true);
+//    this->setDragDropMode(QAbstractItemView::DragDrop);
+//    this->setDropIndicatorShown(true);
     this->setSelectionMode(QAbstractItemView::SingleSelection);
     this->setCornerButtonEnabled(false);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);

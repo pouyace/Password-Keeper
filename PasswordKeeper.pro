@@ -16,8 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    customtablemodel.cpp \
-    customtableview.cpp \
     databasepassewordsetter.cpp \
     iteminsertiondialog.cpp \
     logindialog.cpp \
@@ -27,11 +25,10 @@ SOURCES += \
     passwordhandler.cpp \
     postgresqlverifier.cpp \
     styleditemdelegate.cpp \
+    tableview.cpp \
     user.cpp
 
 HEADERS += \
-    customtablemodel.h \
-    customtableview.h \
     databasepassewordsetter.h \
     iteminsertiondialog.h \
     logindialog.h \
@@ -40,6 +37,7 @@ HEADERS += \
     passwordhandler.h \
     postgresqlverifier.h \
     styleditemdelegate.h \
+    tableview.h \
     user.h
 
 FORMS += \

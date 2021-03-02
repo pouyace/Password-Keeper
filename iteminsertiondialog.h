@@ -14,9 +14,15 @@ class ItemInsertionDialog : public QDialog
 public:
     explicit ItemInsertionDialog(QWidget *parent = nullptr);
     ~ItemInsertionDialog();
-
+private slots:
+    void onInsertNewPassword();
 private:
     Ui::ItemInsertionDialog *ui;
+public slots:
+    void onInsertionResult(bool state);
+signals:
+    void newInsertionRequested(QString,QString,QString);
+
 };
 
 #endif // ITEMINSERTIONDIALOG_H

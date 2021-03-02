@@ -8,7 +8,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 #define DEFAULTDATABASEUSERNAME "postgres"
-#define DEFAULTDATABASEPASSWORD "12345"
+#define DEFAULTDATABASEPASSWORD "newpouya"
 
 class DataBasePassewordSetter;
 class PasswordHandler;
@@ -16,6 +16,7 @@ class LoginDialog;
 class PostgreSqlVerifier;
 class User;
 class QButtonGroup;
+class ItemInsertionDialog;
 class QTimer;
 class TableView;
 class MainWindow : public QMainWindow
@@ -38,6 +39,7 @@ private:
     QTimer                  *timer                        =  nullptr;
     DataBasePassewordSetter *databasePasswordSetterDialog =  nullptr;
     TableView               *tableView                    =  nullptr;
+    ItemInsertionDialog     *itemInsertionDialog          =  nullptr;
 
     //Methods
     void setupConnections();
@@ -45,6 +47,7 @@ private:
     void setupMainWindow();
 private slots:
     void updateDateAndTime();
+    void onInsertNewPassword();
     void connectToDatabase();
 public slots:
     void onSetSignedUser(User* user);

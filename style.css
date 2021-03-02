@@ -193,12 +193,12 @@ QHeaderView::section{
 /*    border:1px solid blue;*/
 }
 /******************************* Database Dialog *******************************/
-DataBasePassewordSetter{
+DataBasePassewordSetter,ItemInsertionDialog{
     background-color:rgba(40,40,40,0.8);
-    border:1px solid rgba(240,240,100,0.8);
-    border-radius:3px;
+    /*border:1px solid rgba(240,240,100,0.8);
+    border-radius:3px;*/
 }
-DataBasePassewordSetter QLineEdit{
+DataBasePassewordSetter QLineEdit,ItemInsertionDialog QLineEdit{
     border:1px solid #3daee9;
     padding:5px;
     background-color:#212121;
@@ -209,24 +209,24 @@ DataBasePassewordSetter QLineEdit{
 DataBasePassewordSetter QLabel.errorLabel{
     color:red;
 }
-DataBasePassewordSetter QLabel{
+DataBasePassewordSetter QLabel,ItemInsertionDialog QLabel{
     color:rgb(240,240,240);
 
 }
-DataBasePassewordSetter QPushButton{
+DataBasePassewordSetter QPushButton,ItemInsertionDialog QPushButton{
     background-color:#313131;
     border:1px solid rgb(65,87,140);
     border-radius:5px;
     font-weight:bold;
     color:rgb(200,200,200);
     padding:5px;
-    font-size:16px;
+    font-size:14px;
 }
-DataBasePassewordSetter QPushButton::hover{
+DataBasePassewordSetter QPushButton::hover,ItemInsertionDialog QPushButton::hover{
     background-color:rgb(65,87,140);
     color:rgb(230,230,230);
 }
-DataBasePassewordSetter QPushButton::pressed{
+DataBasePassewordSetter QPushButton::pressed,ItemInsertionDialog QPushButton::pressed{
     background-color:orange;
     border:none;
 }

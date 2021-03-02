@@ -1,5 +1,5 @@
 #include "styleditemdelegate.h"
-#include "customtableview.h"
+#include "tableview.h"
 #include <QDebug>
 #include <QLineEdit>
 #include <QLabel>

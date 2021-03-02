@@ -9,9 +9,10 @@
 #include "postgresqlverifier.h"
 #include "user.h"
 #include "singleitemoptionwidget.h"
-#include "customtableview.h"
+#include "tableview.h"
 #include "databasepassewordsetter.h"
 #include "passwordhandler.h"
+#include "iteminsertiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,6 +42,10 @@ void MainWindow::setupConnections()
     connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&MainWindow::updateDatabaseUserAndPass);
     connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialodClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
     connect(loginDialog,&LoginDialog::databaseIsNotConnected,this,&MainWindow::connectToDatabase);
+    connect(ui->newPasswords,&QToolButton::clicked,this,&MainWindow::onInsertNewPassword);
+    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&PostgreSqlVerifier::insertNewItem);
+    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
+
 }
 
 void MainWindow::initializeObjects()
@@ -51,6 +56,7 @@ void MainWindow::initializeObjects()
     tableView = new TableView(this);
     buttonGroup = new QButtonGroup(this);
     databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,loginDialog);
+    itemInsertionDialog = new ItemInsertionDialog(this);
 
     buttonGroup->setExclusive(true);
     buttonGroup->addButton(ui->myPasswordsToolButton,0);
@@ -65,7 +71,6 @@ void MainWindow::initializeObjects()
     timer->setTimerType(Qt::VeryCoarseTimer);
     ui->verticalLayout_6->addWidget(tableView);
     ui->searchLineEdit->setPlaceholderText("Search Passwords");
-
 }
 
 void MainWindow::connectToDatabase()
@@ -100,6 +105,12 @@ void MainWindow::updateDateAndTime()
 {
     ui->timeLabel->setText(QTime::currentTime().toString("h:mm:ss"));
     ui->dateLabel->setText(QDate::currentDate().toString());
+}
+
+void MainWindow::onInsertNewPassword()
+{
+    itemInsertionDialog->exec();
+
 }
 
 void MainWindow::onSetSignedUser(User *user)

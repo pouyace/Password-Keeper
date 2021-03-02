@@ -4,6 +4,7 @@
 #include <user.h>
 #include <passwordhandler.h>
 #include "password.h"
+#include <QMessageBox>
 
 PostgreSqlVerifier::PostgreSqlVerifier(QObject *parent):
     QObject(parent)
@@ -52,6 +53,10 @@ void PostgreSqlVerifier::verifyUser(const QString &username, const QString &pass
     QString query = "SELECT password,firstname,lastname,hint FROM users WHERE username = '" + username+"';";
 
     int state = this->execute(query);
+    if(_DataBase.lastError().text().length()){
+        qDebug()<<_DataBase.lastError().text();
+        QMessageBox::warning(nullptr,"error","found it");
+    }
     QString querryPassword = getValue("password").toString().toStdString().data();
     if(!state){
         emit errorOccured("Username not registered","");
@@ -69,6 +74,33 @@ void PostgreSqlVerifier::verifyUser(const QString &username, const QString &pass
     user->setName(querryFirstname,querryLastname);
     retrieveUserPasswords(this->frontUser);
     emit userSignedIn(this->frontUser);
+}
+
+bool PostgreSqlVerifier::insertNewItem(QString username, QString password, QString site)
+{
+    QString query = "insert into passwords values(nextval('order_item_id'),'" + username + "','" + password + "','" + site +"','"+
+            frontUser->username() + "');";
+    qDebug()<<query;
+    this->execute(query);
+    if(_DataBase.lastError().text().length()){
+        this->setError(Error::NoError);
+        emit newItemInserted(true);
+        return true;
+    }
+    else{
+        this->setError(Error::InsertinoError);
+        emit newItemInserted(false);
+        return false;
+    }
+}
+
+QString PostgreSqlVerifier::errorString()
+{
+    switch (_error) {
+    case Error::NoError: return "No Error";
+    case Error::InsertinoError: return "An Error occured during insertion";
+    }
+    return "NULL";
 }
 
 PostgreSqlVerifier::~PostgreSqlVerifier()
@@ -113,5 +145,10 @@ void PostgreSqlVerifier::retrieveUserPasswords(User* user)
         user->insertPassword(new Password(Qpass_id,Qusername,Qpassword,Qsite,user));
     }while(_Result.next());
 
+}
+
+void PostgreSqlVerifier::setError(PostgreSqlVerifier::Error error)
+{
+    _error = error;
 }
 
