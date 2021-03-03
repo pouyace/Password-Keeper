@@ -19,7 +19,7 @@ public:
 public slots:
     void verifyUser(const QString& username,const QString& password);
     bool addNewItemToDatabase(QString username,QString password,QString site);
-    void connectToDatabase(QString user, QString pass);
+    void connectToDatabase(QString user="", QString pass="");
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;

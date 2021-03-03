@@ -14,6 +14,8 @@ class ItemInsertionDialog : public QDialog
 public:
     explicit ItemInsertionDialog(QWidget *parent = nullptr);
     ~ItemInsertionDialog();
+protected:
+    virtual void closeEvent(QCloseEvent *) override;
 private slots:
     void onInsertNewPassword();
 private:

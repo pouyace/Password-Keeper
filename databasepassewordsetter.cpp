@@ -18,7 +18,11 @@ DataBasePassewordSetter::DataBasePassewordSetter(QString defaultUsername, QStrin
     });
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     this->setWindowFlag(Qt::FramelessWindowHint);
-
+    this->setTabOrder(ui->usernameLineEdit,ui->passwordLineEdit);
+    this->setTabOrder(ui->passwordLineEdit,ui->showPasswordCheckBox);
+    this->setTabOrder(ui->showPasswordCheckBox,ui->applyPushButton);
+    this->setTabOrder(ui->applyPushButton,ui->bikhialPushButton);
+    this->setTabOrder(ui->bikhialPushButton,ui->usernameLineEdit);
 }
 
 DataBasePassewordSetter::~DataBasePassewordSetter()

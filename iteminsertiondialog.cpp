@@ -9,11 +9,21 @@ ItemInsertionDialog::ItemInsertionDialog(QWidget *parent) :
     this->setWindowFlag(Qt::FramelessWindowHint);
     connect(ui->cancelPushButton,&QPushButton::clicked,this,&QDialog::close);
     connect(ui->inserPushButton,&QPushButton::clicked,this,&ItemInsertionDialog::onInsertNewPassword);
+    this->setTabOrder(ui->usernameLineEdit,ui->passwordLineEdit);
+    this->setTabOrder(ui->passwordLineEdit,ui->websiteLineEdit);
+    this->setTabOrder(ui->websiteLineEdit,ui->inserPushButton);
+    this->setTabOrder(ui->inserPushButton,ui->cancelPushButton);
+    this->setTabOrder(ui->cancelPushButton,ui->usernameLineEdit);
 }
 
 ItemInsertionDialog::~ItemInsertionDialog()
 {
     delete ui;
+}
+
+void ItemInsertionDialog::closeEvent(QCloseEvent *)
+{
+
 }
 
 void ItemInsertionDialog::onInsertNewPassword()
@@ -33,4 +43,7 @@ void ItemInsertionDialog::onInsertionResult(bool state)
     ui->cancelPushButton->setText("close");
     ui->resultLabel->setText("Item has been Added");
     ui->resultLabel->setStyleSheet("color:green");
+    ui->websiteLineEdit->clear();
+    ui->passwordLineEdit->clear();
+    ui->usernameLineEdit->clear();
 }

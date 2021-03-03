@@ -26,10 +26,12 @@ void UserController::userUniqueSitesCount()
     emit uniqueSitesCountChanged(_uniqueSites.count());
 }
 
-void UserController::emptyPasswordList()
+void UserController::emptyPasswordList(int state)
 {
-    qDeleteAll(_Passwords);
-    _Passwords.clear();
+    if(state){
+        qDeleteAll(_Passwords);
+        _Passwords.clear();
+    }
 }
 
 void UserController::onNewItemGot(Password *newPassword)

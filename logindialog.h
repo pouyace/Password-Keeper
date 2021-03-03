@@ -30,7 +30,7 @@ public slots:
     void onSetHint(QString hint);
 signals:
     void loginRequested(QString,QString);
-    void databaseIsNotConnected();
+    void databaseIsNotConnected(QString,QString);
 };
 
 #endif // LOGINDIALOG_H

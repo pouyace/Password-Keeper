@@ -96,10 +96,14 @@ void TableView::addNewItem(QList<Password*> passList)
           items.append(new QStandardItem(temp->getSite()));
           tableModel->appendRow(items);
           items.clear();
-          qDebug()<<tableModel->rowCount();
           for(int i=0;i<4;i++){
               QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
                 tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
             }
     }
+}
+
+void TableView::removeViewData()
+{
+    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
 }

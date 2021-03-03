@@ -35,7 +35,7 @@ void LoginDialog::onLoginButtonClicked()
         if(databaseState)
             emit loginRequested(username,password);
         else
-            emit databaseIsNotConnected();
+            emit databaseIsNotConnected("","");
     }
 }
 

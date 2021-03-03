@@ -23,6 +23,7 @@ protected:
 public slots:
     void onDataChanged(QStandardItem *item);
     void addNewItem(QList<Password*>);
+    void removeViewData();
 //    void deleteItem(int id);
 };
 

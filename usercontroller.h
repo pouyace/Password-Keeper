@@ -15,10 +15,10 @@ private:
     QList<Password*> _Passwords;
     QSet<QString>   _uniqueSites;
     //Methods
-    void emptyPasswordList();
     void userUniqueSitesCount();
     void userPasswordsCount();
 public slots:
+    void emptyPasswordList(int state);
     void onNewItemGot(Password* newPassword);
     void onItemsRetreived(QList<Password *> list);
 //    void removePassword(int id);
