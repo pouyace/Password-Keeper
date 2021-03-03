@@ -46,7 +46,7 @@ void MainWindow::setupConnections()
     connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&PostgreSqlVerifier::connectToDatabase);
 
     connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,databaseVerifier,&PostgreSqlVerifier::connectToDatabase);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialodClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
     connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,tableView,&TableView::removeViewData);
     connect(userController,&UserController::showItems,tableView,&TableView::addNewItem,Qt::UniqueConnection);
     connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,userController,&UserController::emptyPasswordList);

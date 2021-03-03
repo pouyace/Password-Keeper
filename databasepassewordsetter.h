@@ -24,7 +24,7 @@ public slots:
 signals:
     void databaseNewConfigSet(QString,QString);
     void bikhialState();
-    void dialodClosed();
+    void dialogClosed();
 };
 
 #endif // DATABASEPASSEWORDSETTER_H

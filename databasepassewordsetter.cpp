@@ -32,7 +32,7 @@ DataBasePassewordSetter::~DataBasePassewordSetter()
 
 void DataBasePassewordSetter::closeEvent(QCloseEvent *)
 {
-    emit dialodClosed();
+    emit dialogClosed();
 }
 
 void DataBasePassewordSetter::onApplyButton()
