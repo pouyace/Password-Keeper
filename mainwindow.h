@@ -14,6 +14,7 @@ class DataBasePassewordSetter;
 class PasswordHandler;
 class LoginDialog;
 class PostgreSqlVerifier;
+class UserController;
 class User;
 class QButtonGroup;
 class ItemInsertionDialog;
@@ -27,33 +28,29 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void raiseLoginPage();
-    bool isDataBaseConnected()const;
 private:
     Ui::MainWindow *ui;
-    bool isDatabaseConnected = false;
     PasswordHandler         *passwordHandler              =  nullptr;
     LoginDialog             *loginDialog                  =  nullptr;
     PostgreSqlVerifier      *databaseVerifier             =  nullptr;
-    User                    *user                         =  nullptr;
     QButtonGroup            *buttonGroup                  =  nullptr;
     QTimer                  *timer                        =  nullptr;
     DataBasePassewordSetter *databasePasswordSetterDialog =  nullptr;
+    UserController          *userController               =  nullptr;
     TableView               *tableView                    =  nullptr;
     ItemInsertionDialog     *itemInsertionDialog          =  nullptr;
 
     //Methods
     void setupConnections();
     void initializeObjects();
-    void setupMainWindow();
+    void setupProperties();
 private slots:
     void updateDateAndTime();
     void onInsertNewPassword();
-    void connectToDatabase();
 public slots:
-    void onSetSignedUser(User* user);
-    void updateDatabaseUserAndPass(QString user,QString pass);
+    void setupMainWindow(User *user);
 signals:
-    void databaseConnected(bool);
     void databaseDialogClosed();
+    void connectToDatabaseRequested(QString,QString);
 };
 #endif // MAINWINDOW_H

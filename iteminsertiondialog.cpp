@@ -23,12 +23,14 @@ void ItemInsertionDialog::onInsertNewPassword()
 
 void ItemInsertionDialog::onInsertionResult(bool state)
 {
-    if(state){
+    if(!state){
         ui->resultLabel->setText("Insertion was unsuccessful. An error occured");
         ui->resultLabel->setStyleSheet("color:red");
         ui->inserPushButton->setText("Try again");
         return;
     }
+    ui->inserPushButton->setVisible(false);
+    ui->cancelPushButton->setText("close");
     ui->resultLabel->setText("Item has been Added");
     ui->resultLabel->setStyleSheet("color:green");
 }

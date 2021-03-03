@@ -1,10 +1,6 @@
 #include "user.h"
-#include "postgresqlverifier.h"
-#include "password.h"
-#include <QSet>
-User::User(const QString& username,PostgreSqlVerifier *parent) :
+User::User(const QString& username,QObject *parent) :
     QObject(parent),
-    _verifier(parent),
     _username(username)
 {
 
@@ -26,38 +22,14 @@ QString User::username() const
     return _username;
 }
 
-void User::insertPassword(Password *password)
-{
-    _passwords.append(password);
-}
-
-int User::userPasswordsCount() const
-{
-    return _passwords.count();
-}
-
-int User::userSitesCount() const
-{
-    QSet<QString>sites;
-    QListIterator<Password*> passIt(_passwords);
-    while(passIt.hasNext()){
-        sites.insert(passIt.next()->getSite());
-    }
-    return sites.count();
-}
-
 QString User::prettyName() const
 {
-    if(!(_firstName.length() + _lastName.length())){
-        return _username;
+    if(_firstName.length() + _lastName.length()){
+        return _firstName + _lastName;
     }
     else{
-        return _firstName + _lastName;
+        return _username;
     }
 }
 
-QList<Password *> User::passwords() const
-{
-    return _passwords;
-}
 

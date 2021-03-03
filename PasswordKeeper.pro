@@ -26,7 +26,8 @@ SOURCES += \
     postgresqlverifier.cpp \
     styleditemdelegate.cpp \
     tableview.cpp \
-    user.cpp
+    user.cpp \
+    usercontroller.cpp
 
 HEADERS += \
     databasepassewordsetter.h \
@@ -38,7 +39,8 @@ HEADERS += \
     postgresqlverifier.h \
     styleditemdelegate.h \
     tableview.h \
-    user.h
+    user.h \
+    usercontroller.h
 
 FORMS += \
     databasepassewordsetter.ui \

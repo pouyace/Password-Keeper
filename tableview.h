@@ -12,18 +12,18 @@ class TableView : public QTableView
 public:
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
-    void loadTable(QList<Password *> passwords);
     void syncSize();
 private:
     int mHoverRow, mHoverColumn;
     QStandardItemModel  *tableModel = nullptr;
     StyledItemDelegate *specialDelegate = nullptr;
-    void append(QList<QStandardItem *> items);
     void setupProperties();
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
     void onDataChanged(QStandardItem *item);
+    void addNewItem(QList<Password*>);
+//    void deleteItem(int id);
 };
 
 #endif // PASSWORDTABLEVIEW_H

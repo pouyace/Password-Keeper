@@ -48,16 +48,10 @@ void LoginDialog::setDatabaseState(const bool& state)
     ui->passwordLineEdit->setEnabled(state);
 }
 
-void LoginDialog::setError(const QString &error, const QString &hint)
+void LoginDialog::setError(const QString &error)
 {
     ui->errorLabel->setText(error);
     ui->errorLabel->setVisible(true);
-    if(hint.length()){
-        ui->hintLabel->setVisible(true);
-        ui->hintLabel->setText("Password Hint:' "+hint+" '");
-    }
-    else
-        ui->hintLabel->setVisible(false);
 }
 
 void LoginDialog::onDatabaseDialogClosed()
@@ -65,5 +59,15 @@ void LoginDialog::onDatabaseDialogClosed()
     ui->loginPushButton->setEnabled(true);
     ui->usernameLineEdit->setEnabled(true);
     ui->passwordLineEdit->setEnabled(true);
+}
+
+void LoginDialog::onSetHint(QString hint)
+{
+    if(hint.length()){
+        ui->hintLabel->setVisible(true);
+        ui->hintLabel->setText("Password Hint:' "+hint+" '");
+    }
+    else
+        ui->hintLabel->setVisible(false);
 }
 

@@ -25,8 +25,9 @@ private slots:
     void onLoginButtonClicked();
 public slots:
     void setDatabaseState(const bool& state);
-    void setError(const QString& error, const QString& hint);
+    void setError(const QString& error);
     void onDatabaseDialogClosed();
+    void onSetHint(QString hint);
 signals:
     void loginRequested(QString,QString);
     void databaseIsNotConnected();

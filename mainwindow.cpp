@@ -12,6 +12,7 @@
 #include "tableview.h"
 #include "databasepassewordsetter.h"
 #include "passwordhandler.h"
+#include "usercontroller.h"
 #include "iteminsertiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,33 +32,52 @@ MainWindow::~MainWindow()
 void MainWindow::setupConnections()
 {
     connect(loginDialog,&LoginDialog::loginRequested,databaseVerifier,&PostgreSqlVerifier::verifyUser);
+    connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
+//    connect(loginDialog,&LoginDialog::databaseIsNotConnected,databaseVerifier,&PostgreSqlVerifier::connectToDatabase);
+
     connect(databaseVerifier,&PostgreSqlVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabaseState,Qt::UniqueConnection);
     connect(databaseVerifier,&PostgreSqlVerifier::errorOccured,loginDialog,&LoginDialog::setError);
-    connect(databaseVerifier,&PostgreSqlVerifier::userSignedIn,this,&MainWindow::onSetSignedUser);
+    connect(databaseVerifier,&PostgreSqlVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
+    connect(databaseVerifier,&PostgreSqlVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
+
+    connect(databaseVerifier,&PostgreSqlVerifier::passwordListRetreived,userController,&UserController::onItemsRetreived);
+
+    connect(databaseVerifier,&PostgreSqlVerifier::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
+    connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&PostgreSqlVerifier::connectToDatabase);
+
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,databaseVerifier,&PostgreSqlVerifier::connectToDatabase);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialodClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
+
+    connect(userController,&UserController::showItems,tableView,&TableView::addNewItem,Qt::UniqueConnection);
+
+    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&PostgreSqlVerifier::addNewItemToDatabase);
+    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
+    connect(ui->newPasswords,&QToolButton::clicked,this,&MainWindow::onInsertNewPassword);
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton,&QToolButton::clicked,this,&QMainWindow::close);
-    connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
-    connect(this,&MainWindow::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&MainWindow::updateDatabaseUserAndPass);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialodClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
-    connect(loginDialog,&LoginDialog::databaseIsNotConnected,this,&MainWindow::connectToDatabase);
-    connect(ui->newPasswords,&QToolButton::clicked,this,&MainWindow::onInsertNewPassword);
-    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&PostgreSqlVerifier::insertNewItem);
-    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
+    connect(userController,&UserController::passwordsCountChanged,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
+    connect(userController,&UserController::passwordsCountChanged,this,[=](int c){ui->totalPasswordsLabel->setNum(c);});
+    connect(userController,&UserController::uniqueSitesCountChanged,this,[=](int c){ui->totalSitesLabel->setNum(c);});
 
 }
 
 void MainWindow::initializeObjects()
 {
-    loginDialog = new LoginDialog(this);
-    databaseVerifier = new PostgreSqlVerifier(this);
-    timer = new QTimer(this);
-    tableView = new TableView(this);
-    buttonGroup = new QButtonGroup(this);
-    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,loginDialog);
-    itemInsertionDialog = new ItemInsertionDialog(this);
+    loginDialog                  = new LoginDialog          (this);
+    databaseVerifier             = new PostgreSqlVerifier   (this);
+    userController               = new UserController       (this);
+    tableView                    = new TableView            (this);
+    timer                        = new QTimer               (this);
+    buttonGroup                  = new QButtonGroup         (this);
+    itemInsertionDialog          = new ItemInsertionDialog  (this);
+    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD
+                                                               ,loginDialog);
 
+}
+
+void MainWindow::setupProperties()
+{
     buttonGroup->setExclusive(true);
     buttonGroup->addButton(ui->myPasswordsToolButton,0);
     buttonGroup->addButton(ui->passwordGeneratorToolButton,1);
@@ -73,33 +93,21 @@ void MainWindow::initializeObjects()
     ui->searchLineEdit->setPlaceholderText("Search Passwords");
 }
 
-void MainWindow::connectToDatabase()
-{
-    isDatabaseConnected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD,"PasswordKeeper");
-    emit databaseConnected(isDatabaseConnected);
-}
-
 void MainWindow::raiseLoginPage()
 {
     this->hide();
     loginDialog->show();
-    connectToDatabase();
+    emit connectToDatabaseRequested(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD);
 }
+void MainWindow::setupMainWindow(User *user)
+{
+    userController->setUser(user);
+    setupProperties();
 
-bool MainWindow::isDataBaseConnected() const
-{
-    return isDatabaseConnected;
-}
-void MainWindow::setupMainWindow()
-{
     loginDialog->hide();
-    this->showFullScreen();
-    tableView->loadTable(user->passwords());
+    this->showFullScreen();    
     tableView->syncSize();
-    ui->passwordsCountLabel->setText(QString::number(user->userPasswordsCount()) + " Passwords");
     ui->usernameLabel->setText(user->prettyName());
-    ui->totalPasswordsLabel->setNum(user->userPasswordsCount());
-    ui->totalSitesLabel->setNum(user->userSitesCount());
 }
 void MainWindow::updateDateAndTime()
 {
@@ -111,16 +119,4 @@ void MainWindow::onInsertNewPassword()
 {
     itemInsertionDialog->exec();
 
-}
-
-void MainWindow::onSetSignedUser(User *user)
-{
-    this->user = user;
-    this->setupMainWindow();
-}
-
-void MainWindow::updateDatabaseUserAndPass(QString user, QString pass)
-{
-    isDatabaseConnected = databaseVerifier->setupConfig(QHostAddress::LocalHost,5432,user,pass,"PasswordKeeper");
-    emit databaseConnected(isDatabaseConnected);
 }

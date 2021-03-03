@@ -1,6 +1,4 @@
 #include "tableview.h"
-#include "customtablemodel.h"
-#include "user.h"
 #include "password.h"
 #include <QDebug>
 #include <QHeaderView>
@@ -15,21 +13,6 @@ TableView::TableView(QWidget *parent):
     setupProperties();
 }
 
-void TableView::loadTable(QList<Password*> passwords)
-{
-    QListIterator<Password*> mItr(passwords);
-    QList<QStandardItem*> items;
-    while(mItr.hasNext()){
-        Password *temp = mItr.next();
-        items.clear();
-        items.append(new QStandardItem(temp->getPassId()));
-        items.append(new QStandardItem(temp->getUsername()));
-        items.append(new QStandardItem(temp->getPassword()));
-        items.append(new QStandardItem(temp->getSite()));
-        this->append(items);
-    }
-}
-
 void TableView::syncSize()
 {
     int w = this->width()/7;
@@ -39,15 +22,6 @@ void TableView::syncSize()
     this->setColumnWidth(3,w*2);
 }
 
-void TableView::append(QList<QStandardItem*> items)
-{
-    int row = tableModel->rowCount();
-    tableModel->appendRow(items);
-    for(int i=0;i<4;i++){
-        QModelIndex index = tableModel->index(row,i,QModelIndex());
-        tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
-    }
-}
 
 void TableView::setupProperties()
 {
@@ -108,4 +82,24 @@ void TableView::onDataChanged(QStandardItem* item)
 {
     qDebug()<<"Item on row "<<item->index().row()<<" and column "
            <<item->index().column()<<" changed to "<<item->index().data().toString();
+}
+
+void TableView::addNewItem(QList<Password*> passList)
+{
+    QListIterator<Password*>passIt(passList);
+    QList<QStandardItem*> items;
+    while(passIt.hasNext()){
+        Password* temp = passIt.next();
+          items.append(new QStandardItem(temp->getPassId()));
+          items.append(new QStandardItem(temp->getUsername()));
+          items.append(new QStandardItem(temp->getPassword()));
+          items.append(new QStandardItem(temp->getSite()));
+          tableModel->appendRow(items);
+          items.clear();
+          qDebug()<<tableModel->rowCount();
+          for(int i=0;i<4;i++){
+              QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
+                tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
+            }
+    }
 }
