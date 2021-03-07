@@ -3,7 +3,7 @@
 #include <QtSql/qsqlquery.h>
 #include <QtSql/qsqldatabase.h>
 #include <QObject>
-#include "password.h"
+#include "../Single/password.h"
 
 class User;
 class QHostAddress;

@@ -1,5 +1,5 @@
 #include "tableview.h"
-#include "password.h"
+#include "../Single/password.h"
 #include <QDebug>
 #include <QHeaderView>
 #include <QMouseEvent>

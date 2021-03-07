@@ -1,9 +1,9 @@
 #include "postgresqlverifier.h"
 #include <QHostAddress>
 #include <QtSql/QSqlError>
-#include <user.h>
-#include <passwordhandler.h>
-#include "password.h"
+#include "../Single/user.h"
+#include "../Handlers/passwordhandler.h"
+#include "../Single/password.h"
 #include <QMessageBox>
 
 PostgreSqlVerifier::PostgreSqlVerifier(QObject *parent):

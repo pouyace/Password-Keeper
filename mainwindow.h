@@ -20,6 +20,7 @@ class QButtonGroup;
 class ItemInsertionDialog;
 class QTimer;
 class TableView;
+class PasswordGenerator;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -39,6 +40,7 @@ private:
     UserController          *userController               =  nullptr;
     TableView               *tableView                    =  nullptr;
     ItemInsertionDialog     *itemInsertionDialog          =  nullptr;
+    PasswordGenerator       *generatorWidget              =  nullptr;
 
     //Methods
     void setupConnections();

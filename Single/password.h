@@ -12,9 +12,11 @@ public:
     QString getSite()const;
     QString getPassword()const;
     QString getUsername()const;
-    QString     getPassId()const;
+    QString getPassId()const;
+    QString getHashedPassword()const;
 private:
     QString passId;
+    QString hashedPassword;
     QString username;
     QString password;
     QString site;

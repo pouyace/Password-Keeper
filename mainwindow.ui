@@ -508,6 +508,9 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
          <widget class="QWidget" name="passwordsTableWidget">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
@@ -845,19 +848,7 @@
           </layout>
          </widget>
          <widget class="QWidget" name="passwordGeneratorWidget">
-          <widget class="QLabel" name="label_2">
-           <property name="geometry">
-            <rect>
-             <x>70</x>
-             <y>190</y>
-             <width>271</width>
-             <height>101</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Generator</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_7"/>
          </widget>
          <widget class="QWidget" name="exportPasswordWidget">
           <widget class="QLabel" name="label_3">
@@ -902,7 +893,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

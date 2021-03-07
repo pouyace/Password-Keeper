@@ -16,36 +16,51 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    databasepassewordsetter.cpp \
-    iteminsertiondialog.cpp \
-    logindialog.cpp \
+    GUI/databasepassewordsetter.cpp \
+    GUI/iteminsertiondialog.cpp \
+    GUI/loadingdialog.cpp \
+    GUI/logindialog.cpp \
+    GUI/passwordgenerator.cpp \
+    GUI/singleitemoptionwidget.cpp \
+    Handlers/passwordhandler.cpp \
+    Handlers/usercontroller.cpp \
+    Single/password.cpp \
+    Single/user.cpp \
+    Verifier/postgresqlverifier.cpp \
+    keygrabaction.cpp \
     main.cpp \
     mainwindow.cpp \
-    password.cpp \
-    passwordhandler.cpp \
-    postgresqlverifier.cpp \
-    styleditemdelegate.cpp \
-    tableview.cpp \
-    user.cpp \
-    usercontroller.cpp
+    private/keygrabactionobject.cpp \
+    table/customtablemodel.cpp \
+    table/styleditemdelegate.cpp \
+    table/tableview.cpp
 
 HEADERS += \
-    databasepassewordsetter.h \
-    iteminsertiondialog.h \
-    logindialog.h \
+    GUI/databasepassewordsetter.h \
+    GUI/iteminsertiondialog.h \
+    GUI/loadingdialog.h \
+    GUI/logindialog.h \
+    GUI/passwordgenerator.h \
+    GUI/singleitemoptionwidget.h \
+    Handlers/passwordhandler.h \
+    Handlers/usercontroller.h \
+    Single/password.h \
+    Single/user.h \
+    Verifier/postgresqlverifier.h \
+    keygrabaction.h \
     mainwindow.h \
-    password.h \
-    passwordhandler.h \
-    postgresqlverifier.h \
-    styleditemdelegate.h \
-    tableview.h \
-    user.h \
-    usercontroller.h
+    private/keygrabactionobject.h \
+    table/customtablemodel.h \
+    table/styleditemdelegate.h \
+    table/tableview.h
 
 FORMS += \
-    databasepassewordsetter.ui \
-    iteminsertiondialog.ui \
-    logindialog.ui \
+    GUI/databasepassewordsetter.ui \
+    GUI/iteminsertiondialog.ui \
+    GUI/loadingdialog.ui \
+    GUI/logindialog.ui \
+    GUI/passwordgenerator.ui \
+    GUI/singleitemoptionwidget.ui \
     mainwindow.ui
 
 # Default rules for deployment.

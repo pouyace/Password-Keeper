@@ -1,5 +1,5 @@
 #include "usercontroller.h"
-#include "password.h"
+#include "../Single/password.h"
 #include <QDebug>
 
 UserController::UserController(QObject *parent, User *user)

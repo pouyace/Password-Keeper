@@ -32,3 +32,8 @@ QString Password::getPassId() const
     return passId;
 }
 
+QString Password::getHashedPassword() const
+{
+    return hashedPassword;
+}
+

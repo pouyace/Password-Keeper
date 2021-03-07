@@ -5,15 +5,16 @@
 #include <QTableWidget>
 #include <QDateTime>
 #include <QButtonGroup>
-#include "logindialog.h"
-#include "postgresqlverifier.h"
-#include "user.h"
-#include "singleitemoptionwidget.h"
-#include "tableview.h"
-#include "databasepassewordsetter.h"
-#include "passwordhandler.h"
-#include "usercontroller.h"
-#include "iteminsertiondialog.h"
+#include "GUI/logindialog.h"
+#include "Verifier/postgresqlverifier.h"
+#include "Single/user.h"
+#include "GUI/singleitemoptionwidget.h"
+#include "table/tableview.h"
+#include "GUI/databasepassewordsetter.h"
+#include "Handlers/passwordhandler.h"
+#include "Handlers/usercontroller.h"
+#include "GUI/passwordgenerator.h"
+#include "GUI/iteminsertiondialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     initializeObjects();
     setupConnections();
+    PasswordHandler a(this);
+    a.GeneratePassword(20,PasswordHandler::SpecialChars | PasswordHandler::symbols | PasswordHandler::UpperCases | PasswordHandler::Numbers,2);
 }
 
 MainWindow::~MainWindow()
@@ -71,6 +74,7 @@ void MainWindow::initializeObjects()
     timer                        = new QTimer               (this);
     buttonGroup                  = new QButtonGroup         (this);
     itemInsertionDialog          = new ItemInsertionDialog  (this);
+    generatorWidget              = new PasswordGenerator    (this);
     databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD
                                                                ,loginDialog);
 
@@ -90,6 +94,7 @@ void MainWindow::setupProperties()
     timer->start(1000);
     timer->setTimerType(Qt::VeryCoarseTimer);
     ui->verticalLayout_6->addWidget(tableView);
+    ui->verticalLayout_7->addWidget(generatorWidget);
     ui->searchLineEdit->setPlaceholderText("Search Passwords");
 }
 
