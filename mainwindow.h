@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+#include "keygrabaction.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,9 +21,10 @@ class ItemInsertionDialog;
 class QTimer;
 class TableView;
 class PasswordGenerator;
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, public KeyGrabAction
 {
     Q_OBJECT
+    KEYGRABACTION
 
 public:
     MainWindow(QWidget *parent = nullptr);

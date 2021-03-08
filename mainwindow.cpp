@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QHostAddress>
 #include <QTimer>
-#include <QTableWidget>
 #include <QDateTime>
 #include <QButtonGroup>
 #include "GUI/logindialog.h"
@@ -24,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     initializeObjects();
     setupConnections();
     PasswordHandler a(this);
-    a.GeneratePassword(20,PasswordHandler::SpecialChars | PasswordHandler::symbols | PasswordHandler::UpperCases | PasswordHandler::Numbers,2);
+//    a.GeneratePassword(20,PasswordHandler::SpecialChars | PasswordHandler::symbols | PasswordHandler::UpperCases | PasswordHandler::Numbers,2);
 }
 
 MainWindow::~MainWindow()

@@ -44,6 +44,7 @@ HEADERS += \
     GUI/singleitemoptionwidget.h \
     Handlers/passwordhandler.h \
     Handlers/usercontroller.h \
+    Single/ObjectTypes.h \
     Single/password.h \
     Single/user.h \
     Verifier/postgresqlverifier.h \

@@ -230,7 +230,13 @@ DataBasePassewordSetter QPushButton::pressed,ItemInsertionDialog QPushButton::pr
     background-color:orange;
     border:none;
 }
-
+PasswordGenerator QWidget.widget{
+    background-color:rgb(30,30,30);
+}
+PasswordGenerator QLabel{
+    font:10pt "Lucida Bright";
+    color:white;
+}
 
 
 

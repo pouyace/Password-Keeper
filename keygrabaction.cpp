@@ -98,6 +98,7 @@ int KeyGrabAction::maximumWaitTime() const
 
 void KeyGrabAction::keyReleaseEvent(QKeyEvent *event)
 {
+    qDebug()<<event->text();
     if(d->timer.elapsed() > d->waitTime){
         d->buffer = "";
     }

@@ -154,11 +154,11 @@ void PasswordHandler::feedPalletWithSymbols(bool set)
 
 }
 
-void PasswordHandler::GeneratePassword(const int &length, Options type, int count)
+void PasswordHandler::GeneratePassword(const Options &options,const FeaturesData &features,const OptionFalgs &optionFlags)
 {
-    setPasswordType(type);
-    setPasswordLength(length);
-    setPasswordCount(count);
+    setPasswordType(options);
+    setPasswordLength(features.length);
+    setPasswordCount(features.count);
     buildPasswords();
     viewPassword();
 }

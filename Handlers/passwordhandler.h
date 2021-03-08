@@ -2,6 +2,7 @@
 #define PASSWORDHANDLER_H
 #include <QCryptographicHash>
 #include <QObject>
+#include "../Single/ObjectTypes.h"
 class Password;
 class PasswordHandler:public QObject
 {
@@ -54,7 +55,7 @@ private:
     void feedPalletWithSpecialChars(bool set);
     void feedPalletWithSymbols(bool set);
 public slots:
-    void GeneratePassword(const int& length, Options type, int count);
+    void GeneratePassword(const Options &options, const FeaturesData &features, const OptionFalgs &optionFlags);
     QString decodePassword(QByteArray pass);
 
 signals:
