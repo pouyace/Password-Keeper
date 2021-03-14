@@ -19,26 +19,26 @@ QString PasswordHandler::getHashedPassword(QString pass)
 
 void PasswordHandler::setPasswordType(Options type)
 {
-    if(orderedPasswordType != type){
-        orderedPasswordType = type;
-        emit passwordTypeUpdated(orderedPasswordType);
+    if(info.orderedPasswordType != type){
+        info.orderedPasswordType = type;
+        emit passwordTypeUpdated(info.orderedPasswordType);
     }
 }
 
 void PasswordHandler::setPasswordLength(const int &length)
 {
-    if(orderedPasswordLength != length){
-        orderedPasswordLength = length;
+    if(info.orderedPasswordLength != length){
+        info.orderedPasswordLength = length;
     }
-    emit passwordLengthUpdated(orderedPasswordLength);
+    emit passwordLengthUpdated(info.orderedPasswordLength);
 }
 
 void PasswordHandler::setPasswordCount(const int &count)
 {
-    if(orderedPasswordCount != count){
-        orderedPasswordCount= count;
+    if(info.orderedPasswordCount != count){
+        info.orderedPasswordCount= count;
     }
-    emit passwordCountUpdated(orderedPasswordCount);
+    emit passwordCountUpdated(info.orderedPasswordCount);
 }
 
 void PasswordHandler::shufflePallet(int repeat)
@@ -71,19 +71,19 @@ void PasswordHandler::viewPallet()
 void PasswordHandler::viewPassword()
 {
     qDebug()<<"--------------------------------- View Password ---------------------------------";
-        for(int i=0;i<orderedPasswordCount;i++){
+        for(int i=0;i<info.orderedPasswordCount;i++){
             qDebug()<<"Password:"<<passwordList[i]->string<<'\t'<<passwordList[i]->byteArray;
         }
 }
 void PasswordHandler::makePassword(int index)
 {
     srand(time(NULL));
-    while(passwordObject.string.length() != orderedPasswordLength){
+    while(passwordObject.string.length() != info.orderedPasswordLength){
         int index = rand()%palletSize();
         passwordObject.string.append(_Pallet.value(index));
     }
     qDebug()<<passwordObject.string;
-    _Hash.addData(passwordObject.string.toStdString().c_str(),orderedPasswordLength);
+    _Hash.addData(passwordObject.string.toStdString().c_str(),info.orderedPasswordLength);
     passwordObject.byteArray = _Hash.result().toHex();
 }
 
@@ -170,15 +170,15 @@ QString PasswordHandler::decodePassword(QByteArray pass)
 
 void PasswordHandler::feedPallet()
 {
-    bool a = (LowerCases & orderedPasswordType);
+    bool a = (LowerCases & info.orderedPasswordType);
     _Pallet.clear();
-    _Pallet.reserve(orderedPasswordLength);
+    _Pallet.reserve(info.orderedPasswordLength);
 
-    feedPalletWithLowers(orderedPasswordType.testFlag(LowerCases));
-    feedPalletWithUppers(orderedPasswordType.testFlag(UpperCases));
-    feedPalletWithNumbers(orderedPasswordType.testFlag(Numbers));
-    feedPalletWithSymbols(orderedPasswordType.testFlag(symbols));
-    feedPalletWithSpecialChars(orderedPasswordType.testFlag(SpecialChars));
+    feedPalletWithLowers(info.orderedPasswordType.testFlag(LowerCases));
+    feedPalletWithUppers(info.orderedPasswordType.testFlag(UpperCases));
+    feedPalletWithNumbers(info.orderedPasswordType.testFlag(Numbers));
+    feedPalletWithSymbols(info.orderedPasswordType.testFlag(symbols));
+    feedPalletWithSpecialChars(info.orderedPasswordType.testFlag(SpecialChars));
 
 }
 
@@ -188,7 +188,7 @@ void PasswordHandler::buildPasswords()
     qDeleteAll(passwordList);
     passwordList.clear();
     int counter = 0;
-    while(orderedPasswordCount != counter){
+    while(info.orderedPasswordCount != counter){
         passwordObject.string = "";
         passwordObject.byteArray = 0;
         shufflePallet();

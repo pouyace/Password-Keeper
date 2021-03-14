@@ -15,9 +15,11 @@ public:
     PasswordHandler(QObject *parent);
     QString getHashedPassword(QString pass);
 private:
+    struct orderInfo{
     int orderedPasswordCount = 0;
     Options orderedPasswordType;
     int orderedPasswordLength = 0;
+    }info;
     QCryptographicHash _Hash;
     QList <char> _Pallet;
     struct PasswordObject{

@@ -23,6 +23,7 @@ private:
     // Methods
     void updateTypes();
     void updateFlags();
+    void restoreDefaults();
     void updateFeatures();
 public slots:
     void onGenerateClicked();

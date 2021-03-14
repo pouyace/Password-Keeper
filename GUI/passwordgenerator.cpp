@@ -40,6 +40,21 @@ void PasswordGenerator::updateFlags()
     optionFlags.noSeqChars = ui->sequentialCheckBox->isChecked();
 }
 
+void PasswordGenerator::restoreDefaults()
+{
+    ui->tableWidget->clear();
+    ui->SPSCheckBox->setChecked(false);
+    ui->duplicateCheckBox->setChecked(false);
+    ui->sequentialCheckBox->setChecked(false);
+    ui->knownWordsCheckBox->setChecked(false);
+    ui->includeLineEdit->clear();
+    ui->excludeLineEdit->clear();
+    ui->passwordLengthSpinBox->setValue(1);
+    ui->passwordLengthSpinBox->setValue(1);
+    ui->ambiguousCharsCheckBox->setChecked(false);
+
+}
+
 void PasswordGenerator::updateFeatures()
 {
     featureData.count = ui->passwordCountSpinBox->value();
@@ -53,7 +68,6 @@ void PasswordGenerator::onGenerateClicked()
     updateFlags();
     updateFeatures();
     updateTypes();
-    ui->ouputTextEdit->clear();
     emit passwordGeneratingRequested(options,featureData,optionFlags);
 }
 

@@ -79,6 +79,12 @@ void MainWindow::initializeObjects()
 
 }
 
+void MainWindow::setKeyGrabber()
+{
+    QAction *action;
+
+}
+
 void MainWindow::setupProperties()
 {
     buttonGroup->setExclusive(true);

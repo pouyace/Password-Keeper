@@ -46,6 +46,7 @@ private:
     //Methods
     void setupConnections();
     void initializeObjects();
+    void setKeyGrabber();
     void setupProperties();
 private slots:
     void updateDateAndTime();
