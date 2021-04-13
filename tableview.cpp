@@ -1,5 +1,5 @@
 #include "tableview.h"
-#include "../Single/password.h"
+#include "password.h"
 #include <QDebug>
 #include <QHeaderView>
 #include <QMouseEvent>
@@ -16,10 +16,10 @@ TableView::TableView(QWidget *parent):
 void TableView::syncSize()
 {
     int w = this->width()/7;
-    this->setColumnWidth(Pass_Id_col,w);
-    this->setColumnWidth(Username_col,w*2);
-    this->setColumnWidth(Password_col,w*2);
-    this->setColumnWidth(Site_col,w*2);
+    this->setColumnWidth(0,w);
+    this->setColumnWidth(1,w*2);
+    this->setColumnWidth(2,w*2);
+    this->setColumnWidth(3,w*2);
 }
 
 
@@ -42,11 +42,15 @@ void TableView::setupProperties()
     specialDelegate = new StyledItemDelegate();
     this->setModel(tableModel);
     this->setItemDelegate(specialDelegate);
+    /*
+    this->setItemDelegateForColumn(1,specialDelegate);
+    this->setItemDelegateForColumn(2,specialDelegate);
+    this->setItemDelegateForColumn(3,specialDelegate);*/
 
-    tableModel->setHeaderData(Pass_Id_col,Qt::Horizontal,tr("Pass Id"));
-    tableModel->setHeaderData(Username_col,Qt::Horizontal,tr("Username"));
-    tableModel->setHeaderData(Password_col,Qt::Horizontal,tr("Password"));
-    tableModel->setHeaderData(Site_col,Qt::Horizontal,tr("Site"));
+    tableModel->setHeaderData(0,Qt::Horizontal,tr("Pass Id"));
+    tableModel->setHeaderData(1,Qt::Horizontal,tr("Username"));
+    tableModel->setHeaderData(2,Qt::Horizontal,tr("Password"));
+    tableModel->setHeaderData(3,Qt::Horizontal,tr("Site"));
 
     connect(tableModel,&QStandardItemModel::itemChanged,this,&TableView::onDataChanged);
 
@@ -80,26 +84,16 @@ void TableView::onDataChanged(QStandardItem* item)
            <<item->index().column()<<" changed to "<<item->index().data().toString();
 }
 
-void TableView::addNewItem(QList<Password*> passList)
+void TableView::addNewItem(Password *temp)
 {
-    QListIterator<Password*>passIt(passList);
     QList<QStandardItem*> items;
-    while(passIt.hasNext()){
-        Password* temp = passIt.next();
-          items.append(new QStandardItem(temp->getPassId()));
-          items.append(new QStandardItem(temp->getUsername()));
-          items.append(new QStandardItem(temp->getPassword()));
-          items.append(new QStandardItem(temp->getSite()));
-          tableModel->appendRow(items);
-          items.clear();
-          for(int i=0;i<4;i++){
-              QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
-                tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
-            }
+    items.append(new QStandardItem(temp->getPassId()));
+    items.append(new QStandardItem(temp->getUsername()));
+    items.append(new QStandardItem(temp->getPassword()));
+    items.append(new QStandardItem(temp->getSite()));
+    tableModel->appendRow(items);
+    for(int i=0;i<4;i++){
+        QModelIndex index = tableModel->index(tableModel->rowCount(),i,QModelIndex());
+        tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
     }
-}
-
-void TableView::removeViewData()
-{
-    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
 }

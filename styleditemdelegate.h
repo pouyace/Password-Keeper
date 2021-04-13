@@ -2,6 +2,7 @@
 #define STYLEDITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
+
 class StyledItemDelegate : public QStyledItemDelegate
 {
 public:

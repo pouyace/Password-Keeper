@@ -10,7 +10,6 @@ class TableView : public QTableView
 {
     Q_OBJECT
 public:
-    enum TableHeader{Pass_Id_col, Username_col, Password_col, Site_col};
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
     void syncSize();
@@ -23,9 +22,8 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
     void onDataChanged(QStandardItem *item);
-    void addNewItem(QList<Password*>);
-    void removeViewData();
-//    void deleteItem(int id);
+    void addNewItem(Password*);
+    void deleteItem(int id);
 };
 
 #endif // PASSWORDTABLEVIEW_H
