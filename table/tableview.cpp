@@ -4,7 +4,9 @@
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QStandardItemModel>
+#include <QMenu>
 #include "styleditemdelegate.h"
+#include <QMessageBox>
 TableView::TableView(QWidget *parent):
     QTableView(parent)
     , mHoverRow(-1)
@@ -25,7 +27,7 @@ void TableView::syncSize()
 
 void TableView::setupProperties()
 {
-    this->setContextMenuPolicy(Qt::NoContextMenu);
+//    this->setContextMenuPolicy(Qt::NoContextMenu);
 //    this->setDragEnabled(true);
 //    this->setAcceptDrops(true);
 //    this->setDragDropMode(QAbstractItemView::DragDrop);
@@ -49,6 +51,16 @@ void TableView::setupProperties()
     tableModel->setHeaderData(Site_col,Qt::Horizontal,tr("Site"));
 
     connect(tableModel,&QStandardItemModel::itemChanged,this,&TableView::onDataChanged);
+
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this,&TableView::customContextMenuRequested,this,&TableView::onCustomContextMenu);
+
+    mainMenu = new QMenu(this);
+    mainMenu->addAction("Edit",this,&TableView::contextMenuEditAction);
+    mainMenu->addAction("Remove",this,&TableView::contextMenuRemoveAction);
+    mainMenu->addAction("Details",this,&TableView::contextMenuDetailsAction);
+
+
 
 }
 
@@ -102,4 +114,46 @@ void TableView::addNewItem(QList<Password*> passList)
 void TableView::removeViewData()
 {
     tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
+}
+
+void TableView::onCustomContextMenu(const QPoint &position)
+{
+    point = position;
+    mainMenu->popup(mapToGlobal(position));
+}
+
+void TableView::contextMenuEditAction()
+{
+
+}
+
+void TableView::contextMenuRemoveAction()
+{
+    int row = this->indexAt(point).row();
+    qDebug()<<"ajal:"<<row;
+    int id = tableModel->index(row,0,QModelIndex()).data().toInt();
+    qDebug()<<"id="<<id;
+    QMessageBox messageBox;
+    messageBox.setWindowFlag(Qt::FramelessWindowHint);
+    messageBox.setText("Deleting index '"+QString::number(id)+"' permanently");
+    messageBox.setInformativeText("Are you sure about this?");
+    messageBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    messageBox.setDefaultButton(QMessageBox::Yes);
+    int retVal = messageBox.exec();
+
+    switch (retVal) {
+        case QMessageBox::Yes:
+            emit deleteItemUsingId(id);
+            qDebug()<<"wowowowowow";
+            break;
+        case QMessageBox::Cancel:
+            break;
+        default:
+            break;
+    }
+}
+
+void TableView::contextMenuDetailsAction()
+{
+
 }

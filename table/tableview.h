@@ -18,6 +18,8 @@ private:
     int mHoverRow, mHoverColumn;
     QStandardItemModel  *tableModel = nullptr;
     StyledItemDelegate *specialDelegate = nullptr;
+    QMenu *mainMenu = nullptr;
+    QPoint point ;
     void setupProperties();
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -25,6 +27,13 @@ public slots:
     void onDataChanged(QStandardItem *item);
     void addNewItem(QList<Password*>);
     void removeViewData();
+    void onCustomContextMenu(const QPoint &position);
+private slots:
+    void contextMenuEditAction();
+    void contextMenuRemoveAction();
+    void contextMenuDetailsAction();
+signals:
+    void deleteItemUsingId(int);
 //    void deleteItem(int id);
 };
 

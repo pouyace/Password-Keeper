@@ -8,7 +8,9 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 #define DEFAULTDATABASEUSERNAME "postgres"
-#define DEFAULTDATABASEPASSWORD "12345"
+#define DEFAULTDATABASEPASSWORD "newpouya"
+// 12345
+//newpouya
 
 class DataBasePassewordSetter;
 class PasswordHandler;
