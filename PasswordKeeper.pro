@@ -21,6 +21,7 @@ SOURCES += \
     GUI/loadingdialog.cpp \
     GUI/logindialog.cpp \
     GUI/passwordgenerator.cpp \
+    GUI/passwordtablewidget.cpp \
     Handlers/passwordhandler.cpp \
     Handlers/usercontroller.cpp \
     Single/password.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     GUI/loadingdialog.h \
     GUI/logindialog.h \
     GUI/passwordgenerator.h \
+    GUI/passwordtablewidget.h \
     Handlers/passwordhandler.h \
     Handlers/usercontroller.h \
     Single/ObjectTypes.h \
@@ -59,6 +61,7 @@ FORMS += \
     GUI/loadingdialog.ui \
     GUI/logindialog.ui \
     GUI/passwordgenerator.ui \
+    GUI/passwordtablewidget.ui \
     mainwindow.ui
 
 # Default rules for deployment.

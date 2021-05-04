@@ -8,7 +8,10 @@ class Password:public QObject
     Q_OBJECT
 public:
     Password(QString passId, QString username, QString password, QString site, QObject *parent);
+    Password(QString username, QString password, QString site, QObject *parent = nullptr);
     ~Password();
+    void setHashedPassword(QString hashedPassword);
+    void setPasswordId(QString id);
     QString getSite()const;
     QString getPassword()const;
     QString getUsername()const;

@@ -2,6 +2,7 @@
 #define USER_H
 
 #include <QObject>
+#include "password.h"
 
 class User : public QObject
 {

@@ -16,9 +16,9 @@ public:
     void syncSize();
 private:
     int mHoverRow, mHoverColumn;
-    QStandardItemModel  *tableModel = nullptr;
-    StyledItemDelegate *specialDelegate = nullptr;
-    QMenu *mainMenu = nullptr;
+    QStandardItemModel  *tableModel          = nullptr;
+    StyledItemDelegate  *specialDelegate     = nullptr;
+    QMenu               *mainMenu            = nullptr;
     QPoint point ;
     void setupProperties();
 protected:
@@ -27,8 +27,8 @@ public slots:
     void onDataChanged(QStandardItem *item);
     void addNewItem(QList<Password*>);
     void removeViewData();
-    void onCustomContextMenu(const QPoint &position);
 private slots:
+    void onCustomContextMenu(const QPoint &position);
     void contextMenuEditAction();
     void contextMenuRemoveAction();
     void contextMenuDetailsAction();

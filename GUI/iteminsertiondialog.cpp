@@ -23,12 +23,16 @@ ItemInsertionDialog::~ItemInsertionDialog()
 
 void ItemInsertionDialog::closeEvent(QCloseEvent *)
 {
-
+    ui->resultLabel->clear();
+    ui->websiteLineEdit->clear();
+    ui->passwordLineEdit->clear();
+    ui->usernameLineEdit->clear();
 }
 
 void ItemInsertionDialog::onInsertNewPassword()
 {
-    emit newInsertionRequested(ui->usernameLineEdit->text(),ui->passwordLineEdit->text(),ui->websiteLineEdit->text());
+    Password *newPass = new Password(ui->usernameLineEdit->text(), ui->passwordLineEdit->text(),ui->websiteLineEdit->text());
+    emit newInsertionRequested(newPass);
 }
 
 void ItemInsertionDialog::onInsertionResult(bool state)
@@ -39,7 +43,6 @@ void ItemInsertionDialog::onInsertionResult(bool state)
         ui->inserPushButton->setText("Try again");
         return;
     }
-    ui->inserPushButton->setVisible(false);
     ui->cancelPushButton->setText("close");
     ui->resultLabel->setText("Item has been Added");
     ui->resultLabel->setStyleSheet("color:green");

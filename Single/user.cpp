@@ -32,4 +32,3 @@ QString User::prettyName() const
     }
 }
 
-

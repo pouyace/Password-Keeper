@@ -7,6 +7,12 @@ Password::Password(QString passId, QString username, QString password, QString s
 
 }
 
+Password::Password(QString username, QString password, QString site, QObject *parent):
+    QObject(parent), username(username), password(password), site(site)
+{
+
+}
+
 Password::~Password()
 {
 

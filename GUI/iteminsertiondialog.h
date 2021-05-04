@@ -2,11 +2,10 @@
 #define ITEMINSERTIONDIALOG_H
 
 #include <QDialog>
-
+#include "Single/password.h"
 namespace Ui {
 class ItemInsertionDialog;
 }
-
 class ItemInsertionDialog : public QDialog
 {
     Q_OBJECT
@@ -23,7 +22,7 @@ private:
 public slots:
     void onInsertionResult(bool state);
 signals:
-    void newInsertionRequested(QString,QString,QString);
+    void newInsertionRequested(Password*);
 
 };
 
