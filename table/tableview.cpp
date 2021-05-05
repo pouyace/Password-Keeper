@@ -94,6 +94,7 @@ void TableView::onDataChanged(QStandardItem* item)
 
 void TableView::addNewItem(QList<Password*> passList)
 {
+    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
     QListIterator<Password*>passIt(passList);
     QList<QStandardItem*> items;
     while(passIt.hasNext()){
@@ -109,11 +110,6 @@ void TableView::addNewItem(QList<Password*> passList)
                 tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
             }
     }
-}
-
-void TableView::removeViewData()
-{
-    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
 }
 
 void TableView::onCustomContextMenu(const QPoint &position)
@@ -143,8 +139,7 @@ void TableView::contextMenuRemoveAction()
 
     switch (retVal) {
         case QMessageBox::Yes:
-            emit deleteItemUsingId(id);
-            qDebug()<<"wowowowowow";
+            emit deleteItem(id);
             break;
         case QMessageBox::Cancel:
             break;

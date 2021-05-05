@@ -7,10 +7,6 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-// 12345
-//newpouya
-
-class PasswordHandler;
 class LoginDialog;
 class PostgreSqlVerifier;
 class UserController;
@@ -28,12 +24,12 @@ public:
     void raiseLoginPage();
 private:
     Ui::MainWindow *ui;
-    PasswordHandler         *passwordHandler              =  nullptr;
     LoginDialog             *loginDialog                  =  nullptr;
     PostgreSqlVerifier      *databaseVerifier             =  nullptr;
+    UserController          *userController               =  nullptr;
+
     QButtonGroup            *buttonGroup                  =  nullptr;
     QTimer                  *timer                        =  nullptr;
-    UserController          *userController               =  nullptr;
 
     //Methods
     void setupConnections();

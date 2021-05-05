@@ -7,11 +7,6 @@ UserController::UserController(QObject *parent, User *user)
 
 }
 
-void UserController::userPasswordsCount()
-{
-    emit passwordsCountChanged(_Passwords.count());
-}
-
 void UserController::setUser(User *user)
 {
     this->_user = user;
@@ -19,35 +14,21 @@ void UserController::setUser(User *user)
 
 void UserController::userUniqueSitesCount()
 {
-    QListIterator<Password*> passIt(_Passwords);
+    QMapIterator<int,Password*> passIt(_PasswordContainer);
+    _uniqueSites.clear();
     while(passIt.hasNext()){
-        _uniqueSites.insert(passIt.next()->getSite());
+        passIt.next();
+        _uniqueSites.insert(passIt.value()->getSite());
     }
-    emit uniqueSitesCountChanged(_uniqueSites.count());
+    emit uniqueSitesCountUpdated(_uniqueSites.count());
 }
 
-void UserController::emptyPasswordList(int state)
+void UserController::onItemsRetreived(QMap<int,Password*> list)
 {
-    if(state){
-        qDeleteAll(_Passwords);
-        _Passwords.clear();
-    }
-}
-
-void UserController::onNewItemGot(Password *newPassword)
-{
-    QList<Password*> pass;
-    pass.append(newPassword);
-    _Passwords.append(pass);
-    emit showItems(pass);
+    qDeleteAll(_PasswordContainer.values());
+    _PasswordContainer.clear();
+    _PasswordContainer = list;
+    emit showItems(_PasswordContainer.values());
     userUniqueSitesCount();
-    userPasswordsCount();
-}
-
-void UserController::onItemsRetreived(QList<Password*> list)
-{
-    _Passwords.append(list);
-    emit showItems(list);
-    userUniqueSitesCount();
-    userPasswordsCount();
+    emit passwordsCountUpdated(_PasswordContainer.count());
 }

@@ -1,6 +1,7 @@
 #ifndef USERCONTROLLER_H
 #define USERCONTROLLER_H
 #include <QSet>
+#include <QMap>
 #include <QObject>
 class User;
 class Password;
@@ -12,21 +13,17 @@ public:
     void setUser(User* user);
 private:
     User* _user = nullptr;
-    QList<Password*> _Passwords;
     QSet<QString>   _uniqueSites;
+    QMap <int,Password*>_PasswordContainer;
     //Methods
     void userUniqueSitesCount();
-    void userPasswordsCount();
 public slots:
-    void emptyPasswordList(int state);
-    void onNewItemGot(Password* newPassword);
-    void onItemsRetreived(QList<Password *> list);
-//    void removePassword(int id);
+    void onItemsRetreived(QMap<int, Password *> list);
 signals:
     void showItems(QList<Password*>);
-    void passwordsCountChanged(int);
-    void uniqueSitesCountChanged(int);
-//    void itemDeleted(int id);
+    void removeItem();
+    void passwordsCountUpdated(int);
+    void uniqueSitesCountUpdated(int);
 };
 
 #endif // USERCONTROLLER_H

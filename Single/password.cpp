@@ -43,3 +43,8 @@ QString Password::getHashedPassword() const
     return hashedPassword;
 }
 
+int Password::id() const
+{
+    return passId.toInt();
+}
+

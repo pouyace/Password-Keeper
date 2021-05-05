@@ -4,9 +4,13 @@
 #include <QtSql/qsqldatabase.h>
 #include <QObject>
 #include "../Single/password.h"
+#include <QMap>
 
 #define DEFAULTDATABASEUSERNAME "postgres"
 #define DEFAULTDATABASEPASSWORD "newpouya"
+
+// 12345
+//newpouya
 
 class User;
 class QHostAddress;
@@ -17,7 +21,7 @@ class PostgreSqlVerifier:public QObject
 {
     Q_OBJECT
 public:
-    enum Error{NoError,InsertinoError,LoginError,UsernameNotRegistered,WrongPassword,DatabaseNotOpen};
+    enum Error{NoError,InsertinoError,LoginError,UsernameNotRegistered,WrongPassword,DatabaseNotOpen, DeletionError};
     PostgreSqlVerifier(QObject* parent);
     ~PostgreSqlVerifier();
 public slots:
@@ -45,13 +49,21 @@ private:
     QString errorString();
     void setupProperties();
 signals:
+    // Sync: 1.login 2.insert 3.remove
     void syncRequested();
     void tableSynced(bool);
-    void syncItemsRetreived(QList<Password*>);
-    void databaseConnected(const bool&);
-    void newItemInserted(const bool&);
-    void userSignedIn(User*);
+
+    // Add item to table and userController
+    void syncItemsRetreived(QMap<int,Password*>);
+
+    // Add or Remove item
     void itemRemoved();
+    void newItemInserted(const bool&);
+
+    //User Login
+    void databaseConnected(const bool&);
+    void userSignedIn(User*);
+
     void errorOccured(const QString&);
     void hintDisplayRequested(const QString&);
     void onDialogClosed();

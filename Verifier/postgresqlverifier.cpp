@@ -114,7 +114,16 @@ void PostgreSqlVerifier::onConnectToDatabase(QString user, QString pass)
 
 void PostgreSqlVerifier::onRemoveItem(int id)
 {
-
+    QString query = "delete from passwords where pass_Id = " + QString::number(id)+";";
+    int state = this->execute(query);
+    if(!_DataBase.lastError().text().length()){
+        this->setError(Error::NoError);
+        emit itemRemoved();
+        emit syncRequested();
+    }
+    else{
+        this->setError(Error::InsertinoError);
+    }
 }
 
 void PostgreSqlVerifier::sync()
@@ -183,13 +192,13 @@ bool PostgreSqlVerifier::retrieveUserPasswords()
        return false;
      }
 
-    QList<Password*> retreivedPasswords;
+    QMap<int, Password*> retreivedPasswords;
     do{
         QString Qpass_id  = getValue("pass_id").toString();
         QString Qusername = getValue("username").toString().toStdString().data();
         QString Qpassword = getValue("password").toString().toStdString().data();
         QString Qsite     = getValue("site").toString().toStdString().data();
-        retreivedPasswords.append(new Password(Qpass_id,Qusername,Qpassword,Qsite,this->frontUser));
+        retreivedPasswords.insert(Qpass_id.toInt(),new Password(Qpass_id,Qusername,Qpassword,Qsite,this->frontUser));
     }while(_Result.next());
     emit syncItemsRetreived(retreivedPasswords);
     return true;

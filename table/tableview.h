@@ -26,15 +26,13 @@ protected:
 public slots:
     void onDataChanged(QStandardItem *item);
     void addNewItem(QList<Password*>);
-    void removeViewData();
 private slots:
     void onCustomContextMenu(const QPoint &position);
     void contextMenuEditAction();
     void contextMenuRemoveAction();
     void contextMenuDetailsAction();
 signals:
-    void deleteItemUsingId(int);
-//    void deleteItem(int id);
+    void deleteItem(int);
 };
 
 #endif // PASSWORDTABLEVIEW_H

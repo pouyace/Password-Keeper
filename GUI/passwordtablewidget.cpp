@@ -38,11 +38,12 @@ void PasswordTableWidget::setupProperties()
 
 void PasswordTableWidget::setupConnection()
 {
+    connect(tableView,&TableView::deleteItem,this,&PasswordTableWidget::removeItemRequested);
     connect(ui->newPasswords,&QToolButton::clicked,itemInsertionDialog,&ItemInsertionDialog::exec);
     connect(this,&PasswordTableWidget::addItemRequested,tableView,&TableView::addNewItem);
-    connect(this,&PasswordTableWidget::removeItemRequested,tableView,&TableView::removeViewData);
     connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,this,&PasswordTableWidget::itemInsertionRequested);
     connect(this,&PasswordTableWidget::insertionResult,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
+//    connect(tableView,&TableView::deleteItem,this,&PasswordTableWidget::removeItemRequested);
 }
 
 void PasswordTableWidget::updateTotPass(int count)

@@ -17,6 +17,7 @@ public:
     QString getUsername()const;
     QString getPassId()const;
     QString getHashedPassword()const;
+    int id()const;
 private:
     QString passId;
     QString hashedPassword;

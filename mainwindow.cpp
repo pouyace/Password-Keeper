@@ -7,9 +7,6 @@
 #include "GUI/logindialog.h"
 #include "Verifier/postgresqlverifier.h"
 #include "Single/user.h"
-#include "GUI/singleitemoptionwidget.h"
-#include "table/tableview.h"
-#include "Handlers/passwordhandler.h"
 #include "Handlers/usercontroller.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -38,9 +35,6 @@ void MainWindow::setupConnections()
     connect(databaseVerifier,&PostgreSqlVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
     connect(databaseVerifier,&PostgreSqlVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
     connect(databaseVerifier,&PostgreSqlVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
-    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,ui->firstWidget,&PasswordTableWidget::removeItemRequested);
-    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,userController,&UserController::emptyPasswordList);
-
 
     connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&PostgreSqlVerifier::onConnectToDatabase);
 
@@ -52,9 +46,11 @@ void MainWindow::setupConnections()
     connect(ui->exitToolButton  ,&QToolButton::clicked,this,&QMainWindow::close);
 
     connect(userController,&UserController::showItems,ui->firstWidget,&PasswordTableWidget::addItemRequested,Qt::UniqueConnection);
-    connect(userController,&UserController::passwordsCountChanged,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
-    connect(userController,&UserController::passwordsCountChanged,ui->firstWidget,&PasswordTableWidget::updateTotPass);
-    connect(userController,&UserController::uniqueSitesCountChanged,ui->firstWidget,&PasswordTableWidget::upadteTotSite);
+    connect(userController,&UserController::passwordsCountUpdated,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
+    connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&PasswordTableWidget::updateTotPass);
+    connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&PasswordTableWidget::upadteTotSite);
+
+    connect(ui->firstWidget,&PasswordTableWidget::removeItemRequested,databaseVerifier,&PostgreSqlVerifier::onRemoveItem);
 
 }
 

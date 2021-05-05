@@ -33,7 +33,7 @@ public slots:
     void upadteTotSite(int count);
 
 signals:
-    void removeItemRequested();
+    void removeItemRequested(int);
     void addItemRequested(QList<Password*>);
     void itemInsertionRequested(Password*);
     void insertionResult(bool);
