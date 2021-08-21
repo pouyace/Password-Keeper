@@ -8,7 +8,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class LoginDialog;
-class PostgreSqlVerifier;
+class DatabaseVerifier;
 class UserController;
 class User;
 class QButtonGroup;
@@ -25,7 +25,7 @@ public:
 private:
     Ui::MainWindow *ui;
     LoginDialog             *loginDialog                  =  nullptr;
-    PostgreSqlVerifier      *databaseVerifier             =  nullptr;
+    DatabaseVerifier      *databaseVerifier             =  nullptr;
     UserController          *userController               =  nullptr;
 
     QButtonGroup            *buttonGroup                  =  nullptr;
@@ -42,6 +42,6 @@ public slots:
     void setupMainWindow(User *user);
 signals:
     void databaseDialogClosed();
-    void connectToDatabaseRequested(QString,QString);
+    void connectToDatabaseRequested();
 };
 #endif // MAINWINDOW_H

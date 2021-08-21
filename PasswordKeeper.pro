@@ -48,6 +48,7 @@ HEADERS += \
     Single/password.h \
     Single/user.h \
     Verifier/postgresqlverifier.h \
+    config.h \
     keygrabaction.h \
     mainwindow.h \
     private/keygrabactionobject.h \

@@ -51,7 +51,7 @@ void PasswordHandler::shufflePallet(int repeat)
         k = rand() % range;
         if(_Pallet.size() > j && _Pallet.size() > k){
             i++;
-            _Pallet.swapItemsAt(j,k);
+//            _Pallet.swapItemsAt(j,k);
         }
     }
 }

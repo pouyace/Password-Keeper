@@ -5,34 +5,31 @@
 #include <QObject>
 #include "../Single/password.h"
 #include <QMap>
+#include "config.h"
 
-#define DEFAULTDATABASEUSERNAME "postgres"
-#define DEFAULTDATABASEPASSWORD "newpouya"
-
-// 12345
-//newpouya
 
 class User;
 class QHostAddress;
 class Password;
 class PasswordHandler;
 class DataBasePassewordSetter;
-class PostgreSqlVerifier:public QObject
+class DatabaseVerifier:public QObject
 {
     Q_OBJECT
 public:
     enum Error{NoError,InsertinoError,LoginError,UsernameNotRegistered,WrongPassword,DatabaseNotOpen, DeletionError};
-    PostgreSqlVerifier(QObject* parent);
-    ~PostgreSqlVerifier();
+    DatabaseVerifier(QObject* parent);
+    ~DatabaseVerifier();
 public slots:
     void onUserLoginRequested(const QString& username,const QString& password);
     bool onAddNewItem(Password* newPassword);
-    void onConnectToDatabase(QString user="", QString pass="");
+    void onConnectToDatabase();
     void onRemoveItem(int id);
     void sync();
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;
+    App_Config::Config config;
     PasswordHandler *passwordHandler = nullptr;
     User *frontUser = nullptr;
     Error _error = NoError;

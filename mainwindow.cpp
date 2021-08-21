@@ -26,21 +26,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupConnections()
 {
-    connect(loginDialog,&LoginDialog::loginRequested,databaseVerifier,&PostgreSqlVerifier::onUserLoginRequested);
+    connect(loginDialog,&LoginDialog::loginRequested,databaseVerifier,&DatabaseVerifier::onUserLoginRequested);
     connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
-    connect(loginDialog,&LoginDialog::databaseIsNotConnected,databaseVerifier,&PostgreSqlVerifier::onConnectToDatabase);
+    connect(loginDialog,&LoginDialog::databaseIsNotConnected,databaseVerifier,&DatabaseVerifier::onConnectToDatabase);
 
-    connect(databaseVerifier,&PostgreSqlVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabaseState,Qt::UniqueConnection);
-    connect(databaseVerifier,&PostgreSqlVerifier::errorOccured,loginDialog,&LoginDialog::setError);
-    connect(databaseVerifier,&PostgreSqlVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
-    connect(databaseVerifier,&PostgreSqlVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
-    connect(databaseVerifier,&PostgreSqlVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
+    connect(databaseVerifier,&DatabaseVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabaseState,Qt::UniqueConnection);
+    connect(databaseVerifier,&DatabaseVerifier::errorOccured,loginDialog,&LoginDialog::setError);
+    connect(databaseVerifier,&DatabaseVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
+    connect(databaseVerifier,&DatabaseVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
+    connect(databaseVerifier,&DatabaseVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
 
-    connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&PostgreSqlVerifier::onConnectToDatabase);
+    connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&DatabaseVerifier::onConnectToDatabase);
 
-    connect(databaseVerifier,&PostgreSqlVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
-    connect(ui->firstWidget,&PasswordTableWidget::itemInsertionRequested,databaseVerifier,&PostgreSqlVerifier::onAddNewItem);
-    connect(databaseVerifier,&PostgreSqlVerifier::newItemInserted,ui->firstWidget,&PasswordTableWidget::insertionResult);
+    connect(databaseVerifier,&DatabaseVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
+    connect(ui->firstWidget,&PasswordTableWidget::itemInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
+    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget,&PasswordTableWidget::insertionResult);
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton  ,&QToolButton::clicked,this,&QMainWindow::close);
@@ -50,7 +50,7 @@ void MainWindow::setupConnections()
     connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&PasswordTableWidget::updateTotPass);
     connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&PasswordTableWidget::upadteTotSite);
 
-    connect(ui->firstWidget,&PasswordTableWidget::removeItemRequested,databaseVerifier,&PostgreSqlVerifier::onRemoveItem);
+    connect(ui->firstWidget,&PasswordTableWidget::removeItemRequested,databaseVerifier,&DatabaseVerifier::onRemoveItem);
 
 }
 
@@ -63,7 +63,7 @@ void MainWindow::initializeObjects()
 void MainWindow::initializeModules()
 {
     loginDialog                  = new LoginDialog          (this);   // Login
-    databaseVerifier             = new PostgreSqlVerifier   (this);   // Database
+    databaseVerifier             = new DatabaseVerifier   (this);   // Database
     userController               = new UserController       (this);   // User Controller
 }
 
@@ -85,7 +85,7 @@ void MainWindow::raiseLoginPage()
 {
     this->hide();
     loginDialog->show();
-    emit connectToDatabaseRequested(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD);
+    emit connectToDatabaseRequested();
 }
 void MainWindow::setupMainWindow(User *user)
 {

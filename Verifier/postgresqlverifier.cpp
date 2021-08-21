@@ -7,16 +7,15 @@
 #include <QMessageBox>
 #include "GUI/databasepassewordsetter.h"
 
-
-PostgreSqlVerifier::PostgreSqlVerifier(QObject *parent):
+DatabaseVerifier::DatabaseVerifier(QObject *parent):
     QObject(parent)
 {
     _DataBase = QSqlDatabase::addDatabase("QPSQL");
     passwordHandler = new PasswordHandler(this);
-    connect(this,&PostgreSqlVerifier::syncRequested,this,&PostgreSqlVerifier::sync);
+    connect(this,&DatabaseVerifier::syncRequested,this,&DatabaseVerifier::sync);
 }
 
-bool PostgreSqlVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, const QString &username
+bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, const QString &username
                                      , const QString &password, const QString &databaseName)
 {
     QString dbName = databaseName;
@@ -31,41 +30,25 @@ bool PostgreSqlVerifier::setupConfig(const QHostAddress &ip, const qint16 &port,
         return true;
     }
     else{
-        _DataBase.setDatabaseName("");
-        if (_DataBase.open()){
-            _DataBase.exec("CREATE DATABASE "+dbName);
-            if(_DataBase.lastError().type() == QSqlError::NoError){
-                _DataBase.close();
-                _DataBase.setDatabaseName(dbName);
-                if(_DataBase.open()){
-                    this->setError(Error::NoError);
-                    return true;
-                }
-                this->setError(Error::DatabaseNotOpen);
-                return false;
-            }
-            this->setError(Error::DatabaseNotOpen);
-            return false;
-        }
-        this->setError(Error::DatabaseNotOpen);
+        qDebug()<<_DataBase.lastError().text();
         return false;
     }
 }
 
-void PostgreSqlVerifier::onUserLoginRequested(const QString &username, const QString &password)
+void DatabaseVerifier::onUserLoginRequested(const QString &username, const QString &password)
 {
     QString pass = passwordHandler->getHashedPassword(password);
-    QString query = "SELECT password,firstname,lastname,hint FROM users WHERE username = '" + username+"';";
-
+    QString query = config.usersTable.getSelectQueryString(username);
+    qDebug()<<query;
     int state = this->execute(query);
-    QString querryPassword = getValue("password").toString().toStdString().data();
+    QString querryPassword = getValue(config.usersTable.password).toString().toStdString().data();
     if(!state){
         setError(UsernameNotRegistered);
         emit errorOccured(errorString());
         return;
     }
     else if(password != querryPassword){
-        QString queryHint = getValue("hint").toString().toStdString().data();
+        QString queryHint = getValue(config.usersTable.hint).toString().toStdString().data();
         setError(WrongPassword);
         emit errorOccured(errorString());
         emit hintDisplayRequested(queryHint);
@@ -82,12 +65,10 @@ void PostgreSqlVerifier::onUserLoginRequested(const QString &username, const QSt
     }
 }
 
-bool PostgreSqlVerifier::onAddNewItem(Password *newPassword)
+bool DatabaseVerifier::onAddNewItem(Password *newPassword)
 {
-    QString query = "insert into passwords values(nextval('order_item_id'),'"
-            + newPassword->getUsername() + "','" + newPassword->getPassword() + "','"
-            + newPassword->getSite() +"','"+
-            frontUser->username() + "');";
+    QString query = config.passwordsTable.getInsertQueryString(newPassword->getUsername()
+                                                               , newPassword->getPassword(), newPassword->getSite(), frontUser->username());
     this->execute(query);
     if(!_DataBase.lastError().text().length()){
         this->setError(Error::NoError);
@@ -104,15 +85,15 @@ bool PostgreSqlVerifier::onAddNewItem(Password *newPassword)
     }
 }
 
-void PostgreSqlVerifier::onConnectToDatabase(QString user, QString pass)
+void DatabaseVerifier::onConnectToDatabase()
 {
-    bool state = this->setupConfig(QHostAddress::LocalHost,5432,user,pass,"PasswordKeeper");
+    bool state = this->setupConfig(QHostAddress::LocalHost, config.port, config.serverUsername,config.serverPassword, config.databaseName);
     emit databaseConnected(state);
     if(!state)
         emit errorOccured(errorString());
 }
 
-void PostgreSqlVerifier::onRemoveItem(int id)
+void DatabaseVerifier::onRemoveItem(int id)
 {
     QString query = "delete from passwords where pass_Id = " + QString::number(id)+";";
     int state = this->execute(query);
@@ -126,14 +107,14 @@ void PostgreSqlVerifier::onRemoveItem(int id)
     }
 }
 
-void PostgreSqlVerifier::sync()
+void DatabaseVerifier::sync()
 {
     bool syncStatus = false;
     retrieveUserPasswords();
     emit tableSynced(syncStatus);
 }
 
-QString PostgreSqlVerifier::errorString()
+QString DatabaseVerifier::errorString()
 {
     switch (_error) {
     case Error::NoError: return "No Error";
@@ -146,22 +127,22 @@ QString PostgreSqlVerifier::errorString()
     return "NULL";
 }
 
-void PostgreSqlVerifier::setupProperties()
+void DatabaseVerifier::setupProperties()
 {
-    databasePasswordSetterDialog = new DataBasePassewordSetter(DEFAULTDATABASEUSERNAME,DEFAULTDATABASEPASSWORD); // Database Password
+    databasePasswordSetterDialog = new DataBasePassewordSetter("",""); // Database Password
 
-    connect(this,&PostgreSqlVerifier::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&PostgreSqlVerifier::onConnectToDatabase);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialogClosed,this,&PostgreSqlVerifier::onDialogClosed);
+    connect(this,&DatabaseVerifier::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&DatabaseVerifier::onConnectToDatabase);
+    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialogClosed,this,&DatabaseVerifier::onDialogClosed);
 
 }
 
-PostgreSqlVerifier::~PostgreSqlVerifier()
+DatabaseVerifier::~DatabaseVerifier()
 {
 
 }
 
-int PostgreSqlVerifier::execute(const QString &query)
+int DatabaseVerifier::execute(const QString &query)
 {
     _Result = _DataBase.exec(query);
     int size = _Result.size();
@@ -171,19 +152,19 @@ int PostgreSqlVerifier::execute(const QString &query)
     return size;
 }
 
-QVariant PostgreSqlVerifier::getValue(const int &position) const
+QVariant DatabaseVerifier::getValue(const int &position) const
 {
     return _Result.value(position);
 }
 
-QVariant PostgreSqlVerifier::getValue(const QString &position) const
+QVariant DatabaseVerifier::getValue(const QString &position) const
 {
     return _Result.value(position);
 }
 
-bool PostgreSqlVerifier::retrieveUserPasswords()
+bool DatabaseVerifier::retrieveUserPasswords()
 {
-    QString query = "SELECT pass_id,username,password,site FROM passwords WHERE app_user = '" + frontUser->username()+"';";
+    QString query = config.passwordsTable.getSelectQueryString(frontUser->username());
     int state = this->execute(query);
     if(!state)
         qDebug()<<"Nothing to extract";
@@ -194,17 +175,17 @@ bool PostgreSqlVerifier::retrieveUserPasswords()
 
     QMap<int, Password*> retreivedPasswords;
     do{
-        QString Qpass_id  = getValue("pass_id").toString();
-        QString Qusername = getValue("username").toString().toStdString().data();
-        QString Qpassword = getValue("password").toString().toStdString().data();
-        QString Qsite     = getValue("site").toString().toStdString().data();
+        QString Qpass_id  = getValue(config.passwordsTable.idField).toString();
+        QString Qusername = getValue(config.passwordsTable.usernameField).toString().toStdString().data();
+        QString Qpassword = getValue(config.passwordsTable.passwordField).toString().toStdString().data();
+        QString Qsite     = getValue(config.passwordsTable.websiteField).toString().toStdString().data();
         retreivedPasswords.insert(Qpass_id.toInt(),new Password(Qpass_id,Qusername,Qpassword,Qsite,this->frontUser));
     }while(_Result.next());
     emit syncItemsRetreived(retreivedPasswords);
     return true;
 }
 
-void PostgreSqlVerifier::setError(PostgreSqlVerifier::Error error)
+void DatabaseVerifier::setError(DatabaseVerifier::Error error)
 {
     _error = error;
 }
