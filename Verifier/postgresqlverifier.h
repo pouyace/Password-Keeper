@@ -20,12 +20,11 @@ public:
     enum Error{NoError,InsertinoError,LoginError,UsernameNotRegistered,WrongPassword,DatabaseNotOpen, DeletionError};
     DatabaseVerifier(QObject* parent);
     ~DatabaseVerifier();
+    void doConnect();
 public slots:
     void onUserLoginRequested(const QString& username,const QString& password);
     bool onAddNewItem(Password* newPassword);
-    void onConnectToDatabase();
     void onRemoveItem(int id);
-    void sync();
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;
@@ -37,6 +36,7 @@ private:
     DataBasePassewordSetter *databasePasswordSetterDialog =  nullptr;
 
     //Methods
+    void sync();
     bool setupConfig(const QHostAddress& ip, const qint16 &port, const QString& username, const QString& password, const QString& databaseName);
     int execute(const QString &query);
     QVariant getValue(const int& position)const;
@@ -46,10 +46,6 @@ private:
     QString errorString();
     void setupProperties();
 signals:
-    // Sync: 1.login 2.insert 3.remove
-    void syncRequested();
-    void tableSynced(bool);
-
     // Add item to table and userController
     void syncItemsRetreived(QMap<int,Password*>);
 

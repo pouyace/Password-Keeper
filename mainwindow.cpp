@@ -28,15 +28,12 @@ void MainWindow::setupConnections()
 {
     connect(loginDialog,&LoginDialog::loginRequested,databaseVerifier,&DatabaseVerifier::onUserLoginRequested);
     connect(loginDialog,&LoginDialog::destroyed,this,&MainWindow::close);
-    connect(loginDialog,&LoginDialog::databaseIsNotConnected,databaseVerifier,&DatabaseVerifier::onConnectToDatabase);
 
     connect(databaseVerifier,&DatabaseVerifier::databaseConnected,loginDialog,&LoginDialog::setDatabaseState,Qt::UniqueConnection);
     connect(databaseVerifier,&DatabaseVerifier::errorOccured,loginDialog,&LoginDialog::setError);
     connect(databaseVerifier,&DatabaseVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
     connect(databaseVerifier,&DatabaseVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
     connect(databaseVerifier,&DatabaseVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
-
-    connect(this,&MainWindow::connectToDatabaseRequested,databaseVerifier,&DatabaseVerifier::onConnectToDatabase);
 
     connect(databaseVerifier,&DatabaseVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
     connect(ui->firstWidget,&PasswordTableWidget::itemInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
@@ -85,7 +82,7 @@ void MainWindow::raiseLoginPage()
 {
     this->hide();
     loginDialog->show();
-    emit connectToDatabaseRequested();
+    databaseVerifier->doConnect();
 }
 void MainWindow::setupMainWindow(User *user)
 {

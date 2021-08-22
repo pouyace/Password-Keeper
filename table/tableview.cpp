@@ -88,8 +88,8 @@ void TableView::mouseMoveEvent(QMouseEvent *event)
 
 void TableView::onDataChanged(QStandardItem* item)
 {
-    qDebug()<<"Item on row "<<item->index().row()<<" and column "
-           <<item->index().column()<<" changed to "<<item->index().data().toString();
+//    qDebug()<<"Item on row "<<item->index().row()<<" and column "
+//           <<item->index().column()<<" changed to "<<item->index().data().toString();
 }
 
 void TableView::addNewItem(QList<Password*> passList)

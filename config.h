@@ -4,12 +4,12 @@
 
 struct Config;
 namespace App_Config {
-struct PasswordsTable;
+struct ApplicationDataTable;
 struct UsersTable;
 struct Config;
 };
 
-struct App_Config::PasswordsTable{
+struct App_Config::ApplicationDataTable{
     QString tableName       = "app_data";
     QString idField         = "item_id";
     QString ownerUser       = "item_owner_user";
@@ -18,19 +18,24 @@ struct App_Config::PasswordsTable{
     QString passwordField   = "item_pass";
     QString sequenceCounter = "item_id_seq";
 
-    QString getSelectQueryString(QString cur_user){
+    QString getSelectQueryString(const QString& cur_user){
         QString comma = " ,";
         QString query = "SELECT "+idField+comma+usernameField+comma+passwordField+comma
                 +websiteField+" FROM " + tableName + " WHERE " + ownerUser + "='" + cur_user+"';";
         return query;
     }
 
-    QString getInsertQueryString(QString usernameItem, QString passItem, QString siteItem, QString owner){
-        QString query = "insert into" + tableName + "values(nextval('"+sequenceCounter+"'),'"
+    QString getInsertQueryString(const QString& usernameItem, const QString& passItem, const QString& siteItem, const QString& owner){
+        QString query = "insert into " + tableName + " values(nextval('"+sequenceCounter+"'),'"
                 + owner + "','" + usernameItem + "','"
                 + siteItem +"','"
                 + passItem + "');";
 
+        return query;
+    }
+
+    QString getDeletionQueryString(const int& id){
+        QString query = "delete from " + tableName + " where " + idField + " = " + QString::number(id)+";";
         return query;
     }
 
@@ -45,7 +50,7 @@ struct App_Config::UsersTable{
     QString lastname        = "lName";
     QString hint            = "pass_hint";
 
-    QString getSelectQueryString(QString cur_user){
+    QString getSelectQueryString(const QString& cur_user){
         QString comma = " ,";
         QString query = "SELECT "+password+comma+firstname+comma+lastname+comma+hint
                 +" FROM " + tableName + " WHERE " + username + "='" + cur_user+"';";
@@ -55,12 +60,12 @@ struct App_Config::UsersTable{
 };
 
 struct App_Config::Config{
-    QString          databaseName    = "PKDB";
-    QString          serverUsername  = "PKDBU";
-    QString          serverPassword  = "theonepouya";
-    int              port            = 5432;
-    PasswordsTable   passwordsTable;
-    UsersTable       usersTable;
+    QString                 databaseName    = "PKDB";
+    QString                 serverUsername  = "PKDBU";
+    QString                 serverPassword  = "theonepouya";
+    int                     port            = 5432;
+    ApplicationDataTable    passwordsTable;
+    UsersTable              usersTable;
 };
 
 

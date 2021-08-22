@@ -37,7 +37,7 @@ void DataBasePassewordSetter::closeEvent(QCloseEvent *)
 
 void DataBasePassewordSetter::onApplyButton()
 {
-    emit databaseNewConfigSet(ui->usernameLineEdit->text(),ui->passwordLineEdit->text());
+    // doConnect();
 }
 
 void DataBasePassewordSetter::onDatabaseConnected(bool state)

@@ -40,8 +40,5 @@ private slots:
     void updateDateAndTime();
 public slots:
     void setupMainWindow(User *user);
-signals:
-    void databaseDialogClosed();
-    void connectToDatabaseRequested();
 };
 #endif // MAINWINDOW_H

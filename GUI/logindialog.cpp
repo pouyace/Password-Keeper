@@ -34,8 +34,8 @@ void LoginDialog::onLoginButtonClicked()
     else{
         if(databaseState)
             emit loginRequested(username,password);
-        else
-            emit databaseIsNotConnected("","");
+        // else
+            // emit
     }
 }
 
@@ -65,7 +65,7 @@ void LoginDialog::onSetHint(QString hint)
 {
     if(hint.length()){
         ui->hintLabel->setVisible(true);
-        ui->hintLabel->setText("Password Hint:' "+hint+" '");
+        ui->hintLabel->setText("Hint:' "+hint+" '");
     }
     else
         ui->hintLabel->setVisible(false);

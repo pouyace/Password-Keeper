@@ -12,7 +12,6 @@ DatabaseVerifier::DatabaseVerifier(QObject *parent):
 {
     _DataBase = QSqlDatabase::addDatabase("QPSQL");
     passwordHandler = new PasswordHandler(this);
-    connect(this,&DatabaseVerifier::syncRequested,this,&DatabaseVerifier::sync);
 }
 
 bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, const QString &username
@@ -31,6 +30,7 @@ bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, c
     }
     else{
         qDebug()<<_DataBase.lastError().text();
+        QMessageBox::warning(nullptr, "Error", _DataBase.lastError().text());
         return false;
     }
 }
@@ -39,7 +39,6 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
 {
     QString pass = passwordHandler->getHashedPassword(password);
     QString query = config.usersTable.getSelectQueryString(username);
-    qDebug()<<query;
     int state = this->execute(query);
     QString querryPassword = getValue(config.usersTable.password).toString().toStdString().data();
     if(!state){
@@ -57,10 +56,10 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
     else{
         User *user = new User(username,this);
         this->frontUser = user;
-        QString querryFirstname = getValue("firstname").toString().toStdString().data();
-        QString querryLastname = getValue("lastname").toString().toStdString().data();
+        QString querryFirstname = getValue(config.usersTable.firstname).toString().toStdString().data();
+        QString querryLastname = getValue(config.usersTable.lastname).toString().toStdString().data();
         user->setName(querryFirstname,querryLastname);
-        emit syncRequested();
+        sync();
         emit userSignedIn(this->frontUser);
     }
 }
@@ -69,23 +68,26 @@ bool DatabaseVerifier::onAddNewItem(Password *newPassword)
 {
     QString query = config.passwordsTable.getInsertQueryString(newPassword->getUsername()
                                                                , newPassword->getPassword(), newPassword->getSite(), frontUser->username());
-    this->execute(query);
-    if(!_DataBase.lastError().text().length()){
+    qDebug()<<query;
+    int status = this->execute(query);
+    if(status){
         this->setError(Error::NoError);
         emit newItemInserted(true);
-        emit syncRequested();
+        sync();
         newPassword->deleteLater();
         return true;
     }
     else{
         this->setError(Error::InsertinoError);
+        qDebug()<<_DataBase.lastError().text();
+        QMessageBox::warning(nullptr, "Error", _DataBase.lastError().text());
         emit newItemInserted(false);
         newPassword->deleteLater();
         return false;
     }
 }
 
-void DatabaseVerifier::onConnectToDatabase()
+void DatabaseVerifier::doConnect()
 {
     bool state = this->setupConfig(QHostAddress::LocalHost, config.port, config.serverUsername,config.serverPassword, config.databaseName);
     emit databaseConnected(state);
@@ -95,23 +97,24 @@ void DatabaseVerifier::onConnectToDatabase()
 
 void DatabaseVerifier::onRemoveItem(int id)
 {
-    QString query = "delete from passwords where pass_Id = " + QString::number(id)+";";
+
+    QString query = config.passwordsTable.getDeletionQueryString(id);
     int state = this->execute(query);
-    if(!_DataBase.lastError().text().length()){
+    if(state){
         this->setError(Error::NoError);
         emit itemRemoved();
-        emit syncRequested();
+        sync();
     }
     else{
         this->setError(Error::InsertinoError);
+        qDebug()<<_DataBase.lastError().text();
+        QMessageBox::warning(nullptr, "Error", _DataBase.lastError().text());
     }
 }
 
 void DatabaseVerifier::sync()
 {
-    bool syncStatus = false;
     retrieveUserPasswords();
-    emit tableSynced(syncStatus);
 }
 
 QString DatabaseVerifier::errorString()
@@ -132,7 +135,6 @@ void DatabaseVerifier::setupProperties()
     databasePasswordSetterDialog = new DataBasePassewordSetter("",""); // Database Password
 
     connect(this,&DatabaseVerifier::databaseConnected,databasePasswordSetterDialog,&DataBasePassewordSetter::onDatabaseConnected);
-    connect(databasePasswordSetterDialog,&DataBasePassewordSetter::databaseNewConfigSet,this,&DatabaseVerifier::onConnectToDatabase);
     connect(databasePasswordSetterDialog,&DataBasePassewordSetter::dialogClosed,this,&DatabaseVerifier::onDialogClosed);
 
 }
