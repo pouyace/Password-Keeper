@@ -48,12 +48,8 @@ private:
 signals:
     // Add item to table and userController
     void syncItemsRetreived(QMap<int,Password*>);
-
-    // Add or Remove item
-    void itemRemoved();
-    void newItemInserted(const bool&);
-
-    //User Login
+    void newItemInserted(bool);
+    void itemRemoved(int id, bool);
     void databaseConnected(const bool&);
     void userSignedIn(User*);
 

@@ -19,10 +19,10 @@ TableView::TableView(QWidget *parent):
 void TableView::syncSize()
 {
     int w = this->width()/7;
-    this->setColumnWidth(TableModel::IdField        ,w);
-    this->setColumnWidth(TableModel::UsernameField  ,w*2);
-    this->setColumnWidth(TableModel::PasswordField  ,w*2);
-    this->setColumnWidth(TableModel::WebsiteField   ,w*2);
+    this->setColumnWidth(TableModel::IdField      ,w);
+    this->setColumnWidth(TableModel::UsernameField,w*2);
+    this->setColumnWidth(TableModel::PasswordField,w*2);
+    this->setColumnWidth(TableModel::WebsiteField ,w*2);
 }
 
 
@@ -33,6 +33,8 @@ void TableView::setupProperties()
 //    this->setAcceptDrops(true);
 //    this->setDragDropMode(QAbstractItemView::DragDrop);
 //    this->setDropIndicatorShown(true);
+//    this->setStyleSheet("background-color:blue;");
+    this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
     this->setSelectionMode(QAbstractItemView::SingleSelection);
     this->setCornerButtonEnabled(false);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -44,7 +46,7 @@ void TableView::setupProperties()
     tableModel = new TableModel(this);
     specialDelegate = new StyledItemDelegate();
     this->setModel(tableModel);
-    this->setItemDelegate(specialDelegate);
+//    this->setItemDelegate(specialDelegate);
 
 //    tableModel->setHeaderData(TableModel::IdField       ,Qt::Horizontal,tr("Pass Id"));
 //    tableModel->setHeaderData(TableModel::UsernameField ,Qt::Horizontal,tr("Username"));
@@ -123,7 +125,7 @@ void TableView::contextMenuRemoveAction()
 {
     int row = this->indexAt(point).row();
     qDebug()<<"ajal:"<<row;
-    int id = tableModel->dataAt(row, TableModel::IdField).toInt();
+    int id = tableModel->dataAt(row, 0).toInt();
     qDebug()<<"id="<<id;
     QMessageBox messageBox;
     messageBox.setWindowFlag(Qt::FramelessWindowHint);

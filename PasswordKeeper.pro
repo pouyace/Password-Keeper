@@ -16,7 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    GUI/databasepassewordsetter.cpp \
+    GUI/dbconfigdialog.cpp \
     GUI/generatortab.cpp \
     GUI/iteminsertiondialog.cpp \
     GUI/loadingdialog.cpp \
@@ -36,7 +36,7 @@ SOURCES += \
     table/tableview.cpp
 
 HEADERS += \
-    GUI/databasepassewordsetter.h \
+    GUI/dbconfigdialog.h \
     GUI/generatortab.h \
     GUI/iteminsertiondialog.h \
     GUI/loadingdialog.h \
@@ -57,7 +57,7 @@ HEADERS += \
     table/tableview.h
 
 FORMS += \
-    GUI/databasepassewordsetter.ui \
+    GUI/dbconfigdialog.ui \
     GUI/generatortab.ui \
     GUI/iteminsertiondialog.ui \
     GUI/loadingdialog.ui \

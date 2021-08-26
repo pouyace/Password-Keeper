@@ -30,7 +30,8 @@ void StyledItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 }
 QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if(index.column() == TableModel::IdField){
+    Q_UNUSED(option)
+    if(index.column() == 0){
      QLabel *label = new QLabel(parent);
      label->setAlignment(Qt::AlignCenter);
      label->setProperty("class","EditMode");
@@ -45,7 +46,7 @@ QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 
 void StyledItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if(index.column() == TableModel::IdField){
+    if(index.column() == 0){
     QLabel *label = static_cast<QLabel*>(editor);
     model->setData(index, label->text(), Qt::DisplayRole);
     return;
@@ -56,7 +57,7 @@ void StyledItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 
 void StyledItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    if(index.column() == TableModel::IdField){
+    if(index.column() == 0){
     QLabel *lineEdit = static_cast<QLabel*>(editor);
     QString value = index.model()->data(index, Qt::DisplayRole).toString();
     lineEdit->setText(value);
@@ -71,5 +72,6 @@ void StyledItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index
 
 void StyledItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(index)
     editor->setGeometry(option.rect);
 }

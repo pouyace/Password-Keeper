@@ -53,7 +53,7 @@ class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    enum Attributes{IdField = Qt::UserRole+1, UsernameField, PasswordField, WebsiteField};
+    enum Attributes{IdField , UsernameField, PasswordField, WebsiteField};
     explicit TableModel(QObject *parent = nullptr);
     ~TableModel() override;
 
@@ -69,16 +69,14 @@ protected:
     virtual QVariant headerData(int section, Qt::Orientation orientation,
                                 int role = Qt::DisplayRole) const override;
     virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
-    virtual QHash<int,QByteArray> roleNames() const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
+    virtual bool removeRows(int position, int rows, const QModelIndex &index) override;
 private:
     const int _columnCount = 4;
     QList<Password*> itemsList;
-    QHash<int ,QByteArray> _roleNames;
 
     //Methods
-    void setupRoles();
 };
 
 #endif // PASSWORDTABLEMODEL_H

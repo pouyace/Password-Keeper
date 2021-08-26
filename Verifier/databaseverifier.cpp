@@ -5,7 +5,7 @@
 #include "../Handlers/passwordgenerator.h"
 #include "../Single/password.h"
 #include <QMessageBox>
-#include "GUI/databasepassewordsetter.h"
+#include "GUI/dbconfigdialog.h"
 
 DatabaseVerifier::DatabaseVerifier(QObject *parent):
     QObject(parent)
@@ -102,12 +102,13 @@ void DatabaseVerifier::onRemoveItem(int id)
     int state = this->execute(query);
     if(state){
         this->setError(Error::NoError);
-        emit itemRemoved();
+        emit itemRemoved(id, true);
         sync();
     }
     else{
         this->setError(Error::InsertinoError);
         qDebug()<<_DataBase.lastError().text();
+        emit itemRemoved(id, false);
         QMessageBox::warning(nullptr, "Error", _DataBase.lastError().text());
     }
 }

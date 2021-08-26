@@ -5,7 +5,7 @@
 TableModel::TableModel(QObject *parent):
     QAbstractTableModel(parent)
 {
-    setupRoles();
+
 }
 
 TableModel::~TableModel()
@@ -15,52 +15,59 @@ TableModel::~TableModel()
 
 void TableModel::addItem(Password *item)
 {
-//    beginInsertRows(QModelIndex(),itemsCount(),itemsCount());
+    beginInsertRows(QModelIndex(), itemsList.count(), itemsList.count());
     itemsList.append(item);
-//    endInsertRows();
+    endInsertRows();
 
 }
 
 void TableModel::addItems(QList<Password *> items)
 {
-    itemsList = items;
+    beginInsertRows(QModelIndex(), itemsList.count(), itemsList.count()+items.count()-1);
+    itemsList.append(items);
+    endInsertRows();
 }
 
 QVariant TableModel::dataAt(int row, int column) const
 {
+    Q_UNUSED(column)
     return index(row,0,QModelIndex()).data();
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
+
     if(!index.isValid())
         return QVariant();
 
+    if (index.row() >= itemsList.size() || index.row() < 0)
+             return QVariant();
+
     if(role == Qt::DisplayRole){
-        switch (role) {
+        switch (index.column()) {
         case IdField:       return  itemsList[index.row()]->passId();
         case UsernameField: return  itemsList[index.row()]->username();
         case PasswordField: return  itemsList[index.row()]->password();
         case WebsiteField:  return  itemsList[index.row()]->website();
-        default:return QVariant();
         }
     }
-    else if(role == Qt::TextAlignmentRole)
-        return Qt::AlignCenter;
 
-    else if(role == Qt::EditRole){
-        return "Right click to edit";
+    switch (role) {
+    case Qt::TextAlignmentRole: return Qt::AlignCenter;
+    case Qt::EditRole: return "Right click to edit";
+    default:return QVariant();
     }
-    return QVariant();
 }
 
 int TableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return itemsList.count();
 }
 
 int TableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return _columnCount;
 }
 
@@ -81,20 +88,15 @@ QModelIndex TableModel::index(int row, int column, const QModelIndex &parent) co
     return QModelIndex();
 }
 
-QHash<int, QByteArray> TableModel::roleNames() const
-{
-    return _roleNames;
-}
-
 QVariant TableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role == Qt::DisplayRole){
         if(orientation == Qt::Horizontal){
             switch (section) {
-            case IdField:       return  tr("Pass Id") ;
-            case UsernameField: return  tr("Username");
-            case PasswordField: return  tr("Password");
-            case WebsiteField:  return  tr("Site");
+            case IdField:       return  tr("ID") ;
+            case UsernameField: return  tr("USERNAME");
+            case PasswordField: return  tr("PASSWORD");
+            case WebsiteField:  return  tr("WEBSITE");
             }
         }
         else if(orientation == Qt::Vertical){
@@ -107,25 +109,28 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
 
 bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    Q_UNUSED(value)
     if(!index.isValid())
         return false;
-    if(role == Qt::DisplayRole){
-        switch (index.column()) {
-        case IdField:       itemsList[index.row()]->setPassId(value.toString()); return true;
-        case UsernameField: itemsList[index.row()]->setUsername(value.toString()); return true;
-        case PasswordField: itemsList[index.row()]->setPassword(value.toString()); return true;
-        case WebsiteField:  itemsList[index.row()]->setWebsite(value.toString());return true;
-        }
+
+    switch (role) {
+    case Qt::DisplayRole: emit dataChanged(index, index, {});  return true;
     }
+
 
     return false;
 }
 
-void TableModel::setupRoles()
-{
-    _roleNames = QAbstractTableModel::roleNames();
-    _roleNames.insert(IdField,"itemId");
-    _roleNames.insert(UsernameField,"itemUName");
-    _roleNames.insert(PasswordField,"itemPass");
-    _roleNames.insert(WebsiteField,"itemWebSite");
-}
+
+bool TableModel::removeRows(int position, int rows, const QModelIndex &index)
+ {
+     Q_UNUSED(index);
+     beginRemoveRows(QModelIndex(), position, position+rows-1);
+
+     for (int row=0; row < rows; ++row) {
+         itemsList.removeAt(position);
+     }
+
+     endRemoveRows();
+     return true;
+ }

@@ -509,7 +509,7 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="passwordsTableWidget">
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -521,14 +521,11 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <layout class="QVBoxLayout" name="verticalLayout_6"/>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="GeneratorTab" name="passwordGeneratorWidget">
-          <layout class="QVBoxLayout" name="verticalLayout_7"/>
-         </widget>
+         <widget class="GeneratorTab" name="passwordGeneratorWidget"/>
          <widget class="QWidget" name="exportPasswordWidget">
           <widget class="QLabel" name="label_3">
            <property name="geometry">
