@@ -1,5 +1,6 @@
 #include "styleditemdelegate.h"
 #include "tableview.h"
+#include "tablemodel.h"
 #include <QDebug>
 #include <QLineEdit>
 #include <QLabel>
@@ -29,7 +30,7 @@ void StyledItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 }
 QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if(index.column() == TableView::Pass_Id_col){
+    if(index.column() == TableModel::IdField){
      QLabel *label = new QLabel(parent);
      label->setAlignment(Qt::AlignCenter);
      label->setProperty("class","EditMode");
@@ -44,7 +45,7 @@ QWidget *StyledItemDelegate::createEditor(QWidget *parent, const QStyleOptionVie
 
 void StyledItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    if(index.column() == TableView::Pass_Id_col){
+    if(index.column() == TableModel::IdField){
     QLabel *label = static_cast<QLabel*>(editor);
     model->setData(index, label->text(), Qt::DisplayRole);
     return;
@@ -55,7 +56,7 @@ void StyledItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model
 
 void StyledItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    if(index.column() == TableView::Pass_Id_col){
+    if(index.column() == TableModel::IdField){
     QLabel *lineEdit = static_cast<QLabel*>(editor);
     QString value = index.model()->data(index, Qt::DisplayRole).toString();
     lineEdit->setText(value);

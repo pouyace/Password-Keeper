@@ -1,4 +1,4 @@
-#include "passwordhandler.h"
+#include "passwordgenerator.h"
 
 #include <time.h>
 #include <stdlib.h>

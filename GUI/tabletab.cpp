@@ -1,12 +1,12 @@
-#include "passwordtablewidget.h"
+#include "tabletab.h"
 #include "ui_passwordtablewidget.h"
 
 #include "table/tableview.h"
-#include "password.h"
+#include "Single/password.h"
 #include "GUI/iteminsertiondialog.h"
 
 
-PasswordTableWidget::PasswordTableWidget(QWidget *parent) :
+TableTab::TableTab(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PasswordTableWidget)
 {
@@ -15,17 +15,17 @@ PasswordTableWidget::PasswordTableWidget(QWidget *parent) :
     setupConnection();
 }
 
-PasswordTableWidget::~PasswordTableWidget()
+TableTab::~TableTab()
 {
     delete ui;
 }
 
-void PasswordTableWidget::syncTableSize()
+void TableTab::syncTableSize()
 {
     tableView->syncSize();
 }
 
-void PasswordTableWidget::setupProperties()
+void TableTab::setupProperties()
 {
     ui->newPasswords->setCursor(Qt::PointingHandCursor);
     ui->searchToolButton->setCursor(Qt::IBeamCursor);
@@ -36,22 +36,22 @@ void PasswordTableWidget::setupProperties()
     ui->verticalLayout_6->addWidget(tableView);
 }
 
-void PasswordTableWidget::setupConnection()
+void TableTab::setupConnection()
 {
-    connect(tableView,&TableView::deleteItem,this,&PasswordTableWidget::removeItemRequested);
+    connect(tableView,&TableView::deleteItem,this,&TableTab::removeItemRequested);
     connect(ui->newPasswords,&QToolButton::clicked,itemInsertionDialog,&ItemInsertionDialog::exec);
-    connect(this,&PasswordTableWidget::addItemRequested,tableView,&TableView::addNewItem);
-    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,this,&PasswordTableWidget::itemInsertionRequested);
-    connect(this,&PasswordTableWidget::insertionResult,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
+    connect(this,&TableTab::addItemRequested,tableView,&TableView::addNewItem);
+    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,this,&TableTab::itemInsertionRequested);
+    connect(this,&TableTab::insertionResult,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
 //    connect(tableView,&TableView::deleteItem,this,&PasswordTableWidget::removeItemRequested);
 }
 
-void PasswordTableWidget::updateTotPass(int count)
+void TableTab::updateTotPass(int count)
 {
     ui->totalPasswordsLabel->setNum(count);
 }
 
-void PasswordTableWidget::upadteTotSite(int count)
+void TableTab::upadteTotSite(int count)
 {
     ui->totalSitesLabel->setNum(count);
 }

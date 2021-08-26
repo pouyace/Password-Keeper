@@ -4,19 +4,18 @@
 class QStandardItemModel;
 class Password;
 struct TableItem;
-class QStandardItem;
+class TableModel;
 class StyledItemDelegate;
 class TableView : public QTableView
 {
     Q_OBJECT
 public:
-    enum TableHeader{Pass_Id_col, Username_col, Password_col, Site_col};
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
     void syncSize();
 private:
     int mHoverRow, mHoverColumn;
-    QStandardItemModel  *tableModel          = nullptr;
+    TableModel          *tableModel          = nullptr;
     StyledItemDelegate  *specialDelegate     = nullptr;
     QMenu               *mainMenu            = nullptr;
     QPoint point ;
@@ -24,7 +23,6 @@ private:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
-    void onDataChanged(QStandardItem *item);
     void addNewItem(QList<Password*>);
 private slots:
     void onCustomContextMenu(const QPoint &position);

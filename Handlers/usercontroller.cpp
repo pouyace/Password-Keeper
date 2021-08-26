@@ -18,7 +18,7 @@ void UserController::userUniqueSitesCount()
     _uniqueSites.clear();
     while(passIt.hasNext()){
         passIt.next();
-        _uniqueSites.insert(passIt.value()->getSite());
+        _uniqueSites.insert(passIt.value()->website());
     }
     emit uniqueSitesCountUpdated(_uniqueSites.count());
 }

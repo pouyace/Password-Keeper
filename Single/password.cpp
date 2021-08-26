@@ -1,15 +1,38 @@
 #include "password.h"
-#include "user.h"
 Password::Password(QString passId, QString username, QString password, QString site, QObject *parent):
-    QObject(parent),passId(passId),username(username),
-    password(password),site(site)
+    QObject(parent),_passId(passId),_username(username),
+    _password(password),_website(site)
 {
 
 }
 
-Password::Password(QString username, QString password, QString site, QObject *parent):
-    QObject(parent), username(username), password(password), site(site)
+Password::Password(QString username, QString password, QString website)
 {
+    _username = username;
+    _password = password;
+    _website  = website;
+}
+
+Password::Password()
+{
+
+}
+
+Password::Password(const Password &obj)
+{
+    _passId   = obj.passId  ();
+    _username = obj.username();
+    _password = obj.password();
+    _website  = obj.website ();
+}
+
+Password &Password::operator=(const Password &obj)
+{
+    this->_passId     = obj.passId();
+    this->_password   = obj.password();
+    this->_username   = obj.username();
+    this->_website    = obj.website();
+    this->_modelIndex = obj.modelIndex();
 
 }
 
@@ -18,33 +41,53 @@ Password::~Password()
 
 }
 
-QString Password::getSite() const
+void Password::setPassId(const QString &passId)
 {
-    return site;
+    _passId = passId;
 }
 
-QString Password::getPassword() const
+void Password::setWebsite(const QString &website)
 {
-    return password;
+    _website = website;
 }
 
-QString Password::getUsername() const
+void Password::setUsername(const QString &username)
 {
-    return username;
+    _username = username;
 }
 
-QString Password::getPassId() const
+void Password::setPassword(const QString &password)
 {
-    return passId;
+    _password = password;
 }
 
-QString Password::getHashedPassword() const
+QString Password::website() const
 {
-    return hashedPassword;
+    return _website;
 }
 
-int Password::id() const
+QString Password::password() const
 {
-    return passId.toInt();
+    return _password;
+}
+
+QString Password::username() const
+{
+    return _username;
+}
+
+QString Password::passId() const
+{
+    return _passId;
+}
+
+void Password::setModelIndex(QModelIndex modelIndex)
+{
+    _modelIndex = modelIndex;
+}
+
+QModelIndex Password::modelIndex() const
+{
+    return _modelIndex;
 }
 

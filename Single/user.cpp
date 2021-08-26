@@ -32,3 +32,8 @@ QString User::prettyName() const
     }
 }
 
+void User::addPassword(const Password &pass)
+{
+    passwods.append(pass);
+}
+

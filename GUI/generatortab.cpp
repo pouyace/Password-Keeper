@@ -1,20 +1,20 @@
-#include "passwordgenerator.h"
+#include "generatortab.h"
 #include "ui_passwordgenerator.h"
 
-PasswordGenerator::PasswordGenerator(QWidget *parent) :
+GeneratorTab::GeneratorTab(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PasswordGenerator)
+    ui(new Ui::GeneratorTab)
 {
     ui->setupUi(this);
 //    PasswordHandler
 }
 
-PasswordGenerator::~PasswordGenerator()
+GeneratorTab::~GeneratorTab()
 {
     delete ui;
 }
 
-void PasswordGenerator::updateTypes()
+void GeneratorTab::updateTypes()
 {
     Options op = 0;
     if(ui->uppercaseCheckBox->isChecked())
@@ -30,7 +30,7 @@ void PasswordGenerator::updateTypes()
     options = op;
 }
 
-void PasswordGenerator::updateFlags()
+void GeneratorTab::updateFlags()
 {
     optionFlags.saveToDB   = ui->saveInDBCheckBox->isChecked();
     optionFlags.showHash   = ui->showHashedCheckBox->isChecked();
@@ -40,7 +40,7 @@ void PasswordGenerator::updateFlags()
     optionFlags.noSeqChars = ui->sequentialCheckBox->isChecked();
 }
 
-void PasswordGenerator::restoreDefaults()
+void GeneratorTab::restoreDefaults()
 {
     ui->tableWidget->clear();
     ui->SPSCheckBox->setChecked(false);
@@ -55,7 +55,7 @@ void PasswordGenerator::restoreDefaults()
 
 }
 
-void PasswordGenerator::updateFeatures()
+void GeneratorTab::updateFeatures()
 {
     featureData.count = ui->passwordCountSpinBox->value();
     featureData.length = ui->passwordLengthSpinBox->value();
@@ -63,7 +63,7 @@ void PasswordGenerator::updateFeatures()
     featureData.excludeList = ui->excludeLineEdit->text().split("",QString::SkipEmptyParts);
 }
 
-void PasswordGenerator::onGenerateClicked()
+void GeneratorTab::onGenerateClicked()
 {
     updateFlags();
     updateFeatures();
@@ -71,7 +71,7 @@ void PasswordGenerator::onGenerateClicked()
     emit passwordGeneratingRequested(options,featureData,optionFlags);
 }
 
-void PasswordGenerator::onShowResult(const int &count, const int &length, const QStringList &passwords, const QStringList &hashes, const bool dbState)
+void GeneratorTab::onShowResult(const int &count, const int &length, const QStringList &passwords, const QStringList &hashes, const bool dbState)
 {
 
 }

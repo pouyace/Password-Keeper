@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include <QButtonGroup>
 #include "GUI/logindialog.h"
-#include "Verifier/postgresqlverifier.h"
+#include "Verifier/databaseverifier.h"
 #include "Single/user.h"
 #include "Handlers/usercontroller.h"
 
@@ -36,18 +36,18 @@ void MainWindow::setupConnections()
     connect(databaseVerifier,&DatabaseVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
 
     connect(databaseVerifier,&DatabaseVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
-    connect(ui->firstWidget,&PasswordTableWidget::itemInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
-    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget,&PasswordTableWidget::insertionResult);
+    connect(ui->firstWidget,&TableTab::itemInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
+    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget,&TableTab::insertionResult);
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton  ,&QToolButton::clicked,this,&QMainWindow::close);
 
-    connect(userController,&UserController::showItems,ui->firstWidget,&PasswordTableWidget::addItemRequested,Qt::UniqueConnection);
+    connect(userController,&UserController::showItems,ui->firstWidget,&TableTab::addItemRequested,Qt::UniqueConnection);
     connect(userController,&UserController::passwordsCountUpdated,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
-    connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&PasswordTableWidget::updateTotPass);
-    connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&PasswordTableWidget::upadteTotSite);
+    connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&TableTab::updateTotPass);
+    connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&TableTab::upadteTotSite);
 
-    connect(ui->firstWidget,&PasswordTableWidget::removeItemRequested,databaseVerifier,&DatabaseVerifier::onRemoveItem);
+    connect(ui->firstWidget,&TableTab::removeItemRequested,databaseVerifier,&DatabaseVerifier::onRemoveItem);
 
 }
 

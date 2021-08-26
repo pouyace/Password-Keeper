@@ -509,18 +509,24 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="passwordsTableWidget">
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="PasswordTableWidget" name="firstWidget" native="true">
+            <widget class="TableTab" name="firstWidget" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <layout class="QVBoxLayout" name="verticalLayout_6"/>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="PasswordGenerator" name="passwordGeneratorWidget">
+         <widget class="GeneratorTab" name="passwordGeneratorWidget">
           <layout class="QVBoxLayout" name="verticalLayout_7"/>
          </widget>
          <widget class="QWidget" name="exportPasswordWidget">
@@ -574,15 +580,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PasswordTableWidget</class>
+   <class>TableTab</class>
    <extends>QWidget</extends>
-   <header>GUI/passwordtablewidget.h</header>
+   <header>GUI/tabletab.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>PasswordGenerator</class>
+   <class>GeneratorTab</class>
    <extends>QWidget</extends>
-   <header>GUI/passwordgenerator.h</header>
+   <header>GUI/generatortab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

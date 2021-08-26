@@ -5,8 +5,9 @@
 #include <QMouseEvent>
 #include <QStandardItemModel>
 #include <QMenu>
-#include "styleditemdelegate.h"
+#include "tabledelegate.h"
 #include <QMessageBox>
+#include "tablemodel.h"
 TableView::TableView(QWidget *parent):
     QTableView(parent)
     , mHoverRow(-1)
@@ -18,10 +19,10 @@ TableView::TableView(QWidget *parent):
 void TableView::syncSize()
 {
     int w = this->width()/7;
-    this->setColumnWidth(Pass_Id_col,w);
-    this->setColumnWidth(Username_col,w*2);
-    this->setColumnWidth(Password_col,w*2);
-    this->setColumnWidth(Site_col,w*2);
+    this->setColumnWidth(TableModel::IdField        ,w);
+    this->setColumnWidth(TableModel::UsernameField  ,w*2);
+    this->setColumnWidth(TableModel::PasswordField  ,w*2);
+    this->setColumnWidth(TableModel::WebsiteField   ,w*2);
 }
 
 
@@ -40,17 +41,17 @@ void TableView::setupProperties()
     this->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     this->setMouseTracking(true);
 
-    tableModel = new QStandardItemModel(0,4,this);
+    tableModel = new TableModel(this);
     specialDelegate = new StyledItemDelegate();
     this->setModel(tableModel);
     this->setItemDelegate(specialDelegate);
 
-    tableModel->setHeaderData(Pass_Id_col,Qt::Horizontal,tr("Pass Id"));
-    tableModel->setHeaderData(Username_col,Qt::Horizontal,tr("Username"));
-    tableModel->setHeaderData(Password_col,Qt::Horizontal,tr("Password"));
-    tableModel->setHeaderData(Site_col,Qt::Horizontal,tr("Site"));
+//    tableModel->setHeaderData(TableModel::IdField       ,Qt::Horizontal,tr("Pass Id"));
+//    tableModel->setHeaderData(TableModel::UsernameField ,Qt::Horizontal,tr("Username"));
+//    tableModel->setHeaderData(TableModel::PasswordField ,Qt::Horizontal,tr("Password"));
+//    tableModel->setHeaderData(TableModel::WebsiteField  ,Qt::Horizontal,tr("Site"));
 
-    connect(tableModel,&QStandardItemModel::itemChanged,this,&TableView::onDataChanged);
+//    connect(tableModel,&QStandardItemModel::itemChanged,this,&TableView::onDataChanged);
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,&TableView::customContextMenuRequested,this,&TableView::onCustomContextMenu);
@@ -86,30 +87,25 @@ void TableView::mouseMoveEvent(QMouseEvent *event)
         }
 }
 
-void TableView::onDataChanged(QStandardItem* item)
-{
-//    qDebug()<<"Item on row "<<item->index().row()<<" and column "
-//           <<item->index().column()<<" changed to "<<item->index().data().toString();
-}
-
 void TableView::addNewItem(QList<Password*> passList)
 {
-    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
-    QListIterator<Password*>passIt(passList);
-    QList<QStandardItem*> items;
-    while(passIt.hasNext()){
-        Password* temp = passIt.next();
-          items.append(new QStandardItem(temp->getPassId()));
-          items.append(new QStandardItem(temp->getUsername()));
-          items.append(new QStandardItem(temp->getPassword()));
-          items.append(new QStandardItem(temp->getSite()));
-          tableModel->appendRow(items);
-          items.clear();
-          for(int i=0;i<4;i++){
-              QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
-                tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
-            }
-    }
+//    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
+//    QListIterator<Password*>passIt(passList);
+//    QList<QStandardItem*> items;
+//    while(passIt.hasNext()){
+//        Password* temp = passIt.next();
+//          items.append(new QStandardItem(temp->passId()));
+//          items.append(new QStandardItem(temp->username()));
+//          items.append(new QStandardItem(temp->password()));
+//          items.append(new QStandardItem(temp->site()));
+//          tableModel->appendRow(items);
+//          items.clear();
+//          for(int i=0;i<4;i++){
+//              QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
+//                tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
+//            }
+//    }
+    tableModel->addItems(passList);
 }
 
 void TableView::onCustomContextMenu(const QPoint &position)
@@ -127,7 +123,7 @@ void TableView::contextMenuRemoveAction()
 {
     int row = this->indexAt(point).row();
     qDebug()<<"ajal:"<<row;
-    int id = tableModel->index(row,0,QModelIndex()).data().toInt();
+    int id = tableModel->dataAt(row, TableModel::IdField).toInt();
     qDebug()<<"id="<<id;
     QMessageBox messageBox;
     messageBox.setWindowFlag(Qt::FramelessWindowHint);

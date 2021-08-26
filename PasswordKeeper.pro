@@ -17,52 +17,52 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     GUI/databasepassewordsetter.cpp \
+    GUI/generatortab.cpp \
     GUI/iteminsertiondialog.cpp \
     GUI/loadingdialog.cpp \
     GUI/logindialog.cpp \
-    GUI/passwordgenerator.cpp \
-    GUI/passwordtablewidget.cpp \
-    Handlers/passwordhandler.cpp \
+    GUI/tabletab.cpp \
+    Handlers/passwordgenerator.cpp \
     Handlers/usercontroller.cpp \
     Single/password.cpp \
     Single/user.cpp \
-    Verifier/postgresqlverifier.cpp \
+    Verifier/databaseverifier.cpp \
     keygrabaction.cpp \
     main.cpp \
     mainwindow.cpp \
     private/keygrabactionobject.cpp \
-    table/customtablemodel.cpp \
-    table/styleditemdelegate.cpp \
+    table/tabledelegate.cpp \
+    table/tablemodel.cpp \
     table/tableview.cpp
 
 HEADERS += \
     GUI/databasepassewordsetter.h \
+    GUI/generatortab.h \
     GUI/iteminsertiondialog.h \
     GUI/loadingdialog.h \
     GUI/logindialog.h \
-    GUI/passwordgenerator.h \
-    GUI/passwordtablewidget.h \
-    Handlers/passwordhandler.h \
+    GUI/tabletab.h \
+    Handlers/passwordgenerator.h \
     Handlers/usercontroller.h \
     Single/ObjectTypes.h \
     Single/password.h \
     Single/user.h \
-    Verifier/postgresqlverifier.h \
+    Verifier/databaseverifier.h \
     config.h \
     keygrabaction.h \
     mainwindow.h \
     private/keygrabactionobject.h \
-    table/customtablemodel.h \
-    table/styleditemdelegate.h \
+    table/tabledelegate.h \
+    table/tablemodel.h \
     table/tableview.h
 
 FORMS += \
     GUI/databasepassewordsetter.ui \
+    GUI/generatortab.ui \
     GUI/iteminsertiondialog.ui \
     GUI/loadingdialog.ui \
     GUI/logindialog.ui \
-    GUI/passwordgenerator.ui \
-    GUI/passwordtablewidget.ui \
+    GUI/tabletab.ui \
     mainwindow.ui
 
 # Default rules for deployment.

@@ -1,22 +1,22 @@
 #ifndef PASSWORDGENERATOR_H
 #define PASSWORDGENERATOR_H
 #include <QWidget>
-#include "Handlers/passwordhandler.h"
+#include "Handlers/passwordgenerator.h"
 
 namespace Ui {
-class PasswordGenerator;
+class GeneratorTab;
 }
 
-class PasswordGenerator : public QWidget
+class GeneratorTab : public QWidget
 {
     Q_OBJECT
 public:
     typedef PasswordHandler::PasswordType PasswordType;
     typedef PasswordHandler::Options Options;
-    explicit PasswordGenerator(QWidget *parent = nullptr);
-    ~PasswordGenerator();
+    explicit GeneratorTab(QWidget *parent = nullptr);
+    ~GeneratorTab();
 private:
-    Ui::PasswordGenerator *ui;
+    Ui::GeneratorTab *ui;
     OptionFalgs optionFlags;
     FeaturesData featureData;
     Options options;

@@ -1,8 +1,7 @@
-#ifndef PASSWORDTABLEMODEL_H
-#define PASSWORDTABLEMODEL_H
-#include <QListView>
-#include <QDebug>
+#ifndef TABLEMODEL_H
+#define TABLEMODEL_H
 #include <QAbstractTableModel>
+/*
 struct TableItem{
     QString     _passId;
     QString _username;
@@ -48,27 +47,38 @@ struct TableItem{
         _site = site;
     }
 };
-
+*/
+class Password;
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
+    enum Attributes{IdField = Qt::UserRole+1, UsernameField, PasswordField, WebsiteField};
     explicit TableModel(QObject *parent = nullptr);
     ~TableModel() override;
-    void appendItem(const TableItem& item);
-    int tableItemCount() const;
+
+    void addItem(Password *item);
+    void addItems(QList<Password*> items);
+    QVariant dataAt(int row, int column) const;
+
+
 protected:
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole)const override;
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     virtual QVariant headerData(int section, Qt::Orientation orientation,
                                 int role = Qt::DisplayRole) const override;
-
+    virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+    virtual QHash<int,QByteArray> roleNames() const override;
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+
 private:
     const int _columnCount = 4;
-    QList<TableItem*> itemsList;
+    QList<Password*> itemsList;
+    QHash<int ,QByteArray> _roleNames;
+
     //Methods
+    void setupRoles();
 };
 
 #endif // PASSWORDTABLEMODEL_H

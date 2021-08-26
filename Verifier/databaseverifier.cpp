@@ -1,8 +1,8 @@
-#include "postgresqlverifier.h"
+#include "databaseverifier.h"
 #include <QHostAddress>
 #include <QtSql/QSqlError>
 #include "../Single/user.h"
-#include "../Handlers/passwordhandler.h"
+#include "../Handlers/passwordgenerator.h"
 #include "../Single/password.h"
 #include <QMessageBox>
 #include "GUI/databasepassewordsetter.h"
@@ -66,8 +66,8 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
 
 bool DatabaseVerifier::onAddNewItem(Password *newPassword)
 {
-    QString query = config.passwordsTable.getInsertQueryString(newPassword->getUsername()
-                                                               , newPassword->getPassword(), newPassword->getSite(), frontUser->username());
+    QString query = config.passwordsTable.getInsertQueryString(newPassword->username()
+                                                               , newPassword->password(), newPassword->website(), frontUser->username());
     qDebug()<<query;
     int status = this->execute(query);
     if(status){

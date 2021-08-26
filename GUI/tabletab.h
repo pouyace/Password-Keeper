@@ -11,13 +11,13 @@ namespace Ui {
 class PasswordTableWidget;
 }
 
-class PasswordTableWidget : public QWidget
+class TableTab : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PasswordTableWidget(QWidget *parent = nullptr);
-    ~PasswordTableWidget();
+    explicit TableTab(QWidget *parent = nullptr);
+    ~TableTab();
     void syncTableSize();
 
 private:

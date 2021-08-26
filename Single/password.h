@@ -2,28 +2,41 @@
 #define PASSWORD_H
 
 #include <QObject>
-class User;
+#include <QModelIndex>
+
 class Password:public QObject
 {
     Q_OBJECT
 public:
     Password(QString passId, QString username, QString password, QString site, QObject *parent);
-    Password(QString username, QString password, QString site, QObject *parent = nullptr);
+    Password(QString username, QString password , QString website);
+    Password();
+    Password(const Password& obj);
+    Password& operator=(const Password &obj);
+
     ~Password();
-    void setHashedPassword(QString hashedPassword);
-    void setPasswordId(QString id);
-    QString getSite()const;
-    QString getPassword()const;
-    QString getUsername()const;
-    QString getPassId()const;
-    QString getHashedPassword()const;
-    int id()const;
+
+    void setPassId  (const QString &passId);
+    void setWebsite (const QString &website);
+    void setUsername(const QString &username);
+    void setPassword(const QString &password);
+
+    QString website()const;
+    QString password()const;
+    QString username()const;
+    QString passId()const;
+
+    void setModelIndex(QModelIndex modelIndex);
+    QModelIndex modelIndex() const;
+
 private:
-    QString passId;
-    QString hashedPassword;
-    QString username;
-    QString password;
-    QString site;
+    QString _passId     = "Invalid";
+    QString _username   = "Invalid";
+    QString _password   = "Invalid";
+    QString _website    = "Invalid";
+
+    QModelIndex _modelIndex;
+
 };
 
 #endif // PASSWORD_H
