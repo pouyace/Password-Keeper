@@ -28,7 +28,7 @@ void UserController::onItemsRetreived(QMap<int,Password*> list)
     qDeleteAll(_PasswordContainer.values());
     _PasswordContainer.clear();
     _PasswordContainer = list;
-    emit showItems(_PasswordContainer.values());
+    emit syncedItemsGot(_PasswordContainer.values());
     userUniqueSitesCount();
     emit passwordsCountUpdated(_PasswordContainer.count());
 }

@@ -9,11 +9,11 @@ ItemInsertionDialog::ItemInsertionDialog(QWidget *parent) :
     this->setWindowFlag(Qt::FramelessWindowHint);
     connect(ui->cancelPushButton,&QPushButton::clicked,this,&QDialog::close);
     connect(ui->inserPushButton,&QPushButton::clicked,this,&ItemInsertionDialog::onInsertNewPassword);
+    this->setTabOrder(ui->cancelPushButton,ui->usernameLineEdit);
     this->setTabOrder(ui->usernameLineEdit,ui->passwordLineEdit);
     this->setTabOrder(ui->passwordLineEdit,ui->websiteLineEdit);
     this->setTabOrder(ui->websiteLineEdit,ui->inserPushButton);
     this->setTabOrder(ui->inserPushButton,ui->cancelPushButton);
-    this->setTabOrder(ui->cancelPushButton,ui->usernameLineEdit);
 }
 
 ItemInsertionDialog::~ItemInsertionDialog()

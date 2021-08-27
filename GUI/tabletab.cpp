@@ -20,9 +20,14 @@ TableTab::~TableTab()
     delete ui;
 }
 
-void TableTab::syncTableSize()
+TableView *TableTab::tableView() const
 {
-    tableView->syncSize();
+    return _tableView;
+}
+
+ItemInsertionDialog *TableTab::insertionDialog() const
+{
+    return itemInsertionDialog;
 }
 
 void TableTab::setupProperties()
@@ -31,19 +36,14 @@ void TableTab::setupProperties()
     ui->searchToolButton->setCursor(Qt::IBeamCursor);
     ui->searchLineEdit->setPlaceholderText("Search Passwords");
 
-    tableView            = new TableView(this);   // Table
+    _tableView            = new TableView(this);   // Table
     itemInsertionDialog  = new ItemInsertionDialog  (this);   // Insertion Dialog
-    ui->verticalLayout_6->addWidget(tableView);
+    ui->verticalLayout_6->addWidget(_tableView);
 }
 
 void TableTab::setupConnection()
 {
-    connect(tableView,&TableView::deleteItem,this,&TableTab::removeItemRequested);
     connect(ui->newPasswords,&QToolButton::clicked,itemInsertionDialog,&ItemInsertionDialog::exec);
-    connect(this,&TableTab::addItemRequested,tableView,&TableView::addNewItem);
-    connect(itemInsertionDialog,&ItemInsertionDialog::newInsertionRequested,this,&TableTab::itemInsertionRequested);
-    connect(this,&TableTab::insertionResult,itemInsertionDialog,&ItemInsertionDialog::onInsertionResult);
-//    connect(tableView,&TableView::deleteItem,this,&PasswordTableWidget::removeItemRequested);
 }
 
 void TableTab::updateTotPass(int count)

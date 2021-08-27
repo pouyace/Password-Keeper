@@ -21,17 +21,41 @@ void TableModel::addItem(Password *item)
 
 }
 
-void TableModel::addItems(QList<Password *> items)
+void TableModel::syncTable(QList<Password *> items)
 {
+    // How about deleteLater() ?
+    beginRemoveRows(QModelIndex(), 0, itemsList.count()-1);
+    itemsList.clear();
+    endRemoveRows();
     beginInsertRows(QModelIndex(), itemsList.count(), itemsList.count()+items.count()-1);
     itemsList.append(items);
     endInsertRows();
+}
+
+bool TableModel::removeItem(int row, int id)
+{
+    bool status = false;
+    beginRemoveRows(QModelIndex(), row, row);
+    foreach(Password* item, itemsList){
+        if(item->passId().toInt() == id){
+            item->deleteLater();
+            itemsList.removeAll(item);
+            status = true;
+        }
+    }
+    endRemoveRows();
+    return status;
 }
 
 QVariant TableModel::dataAt(int row, int column) const
 {
     Q_UNUSED(column)
     return index(row,0,QModelIndex()).data();
+}
+
+int TableModel::itemsCount() const
+{
+    return itemsList.count();
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const

@@ -66,9 +66,8 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
 
 bool DatabaseVerifier::onAddNewItem(Password *newPassword)
 {
-    QString query = config.passwordsTable.getInsertQueryString(newPassword->username()
-                                                               , newPassword->password(), newPassword->website(), frontUser->username());
-    qDebug()<<query;
+    QString query = config.passwordsTable.getInsertQueryString(newPassword->username(), newPassword->password()
+                                                               , newPassword->website(), frontUser->username());
     int status = this->execute(query);
     if(status){
         this->setError(Error::NoError);
@@ -89,7 +88,8 @@ bool DatabaseVerifier::onAddNewItem(Password *newPassword)
 
 void DatabaseVerifier::doConnect()
 {
-    bool state = this->setupConfig(QHostAddress::LocalHost, config.port, config.serverUsername,config.serverPassword, config.databaseName);
+    bool state = this->setupConfig(QHostAddress::LocalHost, config.port, config.serverUsername
+                                   ,config.serverPassword, config.databaseName);
     emit databaseConnected(state);
     if(!state)
         emit errorOccured(errorString());

@@ -6,7 +6,6 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
 class LoginDialog;
 class DatabaseVerifier;
 class UserController;
@@ -32,6 +31,7 @@ private:
     QTimer                  *timer                        =  nullptr;
 
     //Methods
+    void resizeEvent(QResizeEvent *event) override;
     void setupConnections();
     void initializeObjects();
     void initializeModules();
@@ -40,5 +40,7 @@ private slots:
     void updateDateAndTime();
 public slots:
     void setupMainWindow(User *user);
+signals:
+    void mainwindowResized();
 };
 #endif // MAINWINDOW_H

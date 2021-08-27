@@ -33,7 +33,7 @@ void TableView::setupProperties()
 //    this->setAcceptDrops(true);
 //    this->setDragDropMode(QAbstractItemView::DragDrop);
 //    this->setDropIndicatorShown(true);
-//    this->setStyleSheet("background-color:blue;");
+
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
     this->setSelectionMode(QAbstractItemView::SingleSelection);
     this->setCornerButtonEnabled(false);
@@ -46,14 +46,7 @@ void TableView::setupProperties()
     tableModel = new TableModel(this);
     specialDelegate = new StyledItemDelegate();
     this->setModel(tableModel);
-//    this->setItemDelegate(specialDelegate);
-
-//    tableModel->setHeaderData(TableModel::IdField       ,Qt::Horizontal,tr("Pass Id"));
-//    tableModel->setHeaderData(TableModel::UsernameField ,Qt::Horizontal,tr("Username"));
-//    tableModel->setHeaderData(TableModel::PasswordField ,Qt::Horizontal,tr("Password"));
-//    tableModel->setHeaderData(TableModel::WebsiteField  ,Qt::Horizontal,tr("Site"));
-
-//    connect(tableModel,&QStandardItemModel::itemChanged,this,&TableView::onDataChanged);
+    this->setItemDelegate(specialDelegate);
 
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,&TableView::customContextMenuRequested,this,&TableView::onCustomContextMenu);
@@ -89,29 +82,33 @@ void TableView::mouseMoveEvent(QMouseEvent *event)
         }
 }
 
-void TableView::addNewItem(QList<Password*> passList)
+void TableView::showSyncItems(QList<Password*> passList)
 {
-//    tableModel->removeRows(0,tableModel->rowCount(),QModelIndex());
-//    QListIterator<Password*>passIt(passList);
-//    QList<QStandardItem*> items;
-//    while(passIt.hasNext()){
-//        Password* temp = passIt.next();
-//          items.append(new QStandardItem(temp->passId()));
-//          items.append(new QStandardItem(temp->username()));
-//          items.append(new QStandardItem(temp->password()));
-//          items.append(new QStandardItem(temp->site()));
-//          tableModel->appendRow(items);
-//          items.clear();
-//          for(int i=0;i<4;i++){
-//              QModelIndex index = tableModel->index(tableModel->rowCount() - 1,i,QModelIndex());
-//                tableModel->setData(index,Qt::AlignCenter,Qt::TextAlignmentRole);
-//            }
-//    }
-    tableModel->addItems(passList);
+    tableModel->syncTable(passList);
+}
+
+void TableView::addItem(Password *password)
+{
+    tableModel->addItem(password);
+}
+
+void TableView::onItemDeleted(int id, bool status)
+{
+    bool state = false;
+    if(status){
+        state = tableModel->removeItem(deletingItemRow, id);
+    }
+    else if( !status && !state){
+        QMessageBox::warning(this, "Deletion Error", "Could not delete item with id: "+ QString::number(id));
+    }
 }
 
 void TableView::onCustomContextMenu(const QPoint &position)
 {
+    int row = this->indexAt(position).row();
+//    qDebug()<<"row="<<row;
+    if(row < 0 || row >= tableModel->itemsCount())
+        return;
     point = position;
     mainMenu->popup(mapToGlobal(position));
 }
@@ -123,10 +120,9 @@ void TableView::contextMenuEditAction()
 
 void TableView::contextMenuRemoveAction()
 {
-    int row = this->indexAt(point).row();
-    qDebug()<<"ajal:"<<row;
-    int id = tableModel->dataAt(row, 0).toInt();
-    qDebug()<<"id="<<id;
+    deletingItemRow = this->indexAt(point).row();
+    int id = tableModel->dataAt(deletingItemRow, 0).toInt();
+//    qDebug()<<"id="<<id;
     QMessageBox messageBox;
     messageBox.setWindowFlag(Qt::FramelessWindowHint);
     messageBox.setText("Deleting index '"+QString::number(id)+"' permanently");

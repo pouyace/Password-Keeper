@@ -20,7 +20,7 @@ private:
 public slots:
     void onItemsRetreived(QMap<int, Password *> list);
 signals:
-    void showItems(QList<Password*>);
+    void syncedItemsGot(QList<Password*>);
     void removeItem();
     void passwordsCountUpdated(int);
     void uniqueSitesCountUpdated(int);

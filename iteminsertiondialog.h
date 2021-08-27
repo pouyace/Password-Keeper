@@ -21,7 +21,7 @@ private:
 public slots:
     void onInsertionResult(bool state);
 signals:
-    void newInsertionRequested(QString,QString,QString);
+    void newInsertionRequested(Password*);
 
 };
 

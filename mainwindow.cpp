@@ -7,6 +7,8 @@
 #include "GUI/logindialog.h"
 #include "Verifier/databaseverifier.h"
 #include "Single/user.h"
+#include "iteminsertiondialog.h"
+#include "table/tableview.h"
 #include "Handlers/usercontroller.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -34,20 +36,23 @@ void MainWindow::setupConnections()
     connect(databaseVerifier,&DatabaseVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
     connect(databaseVerifier,&DatabaseVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
     connect(databaseVerifier,&DatabaseVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
-
+    connect(databaseVerifier,&DatabaseVerifier::itemRemoved, ui->firstWidget->tableView(), &TableView::onItemDeleted);
     connect(databaseVerifier,&DatabaseVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
-    connect(ui->firstWidget,&TableTab::itemInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
-    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget,&TableTab::insertionResult);
+    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget->insertionDialog(),&ItemInsertionDialog::onInsertionResult);
+
+    connect(ui->firstWidget->insertionDialog(),&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
+
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton  ,&QToolButton::clicked,this,&QMainWindow::close);
 
-    connect(userController,&UserController::showItems,ui->firstWidget,&TableTab::addItemRequested,Qt::UniqueConnection);
+    connect(userController,&UserController::syncedItemsGot,ui->firstWidget->tableView(), &TableView::showSyncItems);
     connect(userController,&UserController::passwordsCountUpdated,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
     connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&TableTab::updateTotPass);
     connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&TableTab::upadteTotSite);
 
-    connect(ui->firstWidget,&TableTab::removeItemRequested,databaseVerifier,&DatabaseVerifier::onRemoveItem);
+    connect(ui->firstWidget->tableView(),&TableView::deleteItem,databaseVerifier,&DatabaseVerifier::onRemoveItem);
+    connect(this, &MainWindow::mainwindowResized, ui->firstWidget->tableView(), &TableView::syncSize);
 
 }
 
@@ -84,14 +89,20 @@ void MainWindow::raiseLoginPage()
     loginDialog->show();
     databaseVerifier->doConnect();
 }
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    emit mainwindowResized();
+}
 void MainWindow::setupMainWindow(User *user)
 {
     userController->setUser(user);
     setupProperties();
     loginDialog->hide();
-    this->showFullScreen();
+//    this->showFullScreen();
+    this->show();
     ui->usernameLabel->setText(user->prettyName());
-    ui->firstWidget->syncTableSize();
+//    ui->firstWidget->syncTableSize();
 }
 void MainWindow::updateDateAndTime()
 {

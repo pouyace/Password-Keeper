@@ -18,7 +18,7 @@ ItemInsertionDialog::~ItemInsertionDialog()
 
 void ItemInsertionDialog::onInsertNewPassword()
 {
-    emit newInsertionRequested(ui->usernameLineEdit->text(),ui->passwordLineEdit->text(),ui->websiteLineEdit->text());
+    emit newInsertionRequested(new  Passwod(ui->usernameLineEdit->text(),ui->passwordLineEdit->text(),ui->websiteLineEdit->text()));
 }
 
 void ItemInsertionDialog::onInsertionResult(bool state)

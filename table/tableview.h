@@ -12,9 +12,8 @@ class TableView : public QTableView
 public:
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
-    void syncSize();
 private:
-    int mHoverRow, mHoverColumn;
+    int mHoverRow, mHoverColumn, deletingItemRow;
     TableModel          *tableModel          = nullptr;
     StyledItemDelegate  *specialDelegate     = nullptr;
     QMenu               *mainMenu            = nullptr;
@@ -23,7 +22,10 @@ private:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
-    void addNewItem(QList<Password*>);
+    void syncSize();
+    void showSyncItems(QList<Password*>);
+    void addItem(Password*);
+    void onItemDeleted(int id, bool status);
 private slots:
     void onCustomContextMenu(const QPoint &position);
     void contextMenuEditAction();
