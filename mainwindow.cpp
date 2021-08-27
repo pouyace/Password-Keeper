@@ -102,7 +102,7 @@ void MainWindow::setupMainWindow(User *user)
 //    this->showFullScreen();
     this->show();
     ui->usernameLabel->setText(user->prettyName());
-//    ui->firstWidget->syncTableSize();
+    ui->firstWidget->tableView()->syncSize();
 }
 void MainWindow::updateDateAndTime()
 {

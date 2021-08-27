@@ -29,9 +29,15 @@ private:
     void setupProperties();
     void setupConnection();
 
+private slots:
+    void filterTableItems(QString text);
+
 public slots:
     void updateTotPass(int count);
     void upadteTotSite(int count);
+
+signals:
+    void filterItems(const QRegExp&);
 };
 
 #endif // PASSWORDTABLEWIDGET_H

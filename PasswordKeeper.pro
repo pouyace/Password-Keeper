@@ -31,6 +31,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     private/keygrabactionobject.cpp \
+    table/proxymodel.cpp \
     table/tabledelegate.cpp \
     table/tablemodel.cpp \
     table/tableview.cpp
@@ -52,6 +53,7 @@ HEADERS += \
     keygrabaction.h \
     mainwindow.h \
     private/keygrabactionobject.h \
+    table/proxymodel.h \
     table/tabledelegate.h \
     table/tablemodel.h \
     table/tableview.h

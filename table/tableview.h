@@ -6,17 +6,20 @@ class Password;
 struct TableItem;
 class TableModel;
 class StyledItemDelegate;
+class ProxyModel;
 class TableView : public QTableView
 {
     Q_OBJECT
 public:
     TableView(QWidget *parent = nullptr);
     QModelIndex hoverIndex() const { return model()->index(mHoverRow, mHoverColumn); }
+    ProxyModel *proxyModel()const;
 private:
     int mHoverRow, mHoverColumn, deletingItemRow;
-    TableModel          *tableModel          = nullptr;
-    StyledItemDelegate  *specialDelegate     = nullptr;
-    QMenu               *mainMenu            = nullptr;
+    TableModel              *tableModel          = nullptr;
+    StyledItemDelegate      *specialDelegate     = nullptr;
+    QMenu                   *mainMenu            = nullptr;
+    ProxyModel              *_proxyModel          = nullptr;
     QPoint point ;
     void setupProperties();
 protected:

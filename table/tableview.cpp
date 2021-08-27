@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QMenu>
 #include "tabledelegate.h"
+#include "proxymodel.h"
 #include <QMessageBox>
 #include "tablemodel.h"
 TableView::TableView(QWidget *parent):
@@ -14,6 +15,11 @@ TableView::TableView(QWidget *parent):
     , mHoverColumn(-1)
 {
     setupProperties();
+}
+
+ProxyModel *TableView::proxyModel() const
+{
+    return _proxyModel;
 }
 
 void TableView::syncSize()
@@ -56,7 +62,12 @@ void TableView::setupProperties()
     mainMenu->addAction("Remove",this,&TableView::contextMenuRemoveAction);
     mainMenu->addAction("Details",this,&TableView::contextMenuDetailsAction);
 
+    _proxyModel = new ProxyModel(this);
+    _proxyModel->setSourceModel(tableModel);
+    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    this->setModel(_proxyModel);
 
+//    _proxyModel->setFilterRegExp("\\d\\d\\d\\d\\d\\d\\d");
 
 }
 
