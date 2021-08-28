@@ -11,7 +11,7 @@ DatabaseVerifier::DatabaseVerifier(QObject *parent):
     QObject(parent)
 {
     _DataBase = QSqlDatabase::addDatabase("QPSQL");
-    passwordHandler = new PasswordHandler(this);
+    passwordHandler = new PasswordGenerator(this);
 }
 
 bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, const QString &username
@@ -103,7 +103,7 @@ void DatabaseVerifier::onRemoveItem(int id)
     if(state){
         this->setError(Error::NoError);
         emit itemRemoved(id, true);
-        sync();
+//        sync();
     }
     else{
         this->setError(Error::InsertinoError);

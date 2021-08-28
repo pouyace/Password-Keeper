@@ -1,14 +1,14 @@
 #include "tabletab.h"
-#include "ui_passwordtablewidget.h"
+#include "ui_tabletab.h"
 #include "table/proxymodel.h"
 #include "table/tableview.h"
 #include "Single/password.h"
-#include "GUI/iteminsertiondialog.h"
-#include <QDebug>;
+#include "GUI/insertiondialog.h"
+#include <QDebug>
 
 TableTab::TableTab(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::PasswordTableWidget)
+    ui(new Ui::TableTab)
 {
     ui->setupUi(this);
     setupProperties();
@@ -47,11 +47,12 @@ void TableTab::setupConnection()
     connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &TableTab::filterTableItems);
     connect(this, &TableTab::filterItems, _tableView->proxyModel()
             , static_cast<void (QSortFilterProxyModel::*)(const QRegExp&)>(&QSortFilterProxyModel::setFilterRegExp));
+//    connect(ui->asd, &QToolButton::clicked, this, &TableTab::onSyncClicked);
+//    ui->as
 }
 
 void TableTab::filterTableItems(QString text)
 {
-    qDebug()<<text;
     emit filterItems(QRegExp(text));
 }
 

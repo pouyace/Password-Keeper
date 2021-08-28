@@ -1,12 +1,11 @@
-#ifndef ITEMINSERTIONDIALOG_H
-#define ITEMINSERTIONDIALOG_H
+#ifndef INSERTIONDIALOG_H
+#define INSERTIONDIALOG_H
 
 #include <QDialog>
-
+#include "Single/password.h"
 namespace Ui {
 class ItemInsertionDialog;
 }
-
 class ItemInsertionDialog : public QDialog
 {
     Q_OBJECT
@@ -14,6 +13,8 @@ class ItemInsertionDialog : public QDialog
 public:
     explicit ItemInsertionDialog(QWidget *parent = nullptr);
     ~ItemInsertionDialog();
+protected:
+    virtual void closeEvent(QCloseEvent *) override;
 private slots:
     void onInsertNewPassword();
 private:

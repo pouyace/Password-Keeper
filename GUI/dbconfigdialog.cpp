@@ -1,5 +1,5 @@
 #include "dbconfigdialog.h"
-#include "ui_databasepassewordsetter.h"
+#include "ui_dbconfigdialog.h"
 
 DataBasePassewordSetter::DataBasePassewordSetter(QString defaultUsername, QString defaultPassword, QWidget *parent):
     QDialog(parent),

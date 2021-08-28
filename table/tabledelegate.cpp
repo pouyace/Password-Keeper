@@ -1,4 +1,4 @@
-#include "styleditemdelegate.h"
+#include "tabledelegate.h"
 #include "tableview.h"
 #include "tablemodel.h"
 #include <QDebug>

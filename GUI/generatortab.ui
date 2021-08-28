@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PasswordGenerator</class>
- <widget class="QWidget" name="PasswordGenerator">
+ <class>GeneratorTab</class>
+ <widget class="QWidget" name="GeneratorTab">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -1,5 +1,5 @@
-#include "iteminsertiondialog.h"
-#include "ui_iteminsertiondialog.h"
+#include "insertiondialog.h"
+#include "ui_insertiondialog.h"
 
 ItemInsertionDialog::ItemInsertionDialog(QWidget *parent) :
     QDialog(parent),

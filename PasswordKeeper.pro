@@ -18,7 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     GUI/dbconfigdialog.cpp \
     GUI/generatortab.cpp \
-    GUI/iteminsertiondialog.cpp \
+    GUI/insertiondialog.cpp \
     GUI/loadingdialog.cpp \
     GUI/logindialog.cpp \
     GUI/tabletab.cpp \
@@ -39,7 +39,7 @@ SOURCES += \
 HEADERS += \
     GUI/dbconfigdialog.h \
     GUI/generatortab.h \
-    GUI/iteminsertiondialog.h \
+    GUI/insertiondialog.h \
     GUI/loadingdialog.h \
     GUI/logindialog.h \
     GUI/tabletab.h \
@@ -49,7 +49,7 @@ HEADERS += \
     Single/password.h \
     Single/user.h \
     Verifier/databaseverifier.h \
-    config.h \
+    config/config.h \
     keygrabaction.h \
     mainwindow.h \
     private/keygrabactionobject.h \
@@ -61,7 +61,7 @@ HEADERS += \
 FORMS += \
     GUI/dbconfigdialog.ui \
     GUI/generatortab.ui \
-    GUI/iteminsertiondialog.ui \
+    GUI/insertiondialog.ui \
     GUI/loadingdialog.ui \
     GUI/logindialog.ui \
     GUI/tabletab.ui \

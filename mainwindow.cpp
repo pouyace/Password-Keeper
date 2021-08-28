@@ -7,7 +7,7 @@
 #include "GUI/logindialog.h"
 #include "Verifier/databaseverifier.h"
 #include "Single/user.h"
-#include "iteminsertiondialog.h"
+#include "GUI/insertiondialog.h"
 #include "table/tableview.h"
 #include "Handlers/usercontroller.h"
 
@@ -53,6 +53,7 @@ void MainWindow::setupConnections()
 
     connect(ui->firstWidget->tableView(),&TableView::deleteItem,databaseVerifier,&DatabaseVerifier::onRemoveItem);
     connect(this, &MainWindow::mainwindowResized, ui->firstWidget->tableView(), &TableView::syncSize);
+    connect(ui->firstWidget, &TableTab::onSyncClicked, databaseVerifier, &DatabaseVerifier::sync);
 
 }
 

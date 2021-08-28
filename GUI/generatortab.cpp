@@ -1,5 +1,5 @@
 #include "generatortab.h"
-#include "ui_passwordgenerator.h"
+#include "ui_generatortab.h"
 
 GeneratorTab::GeneratorTab(QWidget *parent) :
     QWidget(parent),
@@ -15,29 +15,29 @@ GeneratorTab::~GeneratorTab()
 }
 
 void GeneratorTab::updateTypes()
-{
+{/*
     Options op = 0;
     if(ui->uppercaseCheckBox->isChecked())
-        op |= PasswordHandler::UpperCases;
+        op |= PasswordGenerator::UpperCases;
     if(ui->lowercaseCheckBox->isChecked())
-        op |= PasswordHandler::LowerCases;
+        op |= PasswordGenerator::LowerCases;
     if(ui->symbolsCheckBox->isChecked())
-        op |= PasswordHandler::symbols;
+        op |= PasswordGenerator::symbols;
     if(ui->ambiguousCharsCheckBox->isChecked())
-        op |= PasswordHandler::SpecialChars;
+        op |= PasswordGenerator::SpecialChars;
     if(ui->numbersCheckBox->isChecked())
-        op |= PasswordHandler::Numbers;
-    options = op;
+        op |= PasswordGenerator::Numbers;
+    options = op;*/
 }
 
 void GeneratorTab::updateFlags()
 {
-    optionFlags.saveToDB   = ui->saveInDBCheckBox->isChecked();
-    optionFlags.showHash   = ui->showHashedCheckBox->isChecked();
-    optionFlags.SPS        = ui->SPSCheckBox->isChecked();
-    optionFlags.knownWords = ui->knownWordsCheckBox->isChecked();
-    optionFlags.noDupChars = ui->duplicateCheckBox->isChecked();
-    optionFlags.noSeqChars = ui->sequentialCheckBox->isChecked();
+//    optionFlags.saveToDB   = ui->saveInDBCheckBox->isChecked();
+//    optionFlags.showHash   = ui->showHashedCheckBox->isChecked();
+//    optionFlags.SPS        = ui->SPSCheckBox->isChecked();
+//    optionFlags.knownWords = ui->knownWordsCheckBox->isChecked();
+//    optionFlags.noDupChars = ui->duplicateCheckBox->isChecked();
+//    optionFlags.noSeqChars = ui->sequentialCheckBox->isChecked();
 }
 
 void GeneratorTab::restoreDefaults()
@@ -57,10 +57,10 @@ void GeneratorTab::restoreDefaults()
 
 void GeneratorTab::updateFeatures()
 {
-    featureData.count = ui->passwordCountSpinBox->value();
-    featureData.length = ui->passwordLengthSpinBox->value();
-    featureData.includeList = ui->includeLineEdit->text().split("",QString::SkipEmptyParts);
-    featureData.excludeList = ui->excludeLineEdit->text().split("",QString::SkipEmptyParts);
+//    featureData.count = ui->passwordCountSpinBox->value();
+//    featureData.length = ui->passwordLengthSpinBox->value();
+//    featureData.includeList = ui->includeLineEdit->text().split("",QString::SkipEmptyParts);
+//    featureData.excludeList = ui->excludeLineEdit->text().split("",QString::SkipEmptyParts);
 }
 
 void GeneratorTab::onGenerateClicked()
@@ -68,7 +68,7 @@ void GeneratorTab::onGenerateClicked()
     updateFlags();
     updateFeatures();
     updateTypes();
-    emit passwordGeneratingRequested(options,featureData,optionFlags);
+//    emit passwordGeneratingRequested(options,featureData,optionFlags);
 }
 
 void GeneratorTab::onShowResult(const int &count, const int &length, const QStringList &passwords, const QStringList &hashes, const bool dbState)

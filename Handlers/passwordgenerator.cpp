@@ -4,20 +4,20 @@
 #include <stdlib.h>
 #include <QDebug>
 
-PasswordHandler::PasswordHandler(QObject *parent):
+PasswordGenerator::PasswordGenerator(QObject *parent):
     QObject(parent),
     _Hash(QCryptographicHash::Algorithm::Sha1)
 {
 
 }
 
-QString PasswordHandler::getHashedPassword(QString pass)
+QString PasswordGenerator::getHashedPassword(QString pass)
 {
    _Hash.addData(pass.toStdString().c_str(),pass.size());
    return QString(_Hash.result().toHex());
 }
 
-void PasswordHandler::setPasswordType(Options type)
+void PasswordGenerator::setPasswordType(Options type)
 {
     if(info.orderedPasswordType != type){
         info.orderedPasswordType = type;
@@ -25,7 +25,7 @@ void PasswordHandler::setPasswordType(Options type)
     }
 }
 
-void PasswordHandler::setPasswordLength(const int &length)
+void PasswordGenerator::setPasswordLength(const int &length)
 {
     if(info.orderedPasswordLength != length){
         info.orderedPasswordLength = length;
@@ -33,7 +33,7 @@ void PasswordHandler::setPasswordLength(const int &length)
     emit passwordLengthUpdated(info.orderedPasswordLength);
 }
 
-void PasswordHandler::setPasswordCount(const int &count)
+void PasswordGenerator::setPasswordCount(const int &count)
 {
     if(info.orderedPasswordCount != count){
         info.orderedPasswordCount= count;
@@ -41,7 +41,7 @@ void PasswordHandler::setPasswordCount(const int &count)
     emit passwordCountUpdated(info.orderedPasswordCount);
 }
 
-void PasswordHandler::shufflePallet(int repeat)
+void PasswordGenerator::shufflePallet(int repeat)
 {
     int j,k,i=0;
     int range = palletSize() - 1;
@@ -56,7 +56,7 @@ void PasswordHandler::shufflePallet(int repeat)
     }
 }
 
-void PasswordHandler::viewPallet()
+void PasswordGenerator::viewPallet()
 {
     QString palletString = "";
     qDebug()<<"--------------------------------- View Pallet ---------------------------------";
@@ -68,15 +68,16 @@ void PasswordHandler::viewPallet()
     qDebug()<<"--------------------------------- View Pallet ---------------------------------";
 }
 
-void PasswordHandler::viewPassword()
+void PasswordGenerator::viewPassword()
 {
     qDebug()<<"--------------------------------- View Password ---------------------------------";
         for(int i=0;i<info.orderedPasswordCount;i++){
             qDebug()<<"Password:"<<passwordList[i]->string<<'\t'<<passwordList[i]->byteArray;
         }
 }
-void PasswordHandler::makePassword(int index)
+void PasswordGenerator::makePassword(int index)
 {
+    Q_UNUSED(index)
     srand(time(NULL));
     while(passwordObject.string.length() != info.orderedPasswordLength){
         int index = rand()%palletSize();
@@ -87,7 +88,7 @@ void PasswordHandler::makePassword(int index)
     passwordObject.byteArray = _Hash.result().toHex();
 }
 
-void PasswordHandler::feedPalletWithLowers(bool set)
+void PasswordGenerator::feedPalletWithLowers(bool set)
 {
     if(!set)
         return;
@@ -96,12 +97,12 @@ void PasswordHandler::feedPalletWithLowers(bool set)
     }
 }
 
-int PasswordHandler::palletSize()
+int PasswordGenerator::palletSize()
 {
     return _Pallet.size();
 }
 
-void PasswordHandler::feedPalletWithUppers(bool set)
+void PasswordGenerator::feedPalletWithUppers(bool set)
 {
     if(!set)
         return;
@@ -110,7 +111,7 @@ void PasswordHandler::feedPalletWithUppers(bool set)
     }
 }
 
-void PasswordHandler::feedPalletWithNumbers(bool set)
+void PasswordGenerator::feedPalletWithNumbers(bool set)
 {
     if(!set)
         return;
@@ -119,7 +120,7 @@ void PasswordHandler::feedPalletWithNumbers(bool set)
     }
 }
 
-void PasswordHandler::feedPalletWithSpecialChars(bool set)
+void PasswordGenerator::feedPalletWithSpecialChars(bool set)
 {
     if(!set)
         return;
@@ -140,7 +141,7 @@ void PasswordHandler::feedPalletWithSpecialChars(bool set)
     }
 }
 
-void PasswordHandler::feedPalletWithSymbols(bool set)
+void PasswordGenerator::feedPalletWithSymbols(bool set)
 {
     if(!set)
         return;
@@ -154,8 +155,9 @@ void PasswordHandler::feedPalletWithSymbols(bool set)
 
 }
 
-void PasswordHandler::GeneratePassword(const Options &options,const FeaturesData &features,const OptionFalgs &optionFlags)
+void PasswordGenerator::GeneratePassword(const Options &options,const FeaturesData &features,const OptionFalgs &optionFlags)
 {
+    Q_UNUSED(optionFlags)
     setPasswordType(options);
     setPasswordLength(features.length);
     setPasswordCount(features.count);
@@ -163,14 +165,16 @@ void PasswordHandler::GeneratePassword(const Options &options,const FeaturesData
     viewPassword();
 }
 
-QString PasswordHandler::decodePassword(QByteArray pass)
+QString PasswordGenerator::decodePassword(QByteArray pass)
 {
-
+    Q_UNUSED(pass)
+    return "";
 }
 
-void PasswordHandler::feedPallet()
+void PasswordGenerator::feedPallet()
 {
     bool a = (LowerCases & info.orderedPasswordType);
+    Q_UNUSED(a)
     _Pallet.clear();
     _Pallet.reserve(info.orderedPasswordLength);
 
@@ -182,7 +186,7 @@ void PasswordHandler::feedPallet()
 
 }
 
-void PasswordHandler::buildPasswords()
+void PasswordGenerator::buildPasswords()
 {
     feedPallet();
     qDeleteAll(passwordList);

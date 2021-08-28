@@ -1,10 +1,10 @@
-#ifndef PASSWORDHANDLER_H
-#define PASSWORDHANDLER_H
+#ifndef PASSWORDGENERATOR_H
+#define PASSWORDGENERATOR_H
 #include <QCryptographicHash>
 #include <QObject>
 #include "../Single/ObjectTypes.h"
 class Password;
-class PasswordHandler:public QObject
+class PasswordGenerator:public QObject
 {
     Q_OBJECT
 public:
@@ -12,7 +12,7 @@ public:
     Q_DECLARE_FLAGS(Options, PasswordType);
     Q_FLAG(Options)
     enum PasswordOption{NoOption,NoDuplicateChars,NoSequentialchars};
-    PasswordHandler(QObject *parent);
+    PasswordGenerator(QObject *parent);
     QString getHashedPassword(QString pass);
 private:
     struct orderInfo{
@@ -43,7 +43,7 @@ private:
     //Methods
     void feedPallet();
     void buildPasswords();
-    void setPasswordType(PasswordHandler::Options type);
+    void setPasswordType(PasswordGenerator::Options type);
     void setPasswordLength(const int& length);
     void setPasswordCount(const int& count);
     void shufflePallet(int repeat = 50);
@@ -67,5 +67,5 @@ signals:
     void passwordGenerated(QList<PasswordObject*>);
 
 };
-Q_DECLARE_OPERATORS_FOR_FLAGS(PasswordHandler::Options)
+Q_DECLARE_OPERATORS_FOR_FLAGS(PasswordGenerator::Options)
 #endif // PASSWORDGENERATOR_H

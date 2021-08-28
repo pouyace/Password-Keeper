@@ -1,5 +1,5 @@
-#ifndef PASSWORDTABLEWIDGET_H
-#define PASSWORDTABLEWIDGET_H
+#ifndef TABLETAB_H
+#define TABLETAB_H
 
 #include <QWidget>
 
@@ -8,7 +8,7 @@ class TableView;
 class Password;
 class ItemInsertionDialog;
 namespace Ui {
-class PasswordTableWidget;
+class TableTab;
 }
 
 class TableTab : public QWidget
@@ -22,7 +22,7 @@ public:
     ItemInsertionDialog* insertionDialog()const;
 
 private:
-    Ui::PasswordTableWidget *ui;
+    Ui::TableTab *ui;
     TableView               *_tableView           =  nullptr;
     ItemInsertionDialog     *itemInsertionDialog  =  nullptr;
 
@@ -38,6 +38,7 @@ public slots:
 
 signals:
     void filterItems(const QRegExp&);
+    void onSyncClicked();
 };
 
 #endif // PASSWORDTABLEWIDGET_H

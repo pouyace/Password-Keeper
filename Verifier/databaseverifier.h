@@ -5,13 +5,13 @@
 #include <QObject>
 #include "../Single/password.h"
 #include <QMap>
-#include "config.h"
+#include "config/config.h"
 
 
 class User;
 class QHostAddress;
 class Password;
-class PasswordHandler;
+class PasswordGenerator;
 class DataBasePassewordSetter;
 class DatabaseVerifier:public QObject
 {
@@ -25,18 +25,18 @@ public slots:
     void onUserLoginRequested(const QString& username,const QString& password);
     bool onAddNewItem(Password* newPassword);
     void onRemoveItem(int id);
+    void sync();
 private:
     QSqlDatabase _DataBase;
     QSqlQuery    _Result;
     App_Config::Config config;
-    PasswordHandler *passwordHandler = nullptr;
+    PasswordGenerator *passwordHandler = nullptr;
     User *frontUser = nullptr;
     Error _error = NoError;
     bool isDatabaseConnected = false;
     DataBasePassewordSetter *databasePasswordSetterDialog =  nullptr;
 
     //Methods
-    void sync();
     bool setupConfig(const QHostAddress& ip, const qint16 &port, const QString& username, const QString& password, const QString& databaseName);
     int execute(const QString &query);
     QVariant getValue(const int& position)const;
