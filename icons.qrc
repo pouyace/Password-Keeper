@@ -19,5 +19,7 @@
         <file>icons/plus1.png</file>
         <file>icons/edit.png</file>
         <file>icons/trash.png</file>
+        <file>icons/refresh-icon.png</file>
+        <file>icons/synchronize-icon.png</file>
     </qresource>
 </RCC>

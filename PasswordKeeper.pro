@@ -76,3 +76,5 @@ RESOURCES += \
     backgrounds.qrc \
     icons.qrc \
     style.qrc
+
+ RC_FILE = $$PWD/appRC.rc

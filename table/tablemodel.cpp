@@ -23,6 +23,7 @@ void TableModel::addItem(Password *item)
 
 void TableModel::syncTable(QList<Password *> items)
 {
+    qDebug()<<"tableSynced";
     // How about deleteLater() ?
     beginRemoveRows(QModelIndex(), 0, itemsList.count()-1);
     itemsList.clear();

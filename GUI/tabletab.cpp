@@ -47,8 +47,8 @@ void TableTab::setupConnection()
     connect(ui->searchLineEdit, &QLineEdit::textChanged, this, &TableTab::filterTableItems);
     connect(this, &TableTab::filterItems, _tableView->proxyModel()
             , static_cast<void (QSortFilterProxyModel::*)(const QRegExp&)>(&QSortFilterProxyModel::setFilterRegExp));
-//    connect(ui->asd, &QToolButton::clicked, this, &TableTab::onSyncClicked);
-//    ui->as
+    connect(ui->syncButton, &QToolButton::clicked, this, &TableTab::onSyncClicked);
+
 }
 
 void TableTab::filterTableItems(QString text)
