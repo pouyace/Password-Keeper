@@ -230,13 +230,66 @@ DataBasePassewordSetter QPushButton::pressed,ItemInsertionDialog QPushButton::pr
     background-color:orange;
     border:none;
 }
-PasswordGenerator QWidget.widget{
+
+/*****************************************GeneratorTab*****************************************/
+GeneratorTab QWidget.widget{
     background-color:rgb(30,30,30);
 }
-PasswordGenerator QLabel{
+GeneratorTab QLabel{
     font:10pt "Lucida Bright";
     color:white;
 }
+GeneratorTab QGroupBox{
+    color:rgb(120, 120, 254);
+    font:14pt "Lucida Bright";
+    font-weight:bold;
+    border:3px solid rgb(120, 120, 254);
+    border-radius:5px;
+    margin-top:10px;
+    margin-bottom:10px;
+    padding-top: 10px;
+}
+GeneratorTab QGroupBox::title{
+    subcontrol-position: top center;
+    subcontrol-origin: margin;
+    padding-bottom: 20px;
+    margin-bottom:20px;
+}
+GeneratorTab QPushButton{
+    color:rgb(120, 120, 254);
+    background-color:transparent;
+    border:4px solid rgb(120, 120, 254);
+    border-radius:2px;
+    font-weight:bold;
+    padding-top:7px;
+    padding-bottom:7px;
+}
+GeneratorTab QPushButton::hover{
+    background-color:rgb(50,50,50);
+}
+GeneratorTab QCheckBox, GeneratorTab QLabel{
+    color:rgb(120,120,200);
+}
+GeneratorTab QLineEdit, GeneratorTab QSpinBox{
+    background-color:rgb(120,120,200);
+    border:none;
+    border-radius:4px;
+    color: rgb(170,230,120);
+}
+GeneratorTab QLineEdit.Exclude{
+    color: rgb(100,30,30);
+}
+GeneratorTab QCheckBox::indicator:unchecked {
+    image: url(:/icons/uncheckedbox.png);
+    width:  20px;
+    height: 20px;
+}
+GeneratorTab QCheckBox::indicator:checked {
+    image: url(:/icons/checkedbox.png);
+    width:  20px;
+    height: 20px;
+}
+
 /***************************************Global*****************************************/
 QMenu{
     background-color:rgb(70,70,70);

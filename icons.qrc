@@ -21,5 +21,7 @@
         <file>icons/trash.png</file>
         <file>icons/refresh-icon.png</file>
         <file>icons/synchronize-icon.png</file>
+        <file>icons/checkedbox.png</file>
+        <file>icons/uncheckedbox.png</file>
     </qresource>
 </RCC>

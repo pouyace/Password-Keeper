@@ -22,10 +22,11 @@ ProxyModel *TableView::proxyModel() const
     return _proxyModel;
 }
 
-void TableView::syncSize()
+void TableView::syncSize(QSize size)
 {
-    int w = this->width()/7;
-    this->setColumnWidth(TableModel::IdField      ,w);
+    int widgetSize = size.width() - 18;
+    int w = widgetSize/7;
+    this->setColumnWidth(TableModel::IdField      ,widgetSize - (6*w));
     this->setColumnWidth(TableModel::UsernameField,w*2);
     this->setColumnWidth(TableModel::PasswordField,w*2);
     this->setColumnWidth(TableModel::WebsiteField ,w*2);

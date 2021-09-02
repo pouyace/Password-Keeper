@@ -36,24 +36,25 @@ void MainWindow::setupConnections()
     connect(databaseVerifier,&DatabaseVerifier::hintDisplayRequested,loginDialog,&LoginDialog::onSetHint);
     connect(databaseVerifier,&DatabaseVerifier::userSignedIn,this,&MainWindow::setupMainWindow);
     connect(databaseVerifier,&DatabaseVerifier::syncItemsRetreived,userController,&UserController::onItemsRetreived);
-    connect(databaseVerifier,&DatabaseVerifier::itemRemoved, ui->firstWidget->tableView(), &TableView::onItemDeleted);
+    connect(databaseVerifier,&DatabaseVerifier::itemRemoved, ui->tableTab->tableView(), &TableView::onItemDeleted);
     connect(databaseVerifier,&DatabaseVerifier::onDialogClosed,loginDialog,&LoginDialog::onDatabaseDialogClosed);
-    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->firstWidget->insertionDialog(),&ItemInsertionDialog::onInsertionResult);
+    connect(databaseVerifier,&DatabaseVerifier::newItemInserted,ui->tableTab->insertionDialog(),&ItemInsertionDialog::onInsertionResult);
 
-    connect(ui->firstWidget->insertionDialog(),&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
+    connect(ui->tableTab->insertionDialog(),&ItemInsertionDialog::newInsertionRequested,databaseVerifier,&DatabaseVerifier::onAddNewItem);
 
     connect(buttonGroup,QOverload<int>::of(&QButtonGroup::buttonClicked),ui->stackedWidget,&QStackedWidget::setCurrentIndex);
     connect(timer,&QTimer::timeout,this,&MainWindow::updateDateAndTime);
     connect(ui->exitToolButton  ,&QToolButton::clicked,this,&QMainWindow::close);
 
-    connect(userController,&UserController::syncedItemsGot,ui->firstWidget->tableView(), &TableView::showSyncItems);
+    connect(userController,&UserController::syncedItemsGot,ui->tableTab->tableView(), &TableView::showSyncItems);
     connect(userController,&UserController::passwordsCountUpdated,this,[=](int c){ui->passwordsCountLabel->setText(QString::number(c) + " Passwords");});
-    connect(userController,&UserController::passwordsCountUpdated,ui->firstWidget,&TableTab::updateTotPass);
-    connect(userController,&UserController::uniqueSitesCountUpdated,ui->firstWidget,&TableTab::upadteTotSite);
+    connect(userController,&UserController::passwordsCountUpdated,ui->tableTab,&TableTab::updateTotPass);
+    connect(userController,&UserController::uniqueSitesCountUpdated,ui->tableTab,&TableTab::upadteTotSite);
 
-    connect(ui->firstWidget->tableView(),&TableView::deleteItem,databaseVerifier,&DatabaseVerifier::onRemoveItem);
-    connect(this, &MainWindow::mainwindowResized, ui->firstWidget->tableView(), &TableView::syncSize);
-    connect(ui->firstWidget, &TableTab::onSyncClicked, databaseVerifier, &DatabaseVerifier::sync);
+    connect(ui->tableTab->tableView(),  &TableView::deleteItem,     databaseVerifier, &DatabaseVerifier::onRemoveItem);
+    connect(ui->tableTab,               &TableTab::onSyncClicked,   databaseVerifier, &DatabaseVerifier::sync);
+
+    connect(this, &MainWindow::mainwindowResized, ui->tableTab->tableView(), &TableView::syncSize);
 
 }
 
@@ -66,7 +67,7 @@ void MainWindow::initializeObjects()
 void MainWindow::initializeModules()
 {
     loginDialog                  = new LoginDialog          (this);   // Login
-    databaseVerifier             = new DatabaseVerifier   (this);   // Database
+    databaseVerifier             = new DatabaseVerifier     (this);   // Database
     userController               = new UserController       (this);   // User Controller
 }
 
@@ -91,9 +92,9 @@ void MainWindow::raiseLoginPage()
     databaseVerifier->doConnect();
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event)
+void MainWindow::resizeEvent(QResizeEvent *)
 {
-    emit mainwindowResized();
+    emit mainwindowResized(ui->stackedWidget->size());
 }
 void MainWindow::setupMainWindow(User *user)
 {
@@ -103,7 +104,7 @@ void MainWindow::setupMainWindow(User *user)
 //    this->showFullScreen();
     this->show();
     ui->usernameLabel->setText(user->prettyName());
-    ui->firstWidget->tableView()->syncSize();
+    ui->tableTab->tableView()->syncSize(ui->stackedWidget->size());
 }
 void MainWindow::updateDateAndTime()
 {

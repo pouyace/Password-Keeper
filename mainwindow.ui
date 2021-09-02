@@ -509,22 +509,9 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>2</number>
          </property>
-         <widget class="QWidget" name="passwordsTableWidget">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="TableTab" name="firstWidget" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+         <widget class="TableTab" name="tableTab"/>
          <widget class="GeneratorTab" name="passwordGeneratorWidget"/>
          <widget class="QWidget" name="exportPasswordWidget">
           <widget class="QLabel" name="label_3">
@@ -569,7 +556,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

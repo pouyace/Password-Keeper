@@ -41,6 +41,6 @@ private slots:
 public slots:
     void setupMainWindow(User *user);
 signals:
-    void mainwindowResized();
+    void mainwindowResized(QSize);
 };
 #endif // MAINWINDOW_H

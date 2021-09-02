@@ -25,7 +25,7 @@ private:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 public slots:
-    void syncSize();
+    void syncSize(QSize);
     void showSyncItems(QList<Password*>);
     void addItem(Password*);
     void onItemDeleted(int id, bool status);
