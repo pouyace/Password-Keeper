@@ -13,6 +13,7 @@ TableTab::TableTab(QWidget *parent) :
     ui->setupUi(this);
     setupProperties();
     setupConnection();
+    ui->exportToolButton->hide();
 }
 
 TableTab::~TableTab()

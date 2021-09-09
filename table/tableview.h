@@ -19,7 +19,7 @@ private:
     TableModel              *tableModel          = nullptr;
     StyledItemDelegate      *specialDelegate     = nullptr;
     QMenu                   *mainMenu            = nullptr;
-    ProxyModel              *_proxyModel          = nullptr;
+    ProxyModel              *_proxyModel         = nullptr;
     QPoint point ;
     void setupProperties();
 protected:

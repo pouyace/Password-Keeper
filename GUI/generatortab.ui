@@ -14,12 +14,21 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
    <item>
     <widget class="QWidget" name="infoWidget" native="true">
      <property name="class" stdset="0">
       <string>widget</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="bottomMargin">
+       <number>9</number>
+      </property>
       <item>
        <widget class="QGroupBox" name="modelingGroupBox">
         <property name="title">
@@ -311,8 +320,8 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>120</width>
-          <height>0</height>
+          <width>160</width>
+          <height>30</height>
          </size>
         </property>
         <property name="text">

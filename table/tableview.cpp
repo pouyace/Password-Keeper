@@ -24,7 +24,7 @@ ProxyModel *TableView::proxyModel() const
 
 void TableView::syncSize(QSize size)
 {
-    int widgetSize = size.width() - 18;
+    int widgetSize = this->width() /*- 18*/;
     int w = widgetSize/7;
     this->setColumnWidth(TableModel::IdField      ,widgetSize - (6*w));
     this->setColumnWidth(TableModel::UsernameField,w*2);

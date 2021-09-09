@@ -232,9 +232,9 @@ DataBasePassewordSetter QPushButton::pressed,ItemInsertionDialog QPushButton::pr
 }
 
 /*****************************************GeneratorTab*****************************************/
-GeneratorTab QWidget.widget{
+/*GeneratorTab QWidget.widget{
     background-color:rgb(30,30,30);
-}
+}*/
 GeneratorTab QLabel{
     font:10pt "Lucida Bright";
     color:white;
@@ -244,10 +244,11 @@ GeneratorTab QGroupBox{
     font:14pt "Lucida Bright";
     font-weight:bold;
     border:3px solid rgb(120, 120, 254);
-    border-radius:5px;
-    margin-top:10px;
-    margin-bottom:10px;
-    padding-top: 10px;
+    border-radius:4px;
+    margin:10px;
+    margin-bottom:1px;
+    padding: 10px;
+
 }
 GeneratorTab QGroupBox::title{
     subcontrol-position: top center;
@@ -259,13 +260,19 @@ GeneratorTab QPushButton{
     color:rgb(120, 120, 254);
     background-color:transparent;
     border:4px solid rgb(120, 120, 254);
-    border-radius:2px;
+    border-radius:4px;
     font-weight:bold;
-    padding-top:7px;
-    padding-bottom:7px;
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
 }
 GeneratorTab QPushButton::hover{
-    background-color:rgb(50,50,50);
+    background-color:rgb(70,70,70);
+}
+GeneratorTab QPushButton::pressed{
+    border:none;
+    background-color:orange;
+    color:white;
 }
 GeneratorTab QCheckBox, GeneratorTab QLabel{
     color:rgb(120,120,200);
@@ -289,7 +296,10 @@ GeneratorTab QCheckBox::indicator:checked {
     width:  20px;
     height: 20px;
 }
+GeneratorTab QTableWidget{
+    background-color:rgb(30,30,30);
 
+}
 /***************************************Global*****************************************/
 QMenu{
     background-color:rgb(70,70,70);
