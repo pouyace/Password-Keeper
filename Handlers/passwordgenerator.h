@@ -7,11 +7,9 @@ class Password;
 class PasswordGenerator:public QObject
 {
     Q_OBJECT
-public:
-    enum PasswordType{LowerCases=1,UpperCases=2,symbols=4,Numbers=8,SpecialChars=16};
+public: 
     Q_DECLARE_FLAGS(Options, PasswordType);
     Q_FLAG(Options)
-    enum PasswordOption{NoOption,NoDuplicateChars,NoSequentialchars};
     PasswordGenerator(QObject *parent);
     QString getHashedPassword(QString pass);
 private:
