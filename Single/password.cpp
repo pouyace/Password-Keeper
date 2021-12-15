@@ -1,8 +1,8 @@
 #include "password.h"
-Password::Password(QString passId, QString username, QString password, QString site, QString title, QString expDate, QString creDate, QString descrip,  QObject *parent):
+Password::Password(QString passId, QString username, QString password, QString site, QString title, QString expDate, QString creDate, QString descrip, QString validity,  QObject *parent):
     QObject(parent),_itemId(passId),_usernameField(username),
     _passwordField(password),_expirationDateField(expDate),_websiteField(site),_titleField(title),
-    _creationDateField(creDate),_descriptionField(descrip)
+    _creationDateField(creDate),_descriptionField(descrip),_validityField(validity)
 {
 
 }

@@ -29,7 +29,7 @@ protected:
 
     virtual bool removeRows(int position, int rows, const QModelIndex &index) override;
 private:
-    const int _columnCount = 4;
+    const int _columnCount = 9;
     QList<Password*> itemsList;
 
     //Methods

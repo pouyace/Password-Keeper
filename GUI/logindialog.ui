@@ -141,7 +141,7 @@
                </font>
               </property>
               <property name="text">
-               <string>theonepouya</string>
+               <string>Thepouya</string>
               </property>
              </widget>
             </item>
@@ -191,7 +191,7 @@
                </size>
               </property>
               <property name="text">
-               <string>theonepouya</string>
+               <string>pouyapouya</string>
               </property>
               <property name="echoMode">
                <enum>QLineEdit::Password</enum>

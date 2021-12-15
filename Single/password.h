@@ -8,7 +8,8 @@ class Password:public QObject
 {
     Q_OBJECT
 public:
-    Password(QString passId, QString username, QString password, QString site, QString title, QString expDate, QString creDate, QString descrip, QObject *parent);
+    Password(QString passId, QString username, QString password, QString site, QString title, QString expDate, QString creDate, QString descrip,
+             QString validity, QObject *parent);
     Password(QString username, QString password , QString website, QString title, QString expDate, QString Description);
     Password();
     Password(const Password& obj);

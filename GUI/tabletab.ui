@@ -93,7 +93,7 @@
                </font>
               </property>
               <property name="text">
-               <string/>
+               <string>  NEW ITEM</string>
               </property>
               <property name="icon">
                <iconset resource="../icons.qrc">
@@ -106,7 +106,7 @@
                </size>
               </property>
               <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonIconOnly</enum>
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
               </property>
               <property name="class" stdset="0">
                <string>NewPassword</string>
@@ -122,7 +122,7 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string/>
+               <string>  REFRESH</string>
               </property>
               <property name="icon">
                <iconset resource="../icons.qrc">
@@ -135,7 +135,7 @@
                </size>
               </property>
               <property name="toolButtonStyle">
-               <enum>Qt::ToolButtonIconOnly</enum>
+               <enum>Qt::ToolButtonTextBesideIcon</enum>
               </property>
               <property name="class" stdset="0">
                <string>NewPassword</string>
