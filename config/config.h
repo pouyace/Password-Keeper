@@ -4,29 +4,33 @@
 
 struct Config;
 namespace App_Config {
-struct ApplicationDataTable;
+struct UsersPasswordsTable;
 struct UsersTable;
 struct Config;
 };
 
-struct App_Config::ApplicationDataTable{
-    QString tableName       = "app_data";
-    QString idField         = "item_id";
-    QString ownerUser       = "item_owner_user";
-    QString usernameField   = "item_username";
-    QString websiteField    = "item_website";
-    QString passwordField   = "item_pass";
-    QString sequenceCounter = "item_id_seq";
+struct App_Config::UsersPasswordsTable{
+    QString tableName            = "Data.UsersPasswords";
+    QString selectFunctionName   = "Data.getAllPasswords";
+    QString idField              = "ItemID";
+    QString ownerField           = "Owner";
+    QString validityField        = "Validity";
+    QString titleField           = "Title";
+    QString creationDateField    = "CreationDate";
+    QString expirationDateField  = "ExpirationDate";
+    QString usernameField        = "Username";
+    QString websiteField         = "Website";
+    QString passwordField        = "Password";
+    QString descriptionField     = "Description";
 
     QString getSelectQueryString(const QString& cur_user){
         QString comma = " ,";
-        QString query = "SELECT "+idField+comma+usernameField+comma+passwordField+comma
-                +websiteField+" FROM " + tableName + " WHERE " + ownerUser + "='" + cur_user+"';";
+        QString query = "SELECT * from " + selectFunctionName + "('" + cur_user + "');";
         return query;
     }
 
     QString getInsertQueryString(const QString& usernameItem, const QString& passItem, const QString& siteItem, const QString& owner){
-        QString query = "insert into " + tableName + " values(nextval('"+sequenceCounter+"'),'"
+        QString query = "insert into " + tableName + " values(nextval('"+/*sequenceCounter+*/"'),'"
                 + owner + "','" + usernameItem + "','"
                 + siteItem +"','"
                 + passItem + "');";
@@ -39,32 +43,35 @@ struct App_Config::ApplicationDataTable{
         return query;
     }
 
-
 };
 
 struct App_Config::UsersTable{
-    QString tableName       = "app_users";
-    QString username        = "username";
-    QString password        = "user_pass";
-    QString firstname       = "fName";
-    QString lastname        = "lName";
-    QString hint            = "pass_hint";
+    QString tableName            = "Peron.Person";
+    QString selectFunctionName   = "Person.getUserData";
+    QString idField              = "PersonID";
+    QString fnameField           = "FirstName";
+    QString lnameField           = "LastName";
+    QString usernameField        = "Username";
+    QString titleField           = "title";
+    QString bdateField           = "BirthDate";
+    QString hintField            = "PasswordHint";
+    QString passField            = "UserPassword";
+    QString emailField           = "Email";
 
-    QString getSelectQueryString(const QString& cur_user){
+    QString getSelectQueryString(const QString& cur_user, const QString &password){
         QString comma = " ,";
-        QString query = "SELECT "+password+comma+firstname+comma+lastname+comma+hint
-                +" FROM " + tableName + " WHERE " + username + "='" + cur_user+"';";
+        QString query = "SELECT * from " + selectFunctionName + "('" + cur_user+ "', '" + password + "');";
         return query;
     }
 
 };
 
 struct App_Config::Config{
-    QString                 databaseName    = "PKDB";
-    QString                 serverUsername  = "PKDBU";
+    QString                 databaseName    = "PasswordManager";
+    QString                 serverUsername  = "PouyaLogin";
     QString                 serverPassword  = "theonepouya";
-    int                     port            = 5432;
-    ApplicationDataTable    passwordsTable;
+    int                     port            = 1433;
+    UsersPasswordsTable     passwordsTable;
     UsersTable              usersTable;
 };
 

@@ -10,20 +10,20 @@
 DatabaseVerifier::DatabaseVerifier(QObject *parent):
     QObject(parent)
 {
-    _DataBase = QSqlDatabase::addDatabase("QPSQL");
+    _DataBase = QSqlDatabase::addDatabase("QODBC3");
     passwordHandler = new PasswordGenerator(this);
+    qDebug() << "Available drivers: "<< _DataBase.drivers();
 }
 
 bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, const QString &username
                                      , const QString &password, const QString &databaseName)
 {
     QString dbName = databaseName;
-    _DataBase.setPort(port);
-    _DataBase.setHostName(ip.toString());
-    _DataBase.setPassword(password);
-    _DataBase.setDatabaseName(dbName);
-    _DataBase.setUserName(username);
-    _DataBase.setConnectOptions("connect_timeout=10");
+    QString connectString = "Driver={ODBC Driver 17 for SQL Server};Server=lpc:DESKTOP-5JKM6U6;Database=PasswordManager;UID=PouyaLogin;PWD=theonepouya;";
+    _DataBase.setDatabaseName(connectString);
+    _DataBase.setUserName("PouyaLogin");
+    _DataBase.setPassword("theonepouya");
+    qDebug()<<connectString;
     if(_DataBase.open()){
         this->setError(Error::NoError);
         return true;
@@ -37,30 +37,28 @@ bool DatabaseVerifier::setupConfig(const QHostAddress &ip, const qint16 &port, c
 
 void DatabaseVerifier::onUserLoginRequested(const QString &username, const QString &password)
 {
-    QString pass = passwordHandler->getHashedPassword(password);
-    QString query = config.usersTable.getSelectQueryString(username);
-    int state = this->execute(query);
-    QString querryPassword = getValue(config.usersTable.password).toString().toStdString().data();
-    if(!state){
-        setError(UsernameNotRegistered);
-        emit errorOccured(errorString());
-        return;
-    }
-    else if(password != querryPassword){
-        QString queryHint = getValue(config.usersTable.hint).toString().toStdString().data();
+//    QString pass = passwordHandler->getHashedPassword(password);
+    QString query = config.usersTable.getSelectQueryString(username, password);
+    this->execute(query);
+    int personID = getValue(config.usersTable.idField).toInt();
+    if( personID == 0){
+        QString queryHint = getValue(config.usersTable.hintField).toString().toStdString().data();
         setError(WrongPassword);
         emit errorOccured(errorString());
         emit hintDisplayRequested(queryHint);
         return;
-    }
-    else{
+    }else if(personID > 0){
         User *user = new User(username,this);
         this->frontUser = user;
-        QString querryFirstname = getValue(config.usersTable.firstname).toString().toStdString().data();
-        QString querryLastname = getValue(config.usersTable.lastname).toString().toStdString().data();
+        QString querryFirstname = getValue(config.usersTable.fnameField).toString().toStdString().data();
+        QString querryLastname = getValue(config.usersTable.lnameField).toString().toStdString().data();
         user->setName(querryFirstname,querryLastname);
         sync();
         emit userSignedIn(this->frontUser);
+    }else{
+        setError(UsernameNotRegistered);
+        emit errorOccured(errorString());
+        return;
     }
 }
 
