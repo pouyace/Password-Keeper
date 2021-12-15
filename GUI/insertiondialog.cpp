@@ -12,7 +12,10 @@ ItemInsertionDialog::ItemInsertionDialog(QWidget *parent) :
     this->setTabOrder(ui->cancelPushButton,ui->usernameLineEdit);
     this->setTabOrder(ui->usernameLineEdit,ui->passwordLineEdit);
     this->setTabOrder(ui->passwordLineEdit,ui->websiteLineEdit);
-    this->setTabOrder(ui->websiteLineEdit,ui->inserPushButton);
+    this->setTabOrder(ui->websiteLineEdit,ui->expirationDateLineEdit);
+    this->setTabOrder(ui->expirationDateLineEdit, ui->titleLineEdit);
+    this->setTabOrder(ui->titleLineEdit, ui->descriptionLineEdit);
+    this->setTabOrder(ui->descriptionLineEdit, ui->inserPushButton);
     this->setTabOrder(ui->inserPushButton,ui->cancelPushButton);
 }
 
@@ -23,15 +26,20 @@ ItemInsertionDialog::~ItemInsertionDialog()
 
 void ItemInsertionDialog::closeEvent(QCloseEvent *)
 {
-    ui->resultLabel->clear();
-    ui->websiteLineEdit->clear();
-    ui->passwordLineEdit->clear();
-    ui->usernameLineEdit->clear();
+    clearWindow();
 }
 
 void ItemInsertionDialog::onInsertNewPassword()
 {
-    Password *newPass = new Password(ui->usernameLineEdit->text(), ui->passwordLineEdit->text(),ui->websiteLineEdit->text());
+    QString  username       = ui->usernameLineEdit->text();
+    QString  password       = ui->passwordLineEdit->text();
+    QString  website        = ui->websiteLineEdit->text();
+    QString  title          = ui->titleLineEdit->text();
+    QString  description    = ui->descriptionLineEdit->text();
+    QString  expirationDate = ui->expirationDateLineEdit->text();
+
+
+    Password newPass(username, password, website, title, expirationDate, description);
     emit newInsertionRequested(newPass);
 }
 
@@ -46,7 +54,17 @@ void ItemInsertionDialog::onInsertionResult(bool state)
     ui->cancelPushButton->setText("close");
     ui->resultLabel->setText("Item has been Added");
     ui->resultLabel->setStyleSheet("color:green");
+    clearWindow();
+}
+
+void ItemInsertionDialog::clearWindow(){
+    ui->resultLabel->clear();
     ui->websiteLineEdit->clear();
     ui->passwordLineEdit->clear();
     ui->usernameLineEdit->clear();
+    ui->titleLineEdit->clear();
+    ui->descriptionLineEdit->clear();
+    ui->expirationDateLineEdit->clear();
 }
+
+

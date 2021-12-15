@@ -19,10 +19,11 @@ private slots:
     void onInsertNewPassword();
 private:
     Ui::ItemInsertionDialog *ui;
+    void clearWindow();
 public slots:
     void onInsertionResult(bool state);
 signals:
-    void newInsertionRequested(Password*);
+    void newInsertionRequested(Password&);
 
 };
 

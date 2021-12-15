@@ -23,7 +23,7 @@ public:
     void doConnect();
 public slots:
     void onUserLoginRequested(const QString& username,const QString& password);
-    bool onAddNewItem(Password* newPassword);
+    bool onAddNewItem(const Password &newPassword);
     void onRemoveItem(int id);
     void sync();
 private:

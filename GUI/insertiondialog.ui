@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>425</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,8 +55,50 @@
        <item>
         <widget class="QWidget" name="widget" native="true">
          <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Password:*</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Expiration Date:*</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>Title:*</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="passwordLineEdit"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="websiteLineEdit"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="usernameLineEdit"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="expirationDateLineEdit">
+            <property name="inputMask">
+             <string>9999-99-99</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
@@ -70,9 +112,6 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="websiteLineEdit"/>
-          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="font">
@@ -85,22 +124,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="font">
-             <font>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Password:*</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="usernameLineEdit"/>
-          </item>
-          <item row="3" column="0" colspan="2">
+          <item row="6" column="0" colspan="2">
            <widget class="QLabel" name="resultLabel">
             <property name="font">
              <font>
@@ -109,6 +133,29 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="titleLineEdit"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Description:*</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="descriptionLineEdit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
             </property>
            </widget>
           </item>

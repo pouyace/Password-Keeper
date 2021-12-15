@@ -48,7 +48,8 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
         emit hintDisplayRequested(queryHint);
         return;
     }else if(personID > 0){
-        User *user = new User(username,this);
+        QString id = getValue(config.usersTable.idField).toString();
+        User *user = new User(username, id,this);
         this->frontUser = user;
         QString querryFirstname = getValue(config.usersTable.fnameField).toString().toStdString().data();
         QString querryLastname = getValue(config.usersTable.lnameField).toString().toStdString().data();
@@ -62,16 +63,14 @@ void DatabaseVerifier::onUserLoginRequested(const QString &username, const QStri
     }
 }
 
-bool DatabaseVerifier::onAddNewItem(Password *newPassword)
+bool DatabaseVerifier::onAddNewItem(const Password& newPassword)
 {
-    QString query = config.passwordsTable.getInsertQueryString(newPassword->username(), newPassword->password()
-                                                               , newPassword->website(), frontUser->username());
+    QString query = config.passwordsTable.getInsertQueryString(newPassword, frontUser->id().toInt());
     int status = this->execute(query);
     if(status){
         this->setError(Error::NoError);
         emit newItemInserted(true);
         sync();
-        newPassword->deleteLater();
         return true;
     }
     else{
@@ -79,7 +78,6 @@ bool DatabaseVerifier::onAddNewItem(Password *newPassword)
         qDebug()<<_DataBase.lastError().text();
         QMessageBox::warning(nullptr, "Error", _DataBase.lastError().text());
         emit newItemInserted(false);
-        newPassword->deleteLater();
         return false;
     }
 }
@@ -96,7 +94,7 @@ void DatabaseVerifier::doConnect()
 void DatabaseVerifier::onRemoveItem(int id)
 {
 
-    QString query = config.passwordsTable.getDeletionQueryString(id);
+    QString query = config.passwordsTable.getDeletionQueryString(id, frontUser->id().toInt());
     int state = this->execute(query);
     if(state){
         this->setError(Error::NoError);
@@ -176,11 +174,17 @@ bool DatabaseVerifier::retrieveUserPasswords()
 
     QMap<int, Password*> retreivedPasswords;
     do{
-        QString Qpass_id  = getValue(config.passwordsTable.idField).toString();
-        QString Qusername = getValue(config.passwordsTable.usernameField).toString().toStdString().data();
-        QString Qpassword = getValue(config.passwordsTable.passwordField).toString().toStdString().data();
-        QString Qsite     = getValue(config.passwordsTable.websiteField).toString().toStdString().data();
-        retreivedPasswords.insert(Qpass_id.toInt(),new Password(Qpass_id,Qusername,Qpassword,Qsite,this->frontUser));
+        QString idField = getValue(config.passwordsTable.idField).toString();
+        QString validityField = getValue(config.passwordsTable.validityField).toString().toStdString().data();
+        QString passwordField= getValue(config.passwordsTable.passwordField).toString().toStdString().data();
+        QString websiteField = getValue(config.passwordsTable.websiteField).toString().toStdString().data();
+        QString descriptionField  = getValue(config.passwordsTable.descriptionField).toString().toStdString().data();
+        QString titleField  = getValue(config.passwordsTable.titleField).toString().toStdString().data();
+        QString creationDateField  = getValue(config.passwordsTable.creationDateField).toString().toStdString().data();
+        QString expirationDateField  = getValue(config.passwordsTable.expirationDateField).toString().toStdString().data();
+        QString usernameField = getValue(config.passwordsTable.usernameField).toString().toStdString().data();
+        retreivedPasswords.insert(idField.toInt(),new Password(idField, usernameField, passwordField, websiteField, titleField, expirationDateField, creationDateField,
+                                                                descriptionField, this->frontUser));
     }while(_Result.next());
     emit syncItemsRetreived(retreivedPasswords);
     return true;

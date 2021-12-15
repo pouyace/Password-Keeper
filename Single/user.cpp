@@ -1,7 +1,8 @@
 #include "user.h"
-User::User(const QString& username,QObject *parent) :
+User::User(const QString& username, const QString id, QObject *parent) :
     QObject(parent),
-    _username(username)
+    _username(username),
+    _id(id)
 {
 
 }
@@ -32,8 +33,18 @@ QString User::prettyName() const
     }
 }
 
+QString User::id() const
+{
+    return _id;
+}
+
 void User::addPassword(const Password &pass)
 {
     passwods.append(pass);
+}
+
+void User::setId(const QString &id)
+{
+    _id = id;
 }
 

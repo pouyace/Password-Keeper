@@ -7,7 +7,7 @@ class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    enum Attributes{IdField , UsernameField, PasswordField, WebsiteField};
+    enum Attributes{IdField ,TitleField, ValidityField, WebsiteField, CreationDateField, ExpirationDate, UsernameField, PasswordField, DescriptionField};
     explicit TableModel(QObject *parent = nullptr);
     ~TableModel() override;
 
