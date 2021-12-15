@@ -18,7 +18,8 @@ bool ProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent
     QModelIndex index8 = sourceModel()->index(sourceRow, 8, sourceParent);
 
     QRegExp regExp = filterRegExp();
-    regExp.setCaseSensitivity(Qt::CaseInsensitive);
+    Qt::CaseSensitivity cs = validsOnly ? Qt::CaseSensitive : Qt::CaseInsensitive;
+    regExp.setCaseSensitivity(cs);
 
     return (   sourceModel()->data(index0).toString().contains(regExp)
             || sourceModel()->data(index1).toString().contains(regExp)

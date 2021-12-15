@@ -121,6 +121,14 @@ void TableView::onItemDeleted(int id, bool status)
     }
 }
 
+void TableView::showValidItemsOnly(int status)
+{
+    QString validity = status ? "Valid" : "";
+    qDebug()<< validity;
+    _proxyModel->validsOnly = status;
+    _proxyModel->setFilterRegExp(QRegExp(validity));
+}
+
 void TableView::onCustomContextMenu(const QPoint &position)
 {
     int row = this->indexAt(position).row();

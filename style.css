@@ -316,7 +316,23 @@ QMessageBox, QMessageBox QPushButton{
 QMessageBox QLabel{
     color:rgb(200,200,200);
 }
-
+QCheckBox.MainTableCheckBox{
+    color:rgb(160,160,250);
+    border:4px solid rgb(100,100,180);
+    font:12pt "Lucida Bright";
+    border-radius:5px;
+    padding:5px;
+}
+QCheckBox.MainTableCheckBox::indicator{
+    width:  22px;
+    height: 22px;
+}
+QCheckBox.MainTableCheckBox::indicator:checked{
+    image: url(":/icons/checkedbox.png");
+}
+QCheckBox.MainTableCheckBox::indicator:!checked{
+    image: url(":/icons/uncheckedbox.png");
+}
 /*QScrollBar:horizontal {
     background: red;
     max-height:15px;

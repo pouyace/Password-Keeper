@@ -49,7 +49,7 @@ void TableTab::setupConnection()
     connect(this, &TableTab::filterItems, _tableView->proxyModel()
             , static_cast<void (QSortFilterProxyModel::*)(const QRegExp&)>(&QSortFilterProxyModel::setFilterRegExp));
     connect(ui->syncButton, &QToolButton::clicked, this, &TableTab::onSyncClicked);
-
+    connect(ui->validsOnlyCheckBox, &QCheckBox::stateChanged, _tableView, &TableView::showValidItemsOnly);
 }
 
 void TableTab::filterTableItems(QString text)

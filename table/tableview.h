@@ -29,6 +29,7 @@ public slots:
     void showSyncItems(QList<Password*>);
     void addItem(Password*);
     void onItemDeleted(int id, bool status);
+    void showValidItemsOnly(int status);
 private slots:
     void onCustomContextMenu(const QPoint &position);
     void contextMenuEditAction();
