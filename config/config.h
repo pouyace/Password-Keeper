@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 #include <QString>
-
+#include "../Single/password.h"
 struct Config;
 namespace App_Config {
 struct UsersPasswordsTable;
@@ -10,18 +10,20 @@ struct Config;
 };
 
 struct App_Config::UsersPasswordsTable{
-    QString tableName            = "Data.UsersPasswords";
-    QString selectFunctionName   = "Data.getAllPasswords";
-    QString idField              = "ItemID";
-    QString ownerField           = "Owner";
-    QString validityField        = "Validity";
-    QString titleField           = "Title";
-    QString creationDateField    = "CreationDate";
-    QString expirationDateField  = "ExpirationDate";
-    QString usernameField        = "Username";
-    QString websiteField         = "Website";
-    QString passwordField        = "Password";
-    QString descriptionField     = "Description";
+    QString tableName               = "Data.UsersPasswords";
+    QString selectFunctionName      = "Data.getAllPasswords";
+    QString insertProcedureName     = "addPasswordItem";
+    QString deletionProcedureName   = "deletePasswordItem";
+    QString idField                 = "ItemID";
+    QString ownerField              = "Owner";
+    QString validityField           = "Validity";
+    QString titleField              = "Title";
+    QString creationDateField       = "CreationDate";
+    QString expirationDateField     = "ExpirationDate";
+    QString usernameField           = "Username";
+    QString websiteField            = "Website";
+    QString passwordField           = "Password";
+    QString descriptionField        = "Description";
 
     QString getSelectQueryString(const QString& cur_user){
         QString comma = " ,";
@@ -29,17 +31,15 @@ struct App_Config::UsersPasswordsTable{
         return query;
     }
 
-    QString getInsertQueryString(const QString& usernameItem, const QString& passItem, const QString& siteItem, const QString& owner){
-        QString query = "insert into " + tableName + " values(nextval('"+/*sequenceCounter+*/"'),'"
-                + owner + "','" + usernameItem + "','"
-                + siteItem +"','"
-                + passItem + "');";
-
+    QString getInsertQueryString(const Password& password, const int& owner){
+        QString query = "exec " + insertProcedureName + " @title='" + password.title() + "',@expDate='" + password.expiration() + "',@username='" + password.username() +
+                "',@password='" + password.password() + "',@website='" + password.website() + "',@description='" + password.description() +
+                "',@owner=" + QString::number(owner)+";";
         return query;
     }
 
-    QString getDeletionQueryString(const int& id){
-        QString query = "delete from " + tableName + " where " + idField + " = " + QString::number(id)+";";
+    QString getDeletionQueryString(const int& id, const int& owner){
+        QString query = "exec " + deletionProcedureName + " @itemID=" + QString::number(id) + ", @owner=" + QString::number(owner)+";";
         return query;
     }
 

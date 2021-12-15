@@ -70,10 +70,15 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 
     if(role == Qt::DisplayRole){
         switch (index.column()) {
-        case IdField:       return  itemsList[index.row()]->passId();
-        case UsernameField: return  itemsList[index.row()]->username();
-        case PasswordField: return  itemsList[index.row()]->password();
-        case WebsiteField:  return  itemsList[index.row()]->website();
+        case IdField:           return  itemsList[index.row()]->passId();
+        case UsernameField:     return  itemsList[index.row()]->username();
+        case PasswordField:     return  itemsList[index.row()]->password();
+        case WebsiteField:      return  itemsList[index.row()]->website();
+        case DescriptionField:  return itemsList[index.row()]->description();
+        case ExpirationDate:    return itemsList[index.row()]->expiration();
+        case CreationDateField: return itemsList[index.row()]->creation();
+        case TitleField:        return itemsList[index.row()]->title();
+        case ValidityField:     return itemsList[index.row()]->validity();
         }
     }
 
@@ -118,10 +123,15 @@ QVariant TableModel::headerData(int section, Qt::Orientation orientation, int ro
     if(role == Qt::DisplayRole){
         if(orientation == Qt::Horizontal){
             switch (section) {
-            case IdField:       return  tr("ID") ;
-            case UsernameField: return  tr("USERNAME");
-            case PasswordField: return  tr("PASSWORD");
-            case WebsiteField:  return  tr("WEBSITE");
+            case IdField:           return  tr("ID") ;
+            case UsernameField:     return  tr("USERNAME");
+            case PasswordField:     return  tr("PASSWORD");
+            case WebsiteField:      return  tr("WEBSITE");
+            case DescriptionField:  return tr("DESCIPTION");
+            case ExpirationDate:    return tr("EXP DATE");
+            case CreationDateField: return tr("CREATION DATE");
+            case TitleField:        return tr("TITLE");
+            case ValidityField:     return tr("VALIDITY");
             }
         }
         else if(orientation == Qt::Vertical){
