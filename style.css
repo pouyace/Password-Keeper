@@ -333,34 +333,20 @@ QCheckBox.MainTableCheckBox::indicator:checked{
 QCheckBox.MainTableCheckBox::indicator:!checked{
     image: url(":/icons/uncheckedbox.png");
 }
-/*QScrollBar:horizontal {
-    background: red;
+QScrollBar:horizontal{
+    background: rgb(30,30,30);
     max-height:15px;
 }
-
-QScrollBar::handle:horizontal {
-    background: gray;
+ QScrollBar:vertical{
+     background: rgb(30,30,30);
+     max-width:15px;
+}
+QScrollBar::handle:horizontal, QScrollBar::handle:vertical {
+    background: rgb(70,70,70);
 }
 
-QScrollBar::add-line:horizontal {
-    background: #32CC99;
-    width: 20px;
-    subcontrol-position: right;
-    subcontrol-origin: margin;
-}
-
-QScrollBar::sub-line:horizontal {
-    background: #32CC99;
-    width: 20px;
-    subcontrol-position: left;
-    subcontrol-origin: margin;
-}
 QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
     width: 3px;
     height: 3px;
-    background: white;
+    background: yellow;
 }
-
-QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-    background: none;
-}*/
