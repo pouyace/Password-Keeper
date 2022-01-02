@@ -39,7 +39,7 @@ bool TableModel::removeItem(int row, int id)
     beginRemoveRows(QModelIndex(), row, row);
     foreach(Password* item, itemsList){
         if(item->passId().toInt() == id){
-            item->deleteLater();
+//            item->deleteLater();
             itemsList.removeAll(item);
             status = true;
         }

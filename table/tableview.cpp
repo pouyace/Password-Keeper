@@ -24,12 +24,18 @@ ProxyModel *TableView::proxyModel() const
 
 void TableView::syncSize(QSize size)
 {
-    int widgetSize = this->width() /*- 18*/;
-    int w = widgetSize/7;
-    this->setColumnWidth(TableModel::IdField      ,widgetSize - (6*w));
-    this->setColumnWidth(TableModel::UsernameField,w*2);
-    this->setColumnWidth(TableModel::PasswordField,w*2);
-    this->setColumnWidth(TableModel::WebsiteField ,w*2);
+    int widgetWidth = this->width() /*- 18*/;
+    int columnCount  = 9;
+    int unitColumnWidth = widgetWidth/columnCount;
+    this->setColumnWidth(TableModel::IdField      ,unitColumnWidth/2);
+    this->setColumnWidth(TableModel::UsernameField,unitColumnWidth);
+    this->setColumnWidth(TableModel::PasswordField,unitColumnWidth);
+    this->setColumnWidth(TableModel::ExpirationDate ,unitColumnWidth);
+    this->setColumnWidth(TableModel::CreationDateField ,unitColumnWidth);
+    this->setColumnWidth(TableModel::DescriptionField ,unitColumnWidth*1.5 + (0.3*unitColumnWidth));
+    this->setColumnWidth(TableModel::ValidityField,unitColumnWidth - (0.3*unitColumnWidth));
+    this->setColumnWidth(TableModel::TitleField ,unitColumnWidth);
+    this->setColumnWidth(TableModel::WebsiteField ,unitColumnWidth);
 }
 
 
@@ -113,6 +119,13 @@ void TableView::onItemDeleted(int id, bool status)
     else if( !status && !state){
         QMessageBox::warning(this, "Deletion Error", "Could not delete item with id: "+ QString::number(id));
     }
+}
+
+void TableView::showValidItemsOnly(int status)
+{
+    QString validity = status ? "Valid" : "";
+    _proxyModel->validsOnly = status;
+    _proxyModel->setFilterRegExp(QRegExp(validity));
 }
 
 void TableView::onCustomContextMenu(const QPoint &position)

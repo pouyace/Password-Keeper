@@ -175,7 +175,7 @@ bool DatabaseVerifier::retrieveUserPasswords()
     QMap<int, Password*> retreivedPasswords;
     do{
         QString idField = getValue(config.passwordsTable.idField).toString();
-        QString validityField = getValue(config.passwordsTable.validityField).toString().toStdString().data();
+        QString validityField = getValue(config.passwordsTable.validityField).toInt() ? "Valid" : "Invalid";
         QString passwordField= getValue(config.passwordsTable.passwordField).toString().toStdString().data();
         QString websiteField = getValue(config.passwordsTable.websiteField).toString().toStdString().data();
         QString descriptionField  = getValue(config.passwordsTable.descriptionField).toString().toStdString().data();
@@ -184,7 +184,7 @@ bool DatabaseVerifier::retrieveUserPasswords()
         QString expirationDateField  = getValue(config.passwordsTable.expirationDateField).toString().toStdString().data();
         QString usernameField = getValue(config.passwordsTable.usernameField).toString().toStdString().data();
         retreivedPasswords.insert(idField.toInt(),new Password(idField, usernameField, passwordField, websiteField, titleField, expirationDateField, creationDateField,
-                                                                descriptionField, this->frontUser));
+                                                                descriptionField, validityField, this->frontUser));
     }while(_Result.next());
     emit syncItemsRetreived(retreivedPasswords);
     return true;
